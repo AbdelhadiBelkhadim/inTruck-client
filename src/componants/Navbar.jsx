@@ -41,13 +41,13 @@ const Navbar = () => {
                     <img src={logo} alt="Logo" href='/' />
                 </div>
 
-                <div className="hidden sm:flex items-center gap-10">
+                <div className="hidden lg:flex items-center gap-10">
                     <ul className="flex items-center gap-10">
                         {NavLinks.map(({ id, name, link }) => (
                             <li key={id}>
                                 <a
                                     href={link}
-                                    className="inline-block hover:text-primary text-xl font-semibold"
+                                    className="inline-block hover:text-primary  text-lg font-semibold"
                                 >
                                     {name}
                                 </a>
@@ -62,7 +62,7 @@ const Navbar = () => {
                     </ul>
                 </div>
 
-                <div className="sm:hidden">
+                <div className="lg:hidden ">
                     <button onClick={toggleMenu} className="text-2xl text-primary">
                         {isMenuOpen ? <FaTimes /> : <FaBars />}
                     </button>
@@ -70,7 +70,7 @@ const Navbar = () => {
             </div>
 
             {isMenuOpen && (
-                <div className="sm:hidden mt-4">
+                <div className="lg:hidden mt-4">
                     <ul className="flex flex-col items-center gap-4">
                         {NavLinks.map(({ id, name, link }) => (
                             <li key={id}>
