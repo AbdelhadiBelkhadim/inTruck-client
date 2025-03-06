@@ -1,6 +1,6 @@
 import React from 'react'
-import StartTrakingNow from './StartTrakingNow'
-import heroImg from '../assets/heroImg.png'
+import StartTrakingNow from '../Hero/StartTrakingNow'
+import heroImg from '../../assets/heroImg.png'
 
 const Hero = () => {
   return (

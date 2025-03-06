@@ -1,7 +1,7 @@
 import React from 'react';
-import MaskGroup1 from '../assets/MaskGroup1.png';
-import MaskGroup2 from '../assets/MaskGroup2.png';
-import MaskGroup3 from '../assets/MaskGroup3.png';
+import MaskGroup1 from '../../assets/MaskGroup1.png';
+import MaskGroup2 from '../../assets/MaskGroup2.png';
+import MaskGroup3 from '../../assets/MaskGroup3.png';
 
 const HowCartes = [
     {

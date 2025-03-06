@@ -1,5 +1,5 @@
 import React from 'react'
-import HowCarte from './HowCarte'
+import HowCarte from '../HowItWork/HowCarte'
 
 const HowItWork = () => {
   return (

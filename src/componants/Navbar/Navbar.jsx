@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { FaBars, FaTimes } from 'react-icons/fa'; // Importing icons for the burger menu
-import logo from '../assets/logo.png';
+import { FaBars, FaTimes } from 'react-icons/fa';
+import logo from '../../assets/logo.png';
 import Booking from './Booking';
 import Getstart from './Getstart';
 
