@@ -1,13 +1,14 @@
-import React from 'react'
-import BackGround from '../../assets/Group 5.png'
+import React from 'react';
 
-const Quotes = () => {
+const Quotes = ({ img, text }) => {
   return (
-    <div className='relative my-10'>
-        <img src={BackGround} className='' />
-        <q className='absolute top-1/2 font-semibold left-1/16 text-center text-white text-[17px] md:text-[35px] lg:text-[54px]'> Track with Confidence, Deliver with Speed! </q>
+    <div className='relative '>
+      <img src={img} className='' alt='Background' />
+      <q className='absolute top-1/2 font-semibold left-1/16 text-center text-white text-[17px] md:text-[35px] lg:text-[54px]'>
+        {text}
+      </q>
     </div>
-  )
-}
+  );
+};
 
-export default Quotes
+export default Quotes;

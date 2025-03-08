@@ -35,10 +35,10 @@ const Navbar = () => {
     };
 
     return (
-        <div className="shadow-2xs p-4">
+        <div className=" shadow-2xs p-4">
             <div className="container flex justify-between items-center text-center">
                 <div id="Logo">
-                    <img src={logo} alt="Logo" href='/' />
+                    <img src={logo} alt="Logo" href='/' className='' />
                 </div>
 
                 <div className="hidden lg:flex items-center gap-10">

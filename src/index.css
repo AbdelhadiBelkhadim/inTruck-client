@@ -1,6 +1,8 @@
 @import "tailwindcss";
 
-
+body{
+  font-family : "Montserrat", sans-serif;
+}
 
 @utility container {
   width: 100%;
