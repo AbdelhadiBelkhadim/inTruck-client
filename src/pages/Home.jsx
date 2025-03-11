@@ -8,6 +8,7 @@ import Testimonials from '../componants/Testimonials/Testimonials'
 import ContactUs from '../componants/ContactUs/ContactUs'
 import BgQuotes1 from '../assets/Group 5.png'
 import BgQuotes2 from '../assets/Group 12.png'
+import Footer from '../componants/Footer/Footer'
 
 const Home = () => {
   return (
@@ -20,6 +21,7 @@ const Home = () => {
         <Testimonials />
         <ContactUs />
         <Quotes img={BgQuotes2} text="Seamless Tracking, Reliable Delivery!" />
+        <Footer />
     </>
   )
 }
