@@ -9,7 +9,7 @@ const ContactUs = () => {
     <div className='bg-primary text-white '>
         <div className='flex flex-col-reverse md:flex-row md:gap-8  md:pb-10 lg:ml-10'>
         <div className=''>
-            <img src={groupContactUs} className='ml-20 rotate-270 md:rotate-0 w-[300px] h-[498px] md:w-[400px] md:h-[580px] md:mt-20 md:ml-2' />
+            <img src={groupContactUs} className='ml-20 rotate-270 md:rotate-0 w-[300px] h-[498px] md:w-[400px] md:h-[580px] -mb-25 md:mt-20 md:ml-2' />
         </div>
         <div>
         <div className='flex flex-col my-10'>
@@ -20,7 +20,7 @@ const ContactUs = () => {
             <input placeholder='Full Name' className='border-b-2 p-2' />
             <input placeholder='E-mail' className='border-b-2 p-2'/>
             <input placeholder='Message'className='border-b-2 p-2' />
-            <button className='bg-secondaire w-[196px] h-[40px] text-center text-black font-semibold rounded-2xl'>Contact Us</button>
+            <button className='bg-secondaire w-[196px] h-[40px] text-center text-[24px]  text-white rounded-2xl'>Contact Us</button>
         </form>
         
         <div className='flex flex-col gap-10 text-start p-2 '>

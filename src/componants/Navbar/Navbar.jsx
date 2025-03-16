@@ -43,7 +43,7 @@ const Navbar = () => {
         <div className=" shadow-2xs p-4 fixed top-0 left-0 right-0 z-50 bg-white">
             <div className="container flex justify-between items-center text-center">
                 <div id="Logo">
-                    <img src={logo} alt="Logo" href='/' className='' />
+                    <img src={logo} alt="Logo" href='/' className='w-[107px] h-[32px] md:w-[187px] md:h-[55px] lg:w-[200px] lg:h-[60px]' />
                 </div>
 
                 <div className="hidden lg:flex items-center gap-10">
