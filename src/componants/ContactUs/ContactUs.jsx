@@ -9,7 +9,7 @@ const ContactUs = () => {
     <div className='bg-primary text-white '>
         <div className='flex flex-col-reverse md:flex-row md:gap-8  md:pb-10 lg:ml-10'>
         <div className=''>
-            <img src={groupContactUs} className='ml-20 rotate-270 md:rotate-0 w-[300px] h-[498px] md:w-[400px] md:h-[580px] -mb-25 md:mt-20 md:ml-2' />
+            <img src={groupContactUs} className='ml-20 rotate-270 md:rotate-0 w-[278px] h-auto md:w-[400px] md:h-[580px] -mb-25 md:mt-20 md:ml-2' />
         </div>
         <div>
         <div className='flex flex-col my-10'>

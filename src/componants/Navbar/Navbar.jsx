@@ -17,12 +17,12 @@ const NavLinks = [
     },
     {
         id: 2,
-        name: 'Services',
+        name: 'How it work',
         link: '/#',
     },
     {
         id: 3,
-        name: 'About us',
+        name: 'Features',
         link: '/#',
     },
     {
