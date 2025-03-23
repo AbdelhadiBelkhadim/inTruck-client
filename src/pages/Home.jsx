@@ -12,17 +12,17 @@ import Footer from '../componants/Footer/Footer'
 
 const Home = () => {
   return (
-    <>
+    <div id='home'>
         <Navbar />
         <Hero />
         <HowItWork />
         <Features />
         <Quotes img={BgQuotes1} text="Track with Confidence, Deliver with Speed!"/>
         <Testimonials />
-        <ContactUs />
+        <ContactUs id="contactus" />
         <Quotes img={BgQuotes2} text="Seamless Tracking, Reliable Delivery!" />
         <Footer />
-    </>
+    </div>
   )
 }
 

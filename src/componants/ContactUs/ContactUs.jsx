@@ -3,7 +3,7 @@ import { FaFacebook, FaInstagram, FaTwitter } from "react-icons/fa"
 
 const ContactUs = () => {
   return (
-    <div className="bg-primary text-white w-full overflow-x-hidden">
+    <div id="contactus" className="bg-primary text-white w-full overflow-x-hidden">
       <div className="w-full max-w-6xl mx-auto px-3 sm:px-4 py-6 sm:py-8 md:py-12">
         <div className="flex flex-col-reverse md:flex-row md:items-start md:gap-6 lg:gap-8">
           {/* Image container - Improved for small devices */}
