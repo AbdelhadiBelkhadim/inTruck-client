@@ -4,7 +4,7 @@ import heroImg from '../../assets/hero.png';
 
 const Hero = () => {
   return (
-    <div className="relative w-full h-screen lg:h-[794px] flex items-center justify-center text-center lg:text-left overflow-hidden">
+    <div  className="relative w-full h-screen lg:h-[794px] flex items-center justify-center text-center lg:text-left overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <img
