@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 
 import Logo from "../ui/logo";
 import Footer from "../sections/footer";
 import { MdOutlineDashboard, MdHistoryToggleOff } from "react-icons/md";
 import { LuPanelLeftClose } from "react-icons/lu";
 import { IoIosArrowDown } from "react-icons/io";
+
 
 import { Truck, Package, Clipboard, Bell, Plus } from 'lucide-react';
 
@@ -50,41 +52,41 @@ const SideBar = ({setOpen,open}) => {
               <nav className={`mb-4 bg-white p-4 rounded-xl ${open ? 'w-67' : 'w-28'}`}>
                 <ul className="space-y-1">
                   <li>
-                    <a href="#" className={`p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
+                    <Link to="/dashboard" className={`p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
                       <MdOutlineDashboard size={20} className="" />
-                      <span className={`${open ? 'flex' : 'hidden'}`} >Dashboard</span>
-                    </a>
+                      <span className={`${open ? 'flex' : 'hidden'}`}>Dashboard</span>
+                    </Link>
                   </li>
                   <li>
-                    <a href="#" className={`p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire  ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
+                    <Link to="/dashboard/tracking" className={`p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
                       <Truck size={20} />
                       <span className={`${open ? 'flex' : 'hidden'}`}>Tracking</span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="#" className={`p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire  ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
+                    <Link to="/dashboard/cargo" className={`p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
                       <Package size={20} />
                       <span className={`${open ? 'flex' : 'hidden'}`}>Cargo</span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="#" className={`p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire  ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
+                    <Link to="/dashboard/deliveries" className={`p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
                       <Clipboard size={20} />
                       <span className={`${open ? 'flex' : 'hidden'}`}>Deliveries</span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="#" className={`p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire  ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
+                    <Link to="/dashboard/history" className={`p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
                       <MdHistoryToggleOff className="font-black" size={20} />
                       <span className={`${open ? 'flex' : 'hidden'}`}>History</span>
-                    </a>
+                    </Link>
                   </li>
                   <li>
-                    <a href="#" className={`relative p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
+                    <Link to="/dashboard/notifications" className={`relative p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
                       <Bell size={20} />
                       <span className={`${open ? 'flex' : 'hidden'}`}>Notifications</span>
                       <span className={`ml-auto bg-cyan-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs ${open ? "relative" : "absolute right-[30%] top-0"}`} >3</span>
-                    </a>
+                    </Link>
                   </li>
                 </ul>
               </nav>

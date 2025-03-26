@@ -1,14 +1,13 @@
-import React from 'react'
-import Dashboard from '../componants/Dashboard/Dashboard'
+import React from 'react';
+import { Outlet } from 'react-router-dom'; // Ensure Outlet is imported
+import Home from '../pages/Home';
 
-
-
-const layout = () => {
+const Layout = () => {
   return (
     <div>
-        <Dashboard />
+        <Outlet /> {/* Render child routes */}
     </div>
-  )
-}
+  );
+};
 
-export default layout
+export default Layout;

@@ -1,10 +1,10 @@
 import React from 'react'
 
 
-const trackingMain = () => {
+const TrackingMain = () => {
   return (
     <div>trackingMain</div>
   )
 }
 
-export default trackingMain
+export default TrackingMain
