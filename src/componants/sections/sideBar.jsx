@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import Logo from "../ui/logo";
 import Footer from "../sections/footer";
@@ -14,8 +14,17 @@ const SideBar = ({setOpen,open}) => {
 
   const [openProfile, setOpenProfile] = useState(true)
 
+  const menuItem = [
+    { to: "/dashboard/", icon: <MdOutlineDashboard size={20} />, label: "Dashboard" },
+    { to: "/dashboard/tracking", icon: <Truck size={20} />, label: "Tracking" },
+    { to: "/dashboard/cargo", icon: <Package size={20} />, label: "Cargo" },
+    { to: "/dashboard/deliveries", icon: <Clipboard size={20} />, label: "Deliveries" },
+    { to: "/dashboard/history", icon: <MdHistoryToggleOff size={20} />, label: "History" },
+    { to: "/dashboard/notifications", icon: <Bell size={20} />, label: "Notifications", badge: 3 },
+    ]
+
   return (
-    <aside className={`space-y-4 px-4 ${open ? 'w-67' : 'w-28'}`}>
+    <aside className={`space-y-4 px-4 ${open ? 'w-67' : 'w-28'} mb-4`}>
             <div className="space-y-6">
               {/* Close Button */}
               <div className="">
@@ -51,43 +60,24 @@ const SideBar = ({setOpen,open}) => {
               {/* Navigation */}
               <nav className={`mb-4 bg-white p-4 rounded-xl ${open ? 'w-67' : 'w-28'}`}>
                 <ul className="space-y-1">
-                  <li>
-                    <Link to="/dashboard" className={`p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
-                      <MdOutlineDashboard size={20} className="" />
-                      <span className={`${open ? 'flex' : 'hidden'}`}>Dashboard</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/dashboard/tracking" className={`p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
-                      <Truck size={20} />
-                      <span className={`${open ? 'flex' : 'hidden'}`}>Tracking</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/dashboard/cargo" className={`p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
-                      <Package size={20} />
-                      <span className={`${open ? 'flex' : 'hidden'}`}>Cargo</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/dashboard/deliveries" className={`p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
-                      <Clipboard size={20} />
-                      <span className={`${open ? 'flex' : 'hidden'}`}>Deliveries</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/dashboard/history" className={`p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
-                      <MdHistoryToggleOff className="font-black" size={20} />
-                      <span className={`${open ? 'flex' : 'hidden'}`}>History</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link to="/dashboard/notifications" className={`relative p-3 bg-white text-primary hover:bg-cyan-500 hover:text-white rounded-lg focus:text-white active:text-white focus:bg-secondaire active:bg-secondaire ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'}`}>
-                      <Bell size={20} />
-                      <span className={`${open ? 'flex' : 'hidden'}`}>Notifications</span>
-                      <span className={`ml-auto bg-cyan-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs ${open ? "relative" : "absolute right-[30%] top-0"}`} >3</span>
-                    </Link>
-                  </li>
+                  {menuItem.map((item, index) => (
+                    <li key={index}>
+                      <NavLink
+                        to={item.to}
+                        className={({ isActive }) =>
+                          `relative p-3 hover:bg-cyan-400 hover:text-white rounded-lg ${open ? 'flex items-center gap-3' : 'flex items-center justify-center gap-0'} ${isActive ? "text-white bg-secondaire" : "bg-white text-primary"}`
+                        }
+                      >
+                        {item.icon}
+                        <span className={`${open ? 'flex' : 'hidden'}`}>{item.label}</span>
+                        {item.badge && (
+                          <span className={`ml-auto bg-cyan-500 text-white w-5 h-5 rounded-full flex items-center justify-center text-xs ${open ? "relative" : "absolute right-[30%] top-0"}`}>
+                            {item.badge}
+                          </span>
+                        )}
+                      </NavLink>
+                    </li>
+                  ))}
                 </ul>
               </nav>
 
