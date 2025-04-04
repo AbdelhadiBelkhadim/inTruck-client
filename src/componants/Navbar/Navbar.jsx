@@ -42,6 +42,8 @@ const Navbar = () => {
                                 </Link>
                             </li>
                         ))}
+
+                        {/* update in this part */}
                         <li><Button label="Get Start" type="enabled1" size="medium"  /></li>
                         <li><Button label="Booking" type="enabled" size="medium" /></li>
                     </ul>

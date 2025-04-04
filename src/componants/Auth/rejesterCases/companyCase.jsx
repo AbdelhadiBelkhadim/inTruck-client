@@ -6,11 +6,14 @@ import Button from '../../ui/secondaryBtn'
 
 const companyCase = () => {
   return (
-    <div>
-      <div className="">
-      <Input label='Email' type='Email' placeholder='Enter your Email' />
+    <div className="Form space-y-[32px] md:space-y-[48px]">
+      <div className="space-y-[30px] md:space-y-[50px]">
+        <Input label='Email' type='Email' placeholder='Enter your Email' />
+        <Input label='Password' type='password' placeholder='Enter Password' />
       </div>
-      <Button label="Login" type="enabled" size="large" withprop='full' />
+      <div className="">
+        <Button label="Login" type="enabled" size="large" withprop='full' />
+      </div>
     </div>
   )
 }

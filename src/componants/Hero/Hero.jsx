@@ -1,6 +1,9 @@
 import React from 'react';
+
 import StartTrakingNow from '../Hero/StartTrakingNow';
 import heroImg from '../../assets/hero.png';
+import Button from '../ui/primaryBtn'
+
 
 const Hero = () => {
   return (
@@ -24,7 +27,8 @@ const Hero = () => {
             Easily track your packages, shipments, and deliveries with our advanced <br /> tracking system. Stay updated in real time with accurate location details.
           </p>
         </div>
-        <StartTrakingNow />
+        {/* <StartTrakingNow /> */}
+        <Button label="Start Tracking Now" type="enabled" size="medium"  />
       </div>
     </div>
   );

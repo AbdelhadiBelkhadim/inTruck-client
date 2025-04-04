@@ -2,7 +2,7 @@
 const Buttons = ({ label,type, disabled, size ,  children,withprop }) => {
     // Define button type styles
     const typeClasses = {
-      enabled: "bg-primary text-white relative transition-all before:absolute before:right-0 before:top-0 before:h-16 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:before:-translate-x-100",
+      enabled: "bg-secondaire text-white relative transition-all before:absolute before:right-0 before:top-0 before:h-16 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:before:-translate-x-100",
       disabled: "bg-gray-100 text-gray-500 cursor-not-allowed",
     };
   

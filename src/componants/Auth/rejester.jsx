@@ -13,14 +13,18 @@ const Rejester = () => {
     return (
         <>
             <div className="md:flex h-[100vh]">
+
+                {/* SideLeft */}
                 <div className="md:w-[40%] lg:w-[45%]">
                     <SideLeftAuth h1="Sign Up" src={Bg} />
                 </div>
+
+                {/* SideRight */}
                 <div className="SideRight px-2 md:px-[70px] lg:px-[85px] flex  justify-center lg:w-[50%]">
                     <div className=''>
                         <h2 className="font-newsreader text-4xl text-primary font-bold text-center">Create Account</h2>
                         <div>
-                            <div>
+                            <div className=''>
                                 <div className="flex items-center justify-between">
                                     <NavLink
                                         to="/rejester/company"
@@ -48,7 +52,7 @@ const Rejester = () => {
                                         </p>
                                     </NavLink>
                                 </div>
-                                <div>
+                                <div className='mt-[30px] md:mt-[50px] lg:mt-[70px]'>
                                     <Routes>
                                         <Route path="company" element={<Company />} />
                                         <Route path="individual" element={<Individual />} />

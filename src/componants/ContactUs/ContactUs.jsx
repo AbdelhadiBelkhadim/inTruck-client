@@ -35,7 +35,9 @@ const ContactUs = () => {
                     <div className="border-b-2 p-2">
                       <input placeholder="Message" className="bg-transparent w-full focus:outline-none" />
                     </div>
-                    <button className="bg-white w-40 sm:w-48 h-10 text-center text-lg xs:text-xl md:text-xl text-primary font-medium rounded-2xl hover:opacity-90 transition-opacity">
+
+                    {/* update this part */}
+                    <button className="bg-white w-40 sm:w-48 h-10 text-center text-lg xs:text-xl md:text-xl text-primary font-medium rounded-[9px] hover:opacity-90 transition-opacity">
                       Contact Us
                     </button>
                   </form>
