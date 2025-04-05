@@ -3,7 +3,7 @@
 const Buttons = ({ label,type, disabled, size ,  children }) => {
   // Define button type styles
   const typeClasses = {
-    enabled: "bg-primary text-white border-[2px] boreder-primary relative transition-all before:absolute before:right-0 before:top-0 before:h-12 before:w-6 before:translate-x-12 before:rotate-6 before:bg-white before:opacity-10 before:duration-700 hover:before:-translate-x-40 ",
+    enabled: "bg-primary text-white border-[2px] border-primary hover:bg-[#182F6F] ",
     enabled1: "bg-transparent text-primary border-[2px] boreder-primary hover:bg-gray-100",
     disabled: "bg-black30 text-gray-500 cursor-not-allowed",
   };

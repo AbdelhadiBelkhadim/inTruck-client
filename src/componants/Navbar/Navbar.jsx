@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link } from 'react-scroll'; // Import Link from react-scroll
 import { FaBars, FaTimes } from 'react-icons/fa';
 import logo from '../../assets/logo.png';
+import Button from '../ui/primaryBtn'
 import Booking from './Booking';
 import Getstart from './Getstart';
 
@@ -41,8 +42,10 @@ const Navbar = () => {
                                 </Link>
                             </li>
                         ))}
-                        <li><Getstart /></li>
-                        <li><Booking /></li>
+
+                        {/* update in this part */}
+                        <li><Button label="Get Start" type="enabled1" size="medium"  /></li>
+                        <li><Button label="Booking" type="enabled" size="medium" /></li>
                     </ul>
                 </div>
 
