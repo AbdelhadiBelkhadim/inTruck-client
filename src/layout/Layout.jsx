@@ -1,6 +1,5 @@
 import React from 'react';
-import { Outlet } from 'react-router-dom'; // Ensure Outlet is imported
-
+import { Outlet } from 'react-router-dom'; 
 const Layout = () => {
   return (
     <div>
