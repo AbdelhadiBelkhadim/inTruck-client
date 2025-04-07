@@ -1,7 +1,6 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import { useFormik } from 'formik';
-
 import { loginSchema } from "../../../utils/FormValidation";
 
 import InputAuth from '../ui/authInput'
@@ -64,8 +63,9 @@ const Login = () => {
                     type="password"
                     name="password" // Changed to lowercase
                     placeholder="Enter Password" 
-                    onchange={handleChange} 
+                    onChange={handleChange} 
                     errors={errors.password} 
+                    onBlur={handleBlur}
                   />
                 </div>
                 <div>
@@ -80,12 +80,13 @@ const Login = () => {
                   Sign Up
                 </NavLink>
               </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
+      );
+    };
+    
+    export default Login;
 
-export default Login
