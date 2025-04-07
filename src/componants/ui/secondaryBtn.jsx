@@ -1,5 +1,5 @@
 // Button Component
-const SecondaryButton = ({ label, type = "enabled", disabled = false,  children }) => {
+const SecondaryButton = ({ label, type = "enabled", disabled,  children }) => {
   // Define button type styles
   const typeClasses = {
     enabled: "bg-secondaire text-white hover:bg-[#0099B8]",

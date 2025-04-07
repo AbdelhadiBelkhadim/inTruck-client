@@ -15,12 +15,12 @@ const Register = () => {
             <div className="md:flex justify-between h-[100vh] md:h-screen">
 
                 {/* SideLeft */}
-                <div className="md:w-[50%] lg:w-[40%]">
+                <div className="md:w-[50%]">
                     <SideLeftAuth h1="Sign Up" src={Bg} />
                 </div>
 
                 {/* SideRight */}
-                <div className="SideRight px-2 md:px-[40px] lg:px-[85px] flex  justify-center md:w-[50%] lg:w-[60%] flex-1 overflow-hidden">
+                <div className="SideRight px-2 md:px-[40px] lg:px-[85px] flex  justify-center md:w-[50%] md::w-[50%] flex-1 overflow-hidden">
                     <div className='w-full flex-1 overflow-y-scroll scrollbar-hide'>
                         <h2 className="font-newsreader text-4xl text-primary font-bold text-center">Create Account</h2>
                         <div className=' space-y-[40px] md:space-y-[50px] lg:space-y-[70px] mt-[30px] md:mt-[50px] lg:mt-[70px]'>

@@ -7,16 +7,16 @@ import Button from '../../ui/secondaryBtn';
 
 const CompanyCase = () => {
   const initialValues = {
-    FullName: '',
-    Email: '',
-    Password: '',
-    ConfirmPassword: '',
-    CompanyName: '',
-    RegistrationNumber: '',
-    TaxIdentificationNumber: '',
-    CompanyPhoneNumber: '',
-    CompanyAddress: '',
-    ResponsiblePersonName: '',
+    fullName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    companyName: '',
+    registrationNumber: '',
+    taxIdentificationNumber: '',
+    companyPhoneNumber: '',
+    companyAddress: '',
+    responsiblePersonName: '',
   };
 
   const formik = useFormik({
@@ -33,15 +33,13 @@ const CompanyCase = () => {
     formik.setFieldError(name, '');
   };
 
-
-
   return (
-    <form className="Form space-y-[32px]" onSubmit={formik.handleSubmit}>
-      <div>
+    <form className="Form space-y-[35px] md:space-y-[50px]" onSubmit={formik.handleSubmit}>
+      <div className='space-y-[30px] md:space-y-[40px]'>
         <div className="flex justify-center">
           <Input
             label="Company Name"
-            name="CompanyName"
+            name="companyName"
             type="text"
             placeholder="Ex: inTruck company"
             onChange={handleInputChange}
@@ -51,7 +49,7 @@ const CompanyCase = () => {
         <div className="flex justify-center">
           <Input
             label="Registration Number (RC)"
-            name="RegistrationNumber"
+            name="registrationNumber"
             type="text"
             placeholder="Ex: 12345678"
             onChange={handleInputChange}
@@ -61,7 +59,7 @@ const CompanyCase = () => {
         <div className="flex justify-center">
           <Input
             label="Tax Identification Number (IF)"
-            name="TaxIdentificationNumber"
+            name="taxIdentificationNumber"
             type="text"
             placeholder="Ex: 987654321"
             onChange={handleInputChange}
@@ -71,7 +69,7 @@ const CompanyCase = () => {
         <div className="flex justify-center">
           <Input
             label="Company Email"
-            name="Email"
+            name="email"
             type="email"
             placeholder="Ex: inTruck@example.com"
             onChange={handleInputChange}
@@ -81,7 +79,7 @@ const CompanyCase = () => {
         <div className="flex justify-center">
           <Input
             label="Company Phone Number"
-            name="CompanyPhoneNumber"
+            name="companyPhoneNumber"
             type="text"
             placeholder="Ex: +212 564253424"
             onChange={handleInputChange}
@@ -91,7 +89,7 @@ const CompanyCase = () => {
         <div className="flex justify-center">
           <Input
             label="Company Address"
-            name="CompanyAddress"
+            name="companyAddress"
             type="text"
             placeholder="Ex: Avenue Hassan II, Casablanca, Maroc"
             onChange={handleInputChange}
@@ -100,8 +98,8 @@ const CompanyCase = () => {
         </div>
         <div className="flex justify-center">
           <Input
-            label="Responsible Person’s Full Name"
-            name="ResponsiblePersonName"
+            label="Responsible Person's Full Name"
+            name="responsiblePersonName"
             type="text"
             placeholder="full name"
             onChange={handleInputChange}
@@ -111,7 +109,7 @@ const CompanyCase = () => {
         <div className="flex justify-center">
           <Input
             label="Password"
-            name="Password"
+            name="password"
             type="password"
             placeholder="Ex: MySecurePass2024!"
             onChange={handleInputChange}
@@ -121,7 +119,7 @@ const CompanyCase = () => {
         <div className="flex justify-center">
           <Input
             label="Confirm Password"
-            name="ConfirmPassword"
+            name="confirmPassword"
             type="password"
             placeholder="MySecurePass2024!"
             onChange={handleInputChange}

@@ -7,13 +7,13 @@ import Button from '../../ui/secondaryBtn'
 
 const IndividualCase = () => {
   const initialValues = {
-    FullName: '',
-    NationalID: '',
-    Email: '',
-    PhoneNumber: '',
-    Address: '',
-    Password: '',
-    ConfirmPassword: '',
+    fullName: '',
+    nationalID: '',
+    email: '',
+    phoneNumber: '',
+    address: '',
+    password: '',
+    confirmPassword: '',
   };
 
   const formik = useFormik({
@@ -32,15 +32,15 @@ const IndividualCase = () => {
 
 
   return (
-    <form className="Form space-y-[32px]" onSubmit={formik.handleSubmit}>
-      <div className="">
+    <form className="Form space-y-[35px] md:space-y-[50px]" onSubmit={formik.handleSubmit}>
+      <div className='space-y-[30px] md:space-y-[40px]'>
         <div className="flex justify-center">
           <Input
             label="Full Name"
             type="text"
-            name="FullName"
+            name="fullName"
             placeholder="Your Name"
-            onChange={(e) => (handleInputChange(e))}
+            onChange={handleInputChange}
             errors={formik.errors.fullName}
           />
         </div>
@@ -48,9 +48,9 @@ const IndividualCase = () => {
           <Input
             label="National ID or Passport Number"
             type="text"
-            name="NationalID"
+            name="nationalID"
             placeholder="Ex: 12345678"
-            onChange={(e) => (handleInputChange(e))}
+            onChange={handleInputChange}
             errors={formik.errors.nationalID}
           />
         </div>
@@ -58,9 +58,9 @@ const IndividualCase = () => {
           <Input
             label="Email"
             type="email"
-            name="Email"
+            name="email"
             placeholder="Ex: yourname@gmail.com"
-            onChange={(e) => (handleInputChange(e))}
+            onChange={handleInputChange}
             errors={formik.errors.email}
           />
         </div>
@@ -68,9 +68,9 @@ const IndividualCase = () => {
           <Input
             label="Phone Number"
             type="text"
-            name="PhoneNumber"
+            name="phoneNumber"
             placeholder="Ex: +212 564253424"
-            onChange={(e) => (handleInputChange(e))}
+            onChange={handleInputChange}
             errors={formik.errors.phoneNumber}
           />
         </div>
@@ -78,9 +78,9 @@ const IndividualCase = () => {
           <Input
             label="Address"
             type="text"
-            name="Address"
+            name="address"
             placeholder="Ex: Avenue Hassan II, Casablanca, Maroc"
-            onChange={(e) => (handleInputChange(e))}
+            onChange={handleInputChange}
             errors={formik.errors.address}
           />
         </div>
@@ -88,9 +88,9 @@ const IndividualCase = () => {
           <Input
             label="Password"
             type="password"
-            name="Password"
+            name="password"
             placeholder="Ex: MySecurePass2024!"
-            onChange={(e) => (handleInputChange(e))}
+            onChange={handleInputChange}
             errors={formik.errors.password}
           />
         </div>
@@ -98,20 +98,15 @@ const IndividualCase = () => {
           <Input
             label="Confirm Password"
             type="password"
-            name="ConfirmPassword"
+            name="confirmPassword"
             placeholder="MySecurePass2024!"
-            onChange={(e) => (handleInputChange(e))}
+            onChange={handleInputChange}
             errors={formik.errors.confirmPassword}
           />
         </div>
       </div>
-      <div className="flex items-center justify-center">
-        <Button
-          label="Register"
-          type="submit"
-          size="large"
-          withprop="full"
-        />
+      <div className="flex items-center justify-center mx-auto">
+        <Button label="Create Account" type="enabled" />
       </div>
     </form>
   );
