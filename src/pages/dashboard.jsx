@@ -5,8 +5,12 @@ import { IoIosArrowDown } from "react-icons/io";
 
 import SideBar from '../componants/sections/sideBar';
 import Logo from '../componants/ui/logo';
-import TrackingMain from '../componants/sections/dashboardMain/trackingMain';
-import DashboardMain from '../componants/sections/dashboardMain/DashboardMain'; // Import DashboardMain
+import TrackingMain from '../componants/sections/dashboardsMain/trackingMain';
+import DashboardMain from '../componants/sections/dashboardsMain/DashboardMain'; // Import DashboardMain
+import CargoMain from '../componants/sections/dashboardsMain/cargoMain'; // Import CargoMain
+import HistoryMain from '../componants/sections/dashboardsMain/historyMain'; // Import HistoryMain
+import DEliveriesMain from '../componants/sections/dashboardsMain/deliveriesMain'
+import NotificationMain from '../componants/sections/dashboardsMain/notificationsMain'
 
 const Dashboard = () => {
   const [open, setOpen] = useState(true);
@@ -18,7 +22,7 @@ const Dashboard = () => {
           <div className="md:hidden burgerMenu flex items-center justify-center px-2 py-1 rounded-md bg-primary text-white">
             <MdMenu size={20} />
           </div>
-          <Logo logoWith={`w-[30px] md:w-auto`} open={open} />
+          <Logo logoWith={`w-[30px] md:w-auto`} open={`${open ? 'flex' : 'hidden'}`} />
           <div className="hidden md:flex items-center justify-center">
             <h1 className="text-4xl text-primary font-bold">Dashboard</h1>
           </div>
@@ -46,6 +50,10 @@ const Dashboard = () => {
             <Routes>
               <Route path="/" element={<DashboardMain />} /> {/* Default DashboardMain */}
               <Route path="tracking" element={<TrackingMain />} /> {/* TrackingMain */}
+              <Route path="cargo" element={<CargoMain />} /> {/* CargoMain */}
+              <Route path="history" element={<HistoryMain />} /> {/* HistoryMain */}
+              <Route path="deliveries" element={<DEliveriesMain />} /> {/* DeliveriesMain */}
+              <Route path="notifications" element={<NotificationMain />} /> {/* NotificationsMain */}
               {/* Add other routes here */}
             </Routes>
           </div>
