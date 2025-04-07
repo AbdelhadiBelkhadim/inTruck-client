@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
-import Dashboard from '../src/pages/Dashboard'; 
+import Dashboard from './pages/Dashboard'; 
 import Register from './componants/Auth/register'; // Import the Rejester component
 import Login from './componants/Auth/login'; // Import the Login component
 import NotFound from './pages/NotFound';
