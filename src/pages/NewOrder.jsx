@@ -7,7 +7,7 @@ import {ArrowUpToLine} from "lucide-react"
 
 const NewOrder = () => {
   return (
-    <div className='bg-[#F2F2F2] w-full h-full'>
+    <div className='bg-[#F2F2F2] w-full h-full container mx-auto'>
         <header className="flex item-center justify-between p-2 shadow-b-md bg-white md:bg-transparent">
           <div className="md:hidden burgerMenu flex items-center justify-center px-2 py-1 rounded-md bg-primary text-white">
             <MdMenu size={20} />
@@ -33,8 +33,8 @@ const NewOrder = () => {
                 <h3 className='text-primary font-semibold text-[20px] md:text-[40px] lg:text-[55px]'>What are you sending <span className='text-[#00B4D8]'>today</span> ?</h3>
             </div>
 
-            <div className='grid grid-col md:grid-cols-2 items-center justify-center gap-4 md:gap-6 lg:gap-12 mt-10'>
-                <div className='w-[285px] h-[269px] p-6 rounded-sm flex flex-col items-center justify-center mt-4 border border-gray-300 shadow-md'> 
+            <div className='grid grid-col md:grid-cols-2 items-center justify-center gap-4 md:gap-6 lg:gap-12 mt-10 '>
+                <div className='w-[285px] h-[269px] p-6 rounded-sm flex flex-col items-center justify-center mt-4 border border-gray-300 shadow-md hover:scale-105 transition duration-300 ease-in-out'> 
                     <PiPackageDuotone className='w-[161px] h-[167px]' />
                     <div className='flex flex-col items-center justify-center text-[27px] font-semibold text-[#00B4D8]'>
                         <h4>Shipment</h4>
@@ -43,7 +43,7 @@ const NewOrder = () => {
                 </div>
 
 
-                <div className='w-[285px] h-[269px] p-6 rounded-sm flex flex-col items-center justify-center mt-4 border border-gray-300 shadow-md'> 
+                <div className='w-[285px] h-[269px] p-6 rounded-sm flex flex-col items-center justify-center mt-4 border border-gray-300 shadow-md hover:scale-105 transition duration-300 ease-in-out'> 
                     <PiPackageDuotone className='w-[161px] h-[167px]' />
                     <div className='flex flex-col items-center justify-center text-[27px] font-semibold text-[#00B4D8]'>
                         <h4>Shipment</h4>
@@ -53,7 +53,7 @@ const NewOrder = () => {
 
 
 
-                <div className='w-[285px] h-[269px] p-6 rounded-sm flex flex-col items-center justify-center mt-4 border border-gray-300 shadow-md'> 
+                <div className='w-[285px] h-[269px] p-6 rounded-sm flex flex-col items-center justify-center mt-4 border border-gray-300 shadow-md hover:scale-105 transition duration-300 ease-in-out'> 
                     <PiPackageDuotone className='w-[161px] h-[167px]' />
                     <div className='flex flex-col items-center justify-center text-[27px] font-semibold text-[#00B4D8]'>
                         <h4>Shipment</h4>
@@ -62,7 +62,7 @@ const NewOrder = () => {
                 </div>
 
 
-                <div className='w-[285px] h-[269px] p-6 rounded-sm flex flex-col items-center justify-center mt-4 border border-gray-300 shadow-md'> 
+                <div className='w-[285px] h-[269px] p-6 rounded-sm flex flex-col items-center justify-center mt-4 border border-gray-300 shadow-md hover:scale-105 transition duration-300 ease-in-out'> 
                     <PiPackageDuotone className='w-[161px] h-[167px]' />
                     <div className='flex flex-col items-center justify-center text-[27px] font-semibold text-[#00B4D8]'>
                         <h4>Shipment</h4>

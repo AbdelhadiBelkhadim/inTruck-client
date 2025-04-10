@@ -1,9 +1,9 @@
 import React from 'react'
-import { Search, Filter, MoreVertical , ArrowUpToLine, ArrowRight, ChevronLeft, ChevronRight} from "lucide-react"
+import { Search, Filter, MoreVertical , ArrowUpToLine, ChevronLeft, ChevronRight} from "lucide-react"
 
 const TrackingMain = () => {
   return (
-    <div>
+    <div className='border-gray-300 h-svh'>
       <h1 className='text-3xl font-bold mb-8 text-primary'>
         Tracking
       </h1>
@@ -36,12 +36,12 @@ const TrackingMain = () => {
               </tr>
             </thead>
 
-            <tbody className="bg-white border border-gray-300 rounded-md">
-              <tr className="border-t border-gray-200 text-center hover:bg-primary cursor-pointer hover:text-white">
-                  <td className="py-4 px-4 text-[10px] ">#DJFJSAD526SAD9</td>
-                  <td className="py-4 px-4 text-[10px] text-thin ">Tanger</td>
+            <tbody className="bg-white border rounded-md">
+              <tr className="border-t border-gray-200 text-center hover:bg-primary cursor-pointer hover:text-white text-[10px] md:text-[12px]">
+                  <td className="py-4 px-4 font-semibold ">#DJFJSAD526SAD9</td>
+                  <td className="py-4 px-4 text-thin ">Tanger</td>
                   <td className="py-4 px-4">
-                    <span className="bg-primary text-white text-center p-2 rounded-2xl text-[10px] truncate">On the road</span>
+                    <span className="bg-[#00B4D8] text-white text-center p-2 rounded-2xl truncate ">On the road</span>
                   </td>
                   <td className="py-4 px-4 text-dark">
                     $ 15,000<span className="text-gray-400 text-sm">.00</span>
@@ -53,103 +53,7 @@ const TrackingMain = () => {
                   </td>
                 </tr>
 
-                <tr className="border-t border-gray-200 text-center hover:bg-primary cursor-pointer hover:text-white">
-                  <td className="py-4 px-4 text-[10px] ">#DJFJSAD526SAD9</td>
-                  <td className="py-4 px-4 text-[10px] text-thin ">Tanger</td>
-                  <td className="py-4 px-4">
-                    <span className="bg-primary text-white text-center p-2 rounded-2xl text-[10px] truncate">On the road</span>
-                  </td>
-                  <td className="py-4 px-4 text-dark">
-                    $ 15,000<span className="text-gray-400 text-sm">.00</span>
-                  </td>
-                  <td className="py-4 px-4">
-                    <button>
-                      <MoreVertical className="w-5 h-5" />
-                    </button>
-                  </td>
-                </tr>
-
-                <tr className="border-t border-gray-200 text-center hover:bg-primary cursor-pointer hover:text-white">
-                  <td className="py-4 px-4 text-[10px] ">#DJFJSAD526SAD9</td>
-                  <td className="py-4 px-4 text-[10px] text-thin ">Tanger</td>
-                  <td className="py-4 px-4">
-                    <span className="bg-primary text-white text-center p-2 rounded-2xl text-[10px] truncate">On the road</span>
-                  </td>
-                  <td className="py-4 px-4 text-dark">
-                    $ 15,000<span className="text-gray-400 text-sm">.00</span>
-                  </td>
-                  <td className="py-4 px-4">
-                    <button>
-                      <MoreVertical className="w-5 h-5" />
-                    </button>
-                  </td>
-                </tr>
-
-
-                <tr className="border-t border-gray-200 text-center hover:bg-primary cursor-pointer hover:text-white">
-                  <td className="py-4 px-4 text-[10px] ">#DJFJSAD526SAD9</td>
-                  <td className="py-4 px-4 text-[10px] text-thin ">Tanger</td>
-                  <td className="py-4 px-4">
-                    <span className="bg-primary text-white text-center p-2 rounded-2xl text-[10px] truncate">On the road</span>
-                  </td>
-                  <td className="py-4 px-4 text-dark">
-                    $ 15,000<span className="text-gray-400 text-sm">.00</span>
-                  </td>
-                  <td className="py-4 px-4">
-                    <button>
-                      <MoreVertical className="w-5 h-5" />
-                    </button>
-                  </td>
-                </tr>
-
-                <tr className="border-t border-gray-200 text-center hover:bg-primary cursor-pointer hover:text-white">
-                  <td className="py-4 px-4 text-[10px] ">#DJFJSAD526SAD9</td>
-                  <td className="py-4 px-4 text-[10px] text-thin ">Tanger</td>
-                  <td className="py-4 px-4">
-                    <span className="bg-primary text-white text-center p-2 rounded-2xl text-[10px] truncate">On the road</span>
-                  </td>
-                  <td className="py-4 px-4 text-dark">
-                    $ 15,000<span className="text-gray-400 text-sm">.00</span>
-                  </td>
-                  <td className="py-4 px-4">
-                    <button>
-                      <MoreVertical className="w-5 h-5" />
-                    </button>
-                  </td>
-                </tr>
-
-                <tr className="border-t border-gray-200 text-center hover:bg-primary cursor-pointer hover:text-white">
-                  <td className="py-4 px-4 text-[10px] ">#DJFJSAD526SAD9</td>
-                  <td className="py-4 px-4 text-[10px] text-thin ">Tanger</td>
-                  <td className="py-4 px-4">
-                    <span className="bg-primary text-white text-center p-2 rounded-2xl text-[10px] truncate">On the road</span>
-                  </td>
-                  <td className="py-4 px-4 text-dark">
-                    $ 15,000<span className="text-gray-400 text-sm">.00</span>
-                  </td>
-                  <td className="py-4 px-4">
-                    <button>
-                      <MoreVertical className="w-5 h-5" />
-                    </button>
-                  </td>
-                </tr>
-
-
-                <tr className="border-t border-gray-200 text-center hover:bg-primary cursor-pointer hover:text-white">
-                  <td className="py-4 px-4 text-[10px] ">#DJFJSAD526SAD9</td>
-                  <td className="py-4 px-4 text-[10px] text-thin ">Tanger</td>
-                  <td className="py-4 px-4">
-                    <span className="bg-primary text-white text-center p-2 rounded-2xl text-[10px] truncate">On the road</span>
-                  </td>
-                  <td className="py-4 px-4 text-dark">
-                    $ 15,000<span className="text-gray-400 text-sm">.00</span>
-                  </td>
-                  <td className="py-4 px-4">
-                    <button>
-                      <MoreVertical className="w-5 h-5" />
-                    </button>
-                  </td>
-                </tr>
+                
             </tbody>  
             
           </table>
