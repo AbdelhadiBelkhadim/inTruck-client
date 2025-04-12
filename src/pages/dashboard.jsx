@@ -18,7 +18,7 @@ const Dashboard = () => {
   return (
     <div className="bg-[#F2F2F2] w-full h-full">
       <div className="lg:container space-y-2 md:space-y-4 lg:space-y-6">
-        <header className="flex item-center justify-between p-2 shadow-b-md bg-white md:bg-transparent">
+        <header className="flex item-center justify-between p-2 shadow-b-md bg-white md:bg-transparent w-full">
           <div className="md:hidden burgerMenu flex items-center justify-center px-2 py-1 rounded-md bg-primary text-white">
             <MdMenu size={20} />
           </div>
@@ -46,7 +46,7 @@ const Dashboard = () => {
             <SideBar open={open} setOpen={setOpen} />
           </div>
           {/* Main Content Area */}
-          <div className="space-y-2 md:space-y-3 w-full p-4 md:p-0">
+          <div className="space-y-2 md:space-y-3 w-full p-4 md:px-4">
             <Routes>
               <Route path="/" element={<DashboardMain />} /> {/* Default DashboardMain */}
               <Route path="tracking" element={<TrackingMain />} /> {/* TrackingMain */}

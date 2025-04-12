@@ -1,0 +1,68 @@
+import React from 'react';
+import { MoreVertical } from "lucide-react";
+import Pagination from './Pagination';
+
+const Table = ({ 
+  data = [], 
+  itemsPerPage = 6, 
+  currentPage = 1,
+  totalItems = 0,
+  onPageChange 
+}) => {
+  const totalPages = Math.ceil(totalItems / itemsPerPage);
+  
+  // Reset to page 1 when data changes
+  React.useEffect(() => {
+    if (onPageChange && currentPage !== 1) {
+      onPageChange(1);
+    }
+  }, [data]);
+  return (
+    <div className="w-full overflow-x-auto">
+      <table className="w-full">
+        <thead>
+          <tr className="text-[12px] md:text-[14px] text-primary h-16">
+            <th className="w-[25%] px-2 py-4 text-left">ID</th>
+            <th className="w-[20%] px-2 py-4 text-left">DESTINATION</th>
+            <th className="w-[25%] px-2 py-4 text-left">STATE</th>
+            <th className="w-[20%] px-2 py-4 text-left truncate">Total Coverage</th>
+            <th className="w-[10%] px-2 py-4"></th>
+          </tr>
+        </thead>
+
+        <tbody className="bg-white">
+          {data.map((item, index) => (
+            <tr key={index} className="border-t border-gray-200 hover:bg-primary cursor-pointer hover:text-white text-[10px] md:text-[12px]">
+              <td className="py-3 px-2 font-semibold truncate">{item.id}</td>
+              <td className="py-3 px-2 text-thin truncate">{item.destination}</td>
+              <td className="py-3 px-2">
+                <span className="bg-[#00B4D8] text-white p-1 md:p-2 rounded-2xl truncate inline-block max-w-full">
+                  {item.state}
+                </span>
+              </td>
+              <td className="py-3 px-2 text-dark truncate">
+                ${item.totalCoverage}<span className="text-gray-400 text-xs">.00</span>
+              </td>
+              <td className="py-3 px-2">
+                <button className="mx-auto">
+                  <MoreVertical className="w-4 h-4 md:w-5 md:h-5" />
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+      {totalPages > 1 && (
+        <div className="mt-4">
+            <Pagination 
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onPageChange={onPageChange}
+            />
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Table;
