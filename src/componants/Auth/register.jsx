@@ -20,7 +20,7 @@ const Register = () => {
                 </div>
 
                 {/* SideRight */}
-                <div className="SideRight px-2 md:px-[40px] lg:px-[85px] flex  justify-center md:w-[50%] md::w-[50%] flex-1 overflow-hidden">
+                <div className="SideRight px-2 md:px-[40px] lg:px-[85px] flex  justify-center md:w-[50%] md::w-[50%] flex-1 overflow-hidden my-3 md:my-6">
                     <div className='w-full flex-1 overflow-y-scroll scrollbar-hide'>
                         <h2 className="font-newsreader text-4xl text-primary font-bold text-center">Create Account</h2>
                         <div className=' space-y-[40px] md:space-y-[50px] lg:space-y-[70px] mt-[30px] md:mt-[50px] lg:mt-[70px]'>
@@ -54,12 +54,12 @@ const Register = () => {
                                 </div>
                                 <div className='mt-[30px] md:mt-[50px] lg:mt-[70px]'>
                                     <Routes>
-                                        <Route path="company" element={<Company />} />
+                                        <Route index element={<Company />} />
                                         <Route path="individual" element={<Individual />} />
                                     </Routes>
                                 </div>
                             </div>
-                            <div className="flex items-center justify-center relative bottom-0">
+                            <div className="flex items-center justify-center relative bottom-0 pb-3 md:pb-5">
                                 <p className="text-[16px] text-gray-400 font-light">
                                     Already have an account?
                                     <NavLink to="/login" className="text-primary font-bold">

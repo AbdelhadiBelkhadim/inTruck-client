@@ -1,7 +1,9 @@
 import React from 'react'
-import { NavLink } from 'react-router-dom'
-import { useFormik } from 'formik';
+import { NavLink, useNavigate } from 'react-router-dom'
+import { Formik, Form } from 'formik';
 import { loginSchema } from "../../../utils/FormValidation";
+import { useMutation } from '@tanstack/react-query';
+
 
 import InputAuth from '../ui/authInput'
 import Button from '../ui/secondaryBtn'
@@ -9,69 +11,122 @@ import SideLeftAuth from '../ui/sideLeftAuth'
 
 import Bg from '../../assets/loginBg.png'
 
-const onSubmit = async (values, actions) => {
-  console.log(values);
-  console.log(actions);
-  await new Promise((resolve) => setTimeout(resolve, 1000));
-  actions.resetForm();
-};
-
 const Login = () => {
+  const navigate = useNavigate();
+  
+  // Initial form values
+  const initialValues = {
+    email: '',
+    password: ''
+  };
 
+  // Login API function
+  const loginUser = async (credentials) => {
+    const response = await fetch('https://intruck-backend-production.up.railway.app/auth/login', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(credentials)
+    });
+    
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(errorData.message || 'Login failed');
+    }
+    
+    return response.json();
+  };
 
-  const {
-    errors,
-    isSubmitting,
-    handleBlur,
-    handleChange,
-    handleSubmit,
-  } = useFormik({
-    initialValues: {
-      email: "",
-      password: "",
+  // React Query mutation hook
+  const loginMutation = useMutation({
+    mutationFn: loginUser,
+    onSuccess: (data) => {
+      localStorage.setItem('token', data.token);
+      localStorage.setItem('user', JSON.stringify(data.user));
+      alert('Login successful!');
+      navigate('/dashboard');
     },
-    validationSchema: loginSchema,
-    onSubmit,
+    onError: (error) => {
+      alert(`Login failed: ${error.message}`);
+    }
   });
-  console.log(errors);
+  
+
+  // Form submission handler with React Query
+  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+    loginMutation.mutate(values);
+    
+    // Reset form and submitting state when mutation completes
+    setTimeout(() => {
+      if (!loginMutation.isLoading) {
+        setSubmitting(false);
+        if (loginMutation.isSuccess) {
+          resetForm();
+        }
+      }
+    }, 1000);
+  };
+  
   return (
     <div className="md:flex h-[100vh]">
       <div className="md:w-[50%] ">
         <SideLeftAuth h1="Login" src={Bg} />
       </div>
 
-      {/* SideRight/ */}
+      {/* SideRight */}
       <div className="SideRight flex items-center justify-center py-[15px] md:py-[47px] lg:py-[67px] px-[20px] md:px-[50px] lg:px-[80px] md:w-[50%] h-auto">
         <div className="md:w-full space-y-[40px]">
           <h2 className="font-newsreader text-4xl text-primary font-bold text-center">Welcome Back!!</h2>
           <div className="space-y-[30px] md:space-y-[50px]">
             <div className="space-y-[20px] md:space-y-[30px]">
-              <form className="Form space-y-[32px] md:space-y-[48px]" onSubmit={handleSubmit} autoComplete="off">
-                <div className="space-y-[30px] md:space-y-[50px]">
-                  <InputAuth 
-                    label="Email" 
-                    type="email" 
-                     // Changed to lowercase
-                     name="email" // Changed to lowercase
-                    placeholder="Enter your Email" 
-                    onChange={handleChange} 
-                    errors={errors.email} 
-                    onBlur={handleBlur}
-                  />
-                  <InputAuth 
-                    label="Password" 
-                    type="password"
-                    name="password" // Changed to lowercase
-                    placeholder="Enter Password" 
-                    onChange={handleChange} 
-                    errors={errors.password} 
-                    onBlur={handleBlur}
-                  />
-                </div>
-                <div>
-                  <Button label="Login" disabled={isSubmitting} type="enabled" size="large" withprop="full"/>
-                </div>
-              </form>
+              <Formik
+                initialValues={initialValues}
+                validationSchema={loginSchema}
+                onSubmit={handleSubmit}
+              >
+                {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
+                  <Form className="Form space-y-[32px] md:space-y-[48px]" onSubmit={handleSubmit} autoComplete="off">
+                    {loginMutation.isError && (
+                      <div className="text-red-500 text-center">
+                        {loginMutation.error.message}
+                      </div>
+                    )}
+                    
+                    <div className="space-y-[30px] md:space-y-[50px]">
+                      <InputAuth 
+                        label="Email" 
+                        type="email" 
+                        name="email"
+                        placeholder="Enter your Email" 
+                        value={values.email}
+                        onChange={handleChange} 
+                        errors={touched.email && errors.email} 
+                        onBlur={handleBlur}
+                      />
+                      <InputAuth 
+                        label="Password" 
+                        type="password"
+                        name="password" 
+                        placeholder="Enter Password"
+                        value={values.password} 
+                        onChange={handleChange} 
+                        errors={touched.password && errors.password} 
+                        onBlur={handleBlur}
+                      />
+                    </div>
+                    <div className="px-3 md:px-0">
+                      <Button 
+                        label={loginMutation.isLoading ? "Logging in..." : "Login"} 
+                        disabled={isSubmitting || loginMutation.isLoading} 
+                        type="enabled" 
+                        size="large" 
+                        withprop="full"
+                      />
+                    </div>
+                  </Form>
+                )}
+              </Formik>
             </div>
             <div className="flex items-center justify-center relative bottom-0">
               <p className="text-[16px] text-gray-400 font-light">
@@ -80,13 +135,13 @@ const Login = () => {
                   Sign Up
                 </NavLink>
               </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-      );
-    };
-    
-    export default Login;
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Login;
 

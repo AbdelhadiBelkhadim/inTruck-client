@@ -41,7 +41,7 @@ const LastOrders = () => {
                   <Package size={20} />
                 </div>
                 <div className="flex-1">
-                  <p className="font-bold text-[14px] md:text-[16px]">{order.id}</p>
+                  <p className="font-bold text-[10px] md:text-[16px]">{order.id}</p>
                   <div className="flex items-center text-secondaire text-[10px] md:text-sm">
                     <span>{order.from}</span>
                     <span className="mx-1 md:mx-2">→</span>
