@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { MdLogout, MdMenu } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
+import { Plus } from 'lucide-react';
 
 import SideBar from '../componants/sections/sideBar';
 import Logo from '../componants/ui/logo';
@@ -17,9 +18,10 @@ const Dashboard = () => {
 
   return (
     <div className="bg-[#F2F2F2] w-full h-full">
-      <div className="lg:container space-y-2 md:space-y-4 lg:space-y-6">
-        <header className="flex item-center justify-between p-2 shadow-b-md bg-white md:bg-transparent w-full">
-          <div className="md:hidden burgerMenu flex items-center justify-center px-2 py-1 rounded-md bg-primary text-white">
+      <div className="md:flex justify-between px-3 space-y-2 md:space-y-0 md:space-x-4 lg:space-x-6">
+        {/* Mobile Header */}
+        <header className="flex item-center justify-between p-2 shadow-b-md bg-white md:bg-transparent md:hidden">
+          <div className="burgerMenu flex items-center justify-center px-2 py-1 rounded-md bg-primary text-white">
             <MdMenu size={20} />
           </div>
           <Logo logoWith={`w-[30px] md:w-auto`} open={`${open ? 'flex' : 'hidden'}`} />
@@ -40,15 +42,15 @@ const Dashboard = () => {
             </a>
           </div>
         </header>
-        <main className="flex gap-4 md:space-x-4 px-2">
-          {/* Sidebar */}
-          <div className="hidden md:flex">
-            <SideBar open={open} setOpen={setOpen} />
-          </div>
+        {/* Sidebar */}
+        <div className="hidden md:flex">
+          <SideBar open={open} setOpen={setOpen} />
+        </div>
+        <main className="w-full">
           {/* Main Content Area */}
-          <div className="space-y-2 md:space-y-3 w-full p-4 md:px-4">
+          <div className="space-y-2 md:space-y-3 w-full p-4 md:p-0">
             <Routes>
-              <Route path="/" element={<DashboardMain />} /> {/* Default DashboardMain */}
+              <Route index element={<DashboardMain />} /> {/* Default page at /dashboard */}
               <Route path="tracking" element={<TrackingMain />} /> {/* TrackingMain */}
               <Route path="cargo" element={<CargoMain />} /> {/* CargoMain */}
               <Route path="history" element={<HistoryMain />} /> {/* HistoryMain */}

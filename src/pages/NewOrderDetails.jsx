@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../componants/ui/Header';
+import Header from '../componants/ui/DashboardHeader';
 import NewOrderDetailsMain from '../componants/ui/NewOrderDetailsMain';
 
 const NewOrderDetails = () => {

@@ -24,21 +24,20 @@ const SideBar = ({setOpen,open}) => {
     ]
 
   return (
-    <aside className={`space-y-4 px-4 ${open ? 'w-67' : 'w-28'} mb-4`}>
-            <div className="space-y-6">
+    <aside className={`space-y-4 ${open ? 'w-fit' : 'w-fit'} mb-4  `}>
+            <div className={`space-y-6 ${open ? 'w-67' : 'w-28'}`}>
               {/* Close Button */}
-              <div className="">
+              <div className="flex items-center justify-between">
+                <Logo logoWith={`w-[30px] md:w-auto`} open={`${open ? 'flex' : 'hidden'}`} />
                 <LuPanelLeftClose size={24} className={`text-primary cursor-pointer ${!open && ' rotate-180'}`} onClick={() => setOpen(!open)} />
               </div>
               {/* User Profile */}
               <div className={`relative flex items-center justify-between p-4 h-[85px] bg-white rounded-[14px] ${open ? 'w-67' : 'w-28'}`}>
-
                     <div className="w-[45px] h-[45px] top-[9px] left-[11px] bg-secondaire rounded-[33px] flex items-center justify-center">
                       <div className="font-normal text-white text-[18px] tracking-[0] leading-[normal] flex items-center justify-center" >
                         OU
                       </div>
                     </div>
-
                     <div className={``}>
                       <div className={`flex items-center space-x-5 justify-between w-full`}>
                         <div className={`relative font-medium ${open ? 'block' : 'hidden'}`}>
@@ -80,30 +79,6 @@ const SideBar = ({setOpen,open}) => {
                   ))}
                 </ul>
               </nav>
-
-              {/* Recent Shipping */}
-              <div className={`bg-indigo-800 text-white p-4 rounded-xl ${open ? 'w-67' : 'w-28'}`}>
-                <div className="flex justify-between items-center mb-2">
-                  <h3 className={`font-bold ${open ? 'block' : 'hidden'}`}>Recent Shipping</h3>
-                  <span className={`bg-white text-primary rounded-full ${open ? 'text-xs px-2 py-1' : 'text-[11px] px-1.5 py-0.5'}`}>#FS54BDF45</span>
-                </div>
-                <div className="mb-4">
-                  <p className="text-sm">Destination</p>
-                  <p className="font-bold text-lg">Senegal</p>
-                </div>
-                <div>
-                  <p className="text-4xl font-bold">1859</p>
-                  <p className="text-sm text-gray-300">Relative distance / Km</p>
-                </div>
-              </div>
-
-              {/* Create Delivery Button */}
-              <div className={`bg-white border border-dashed border-indigo-800 rounded-xl p-4 mt-4 flex flex-col items-center justify-center ${open ? 'w-67' : 'w-28'}`}>
-                <button className={`bg-indigo-800 text-white p-2 rounded-full ${open ? 'mb-2' : 'mb-0'} cursor-pointer`}>
-                  <Plus size={20} />
-                </button>
-                <p className={`text-indigo-800 text-sm ${open ? "flex" : "hidden"}`}>Create a new delivery</p>
-              </div>
             </div>
           </aside>
   );

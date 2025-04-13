@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../componants/ui/Header';
+import Header from '../componants/ui/DashboardHeader';
 import NewOrderFullCoverageMain from '../componants/ui/NewOrderFullCoverageMain';
 
 const NewOrderFullCoverage = () => {

@@ -9,7 +9,7 @@ const Logo = ({ logoWith, open }) => {
         <div className={`flex items-center justify-center`}>
           <img src={logo} alt="Logo" className={`${logoWith}`} />
         </div>
-        <h1 className={`md:text-2xl text-primary font-bold ${open}`}>InTruck</h1>
+        <h1 className={`md:text-2xl text-primary font-bold ${open} overflow-hidden transition-all`}>InTruck</h1>
       </div>
     </Link>
   );

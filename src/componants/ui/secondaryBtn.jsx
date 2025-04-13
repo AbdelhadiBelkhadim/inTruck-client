@@ -8,7 +8,7 @@ const SecondaryButton = ({ label, type = "enabled", disabled,  children }) => {
 
   return (
     <button
-      className={`flex items-center justify-center gap-1 font-semibold max-w-[255px] md:max-w-[530px] w-full py-[12px] text-[16px] rounded-[128px] md:py-[15px] md:text-[20px] md:rounded-[128px] ${
+      className={`flex items-center justify-center gap-1 font-semibold md:max-w-[530px] w-full py-[12px] text-[16px] rounded-[128px] md:py-[15px] md:text-[20px] md:rounded-[128px] ${
         typeClasses[disabled ? "disabled" : type]
       }`}
       disabled={disabled}
