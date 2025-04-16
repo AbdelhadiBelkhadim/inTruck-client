@@ -5,19 +5,19 @@ import { Search, Filter, ChevronDown } from 'lucide-react';
 const SearchBarWithFilter = ({ 
   searchPlaceholder = 'Search',
   onSearch,
-  onFilterChange 
-}) => {
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showFilterMenu, setShowFilterMenu] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState('all');
-
-  const filterOptions = [
+  onFilterChange,
+  filterOptions = [
     { value: 'all', label: 'All' },
     { value: 'id', label: 'ID' },
     { value: 'destination', label: 'Destination' },
     { value: 'state', label: 'State' },
     { value: 'fullCoverage', label: 'Full Coverage' }
-  ];
+  ]
+}) => {
+  const [searchTerm, setSearchTerm] = useState('');
+  const [showFilterMenu, setShowFilterMenu] = useState(false);
+  const [selectedFilter, setSelectedFilter] = useState(filterOptions[0]?.value || 'all');
+
 
   const handleSearchChange = (e) => {
     const value = e.target.value;
@@ -45,7 +45,7 @@ const SearchBarWithFilter = ({
           value={searchTerm}
           onChange={handleSearchChange}
           onKeyPress={(e) => e.key === 'Enter' && handleSearchClick()}
-          className="w-full py-3 px-4 text-primary bg-white font-semibold border border-gray-300 rounded-md focus:outline-none"
+          className="w-full py-3 px-4 placeholder:text-[#00B4D8] text-primary bg-white font-semibold border border-gray-300 rounded-md focus:outline-none"
         />
         <button 
           className="absolute right-3 top-1/2 -translate-y-1/2 text-primary"

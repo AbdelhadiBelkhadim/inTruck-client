@@ -1,27 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import Table from '../../ui/Table';
 import SearchBarWithFilter from '../../ui/SearchBarWithFilter';
+import DashboardHeader from '../../ui/DashboardHeader';
 
 const TrackingMain = () => {
   const [originalData] = useState([
     {id: '#DJFJSAD526SAD9', destination: 'Tanger', state: 'On the road', totalCoverage: '15,000'},
-    {id: '#DJFJSAD526SAD8', destination: 'Casablanca', state: 'Delivered', totalCoverage: '12,500'},
     {id: '#DJFJSAD526SAD7', destination: 'Rabat', state: 'Processing', totalCoverage: '8,000'},
     {id: '#DJFJSAD526SAD6', destination: 'Marrakech', state: 'On the road', totalCoverage: '18,000'},
     {id: '#DJFJSAD526SAD5', destination: 'Agadir', state: 'Processing', totalCoverage: '9,500'},
-    {id: '#DJFJSAD526SAD4', destination: 'Fes', state: 'Delivered', totalCoverage: '11,000'},
     {id: '#DJFJSAD526SAD3', destination: 'Tangier', state: 'On the road', totalCoverage: '14,000'},
     {id: '#DJFJSAD526SAD2', destination: 'Meknes', state: 'Processing', totalCoverage: '7,500'},
-    {id: '#DJFJSAD526SAD1', destination: 'Oujda', state: 'Delivered', totalCoverage: '10,000'},
     {id: '#DJFJSAD526SAD9', destination: 'Tanger', state: 'On the road', totalCoverage: '15,000'},
-    {id: '#DJFJSAD526SAD8', destination: 'Casablanca', state: 'Delivered', totalCoverage: '12,500'},
     {id: '#DJFJSAD526SAD7', destination: 'Rabat', state: 'Processing', totalCoverage: '8,000'},
-    {id: '#DJFJSAD526SAD6', destination: 'Marrakech', state: 'On the road', totalCoverage: '18,000'},
-    {id: '#DJFJSAD526SAD5', destination: 'Agadir', state: 'Processing', totalCoverage: '9,500'},
-    {id: '#DJFJSAD526SAD4', destination: 'Fes', state: 'Delivered', totalCoverage: '11,000'},
-    {id: '#DJFJSAD526SAD3', destination: 'Tangier', state: 'On the road', totalCoverage: '14,000'},
-    {id: '#DJFJSAD526SAD2', destination: 'Meknes', state: 'Processing', totalCoverage: '7,500'},
-    {id: '#DJFJSAD526SAD1', destination: 'dakhla', state: 'Delivered', totalCoverage: '10,000'},
+    {id: '#DJFJSAD526SAD6', destination: 'Marrakech', state: 'On the road', totalCoverage: '10,000'},
+    {id: '#DJFJSAD526SAD5', destination: 'Agadir', state: 'Processing', totalCoverage: '9,0000'},
+    {id: '#DJFJSAD526SAD3', destination: 'Tangier', state: 'On the road', totalCoverage: '10,000'},
+    {id: '#DJFJSAD526SAD2', destination: 'Meknes', state: 'Processing', totalCoverage: '7,000'},
   ]);
 
   const [tableData, setTableData] = useState([]);
@@ -81,14 +76,17 @@ const TrackingMain = () => {
   };
 
   return (
-    <div className="p-4">
+    <div className="">
+
+      {/* Header */}
+      <DashboardHeader h1="Tracking" />
+
       <SearchBarWithFilter 
         onSearch={handleSearch}
         onFilterChange={handleFilterChange}
         filterOptions={[
           { value: 'all', label: 'All States' },
           { value: 'On the road', label: 'On the road' },
-          { value: 'Delivered', label: 'Delivered' },
           { value: 'Processing', label: 'Processing' }
         ]}
       />

@@ -2,7 +2,7 @@ import React from 'react'
 import { ArrowLeft } from "lucide-react";
 import Logo from '../assets/IT.png';
 import { Link } from 'react-router-dom';
-import { LuShieldCheck } from "react-icons/lu";
+import CheckingOrderIcon from '../assets/ArtBoard 1.png';
 
 const CheckingDone = () => {
   return (
@@ -31,7 +31,7 @@ const CheckingDone = () => {
           </h1>
 
           <div className='mx-auto'>
-            <LuShieldCheck className='text-primary mx-auto w-50 h-40'/>
+            <img src={CheckingOrderIcon}  className='text-primary mx-auto w-[280px] h-[369px]'/>
             <div className="w-1/2 mx-auto my-8 flex h-2 rounded-full overflow-hidden">
               <div className="bg-[#2e3192] w-1/3 h-full"></div>
               <div className="bg-[#d9d9d9] w-2/3 h-full"></div>

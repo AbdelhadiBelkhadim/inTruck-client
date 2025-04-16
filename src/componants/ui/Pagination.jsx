@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ChevronLeft, ChevronRight } from "lucide-react";
 
 const Pagination = ({ 
@@ -9,6 +9,10 @@ const Pagination = ({
 }) => {
   const totalPages = Math.ceil(totalItems / itemsPerPage);
   const [activePage, setActivePage] = useState(currentPage);
+
+  useEffect(() => {
+    setActivePage(currentPage);
+  }, [currentPage]);
 
   const handlePageChange = (page) => {
     if (page < 1 || page > totalPages) return;
