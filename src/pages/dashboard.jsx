@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { MdLogout, MdMenu } from "react-icons/md";
 import { IoIosArrowDown } from "react-icons/io";
-import { Plus } from 'lucide-react';
-
 import SideBar from '../componants/sections/sideBar';
 import Logo from '../componants/ui/logo';
 import TrackingMain from '../componants/sections/dashboardsMain/trackingMain';
@@ -12,12 +10,13 @@ import CargoMain from '../componants/sections/dashboardsMain/cargoMain'; // Impo
 import HistoryMain from '../componants/sections/dashboardsMain/historyMain'; // Import HistoryMain
 import DEliveriesMain from '../componants/sections/dashboardsMain/deliveriesMain'
 import NotificationMain from '../componants/sections/dashboardsMain/notificationsMain'
+import Profile from './Profile';
 
 const Dashboard = () => {
   const [open, setOpen] = useState(true);
 
   return (
-    <div className="bg-[#F2F2F2] w-full h-full">
+    <div className="bg-[#F2F2F2] w-full h-max-screen">
       <div className="md:flex justify-between px-3 space-y-2 md:space-y-0 md:space-x-4 lg:space-x-6">
         {/* Mobile Header */}
         <header className="flex item-center justify-between p-2 shadow-b-md bg-white md:bg-transparent md:hidden">
@@ -50,12 +49,14 @@ const Dashboard = () => {
           {/* Main Content Area */}
           <div className="space-y-2 md:space-y-3 w-full p-4 md:p-0">
             <Routes>
+              <Route path="profile" element={<Profile />} />
               <Route index element={<DashboardMain />} /> {/* Default page at /dashboard */}
               <Route path="tracking" element={<TrackingMain />} /> {/* TrackingMain */}
               <Route path="cargo" element={<CargoMain />} /> {/* CargoMain */}
               <Route path="history" element={<HistoryMain />} /> {/* HistoryMain */}
               <Route path="deliveries" element={<DEliveriesMain />} /> {/* DeliveriesMain */}
               <Route path="notifications" element={<NotificationMain />} /> {/* NotificationsMain */}
+              
               {/* Add other routes here */}
             </Routes>
           </div>

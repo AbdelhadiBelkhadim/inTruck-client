@@ -53,7 +53,6 @@ const App = () => {
         <Route path="/where-delivered" element={<WhereDelivered />} /> {/* WhereDelivered component */}
         <Route path="/checking-order" element={<CheckingOrder />} /> {/* CheckingOrder component */}
         <Route path="/checking-done" element={<CheckingDone />} /> {/* CheckingDone component */}
-        <Route path="/profile" element={<Profile />} /> {/* Profile component */} 
         
       </Routes>
     </Router>

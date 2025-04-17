@@ -35,7 +35,8 @@ const SideBar = ({ setOpen, open }) => {
         </div>
 
         {/* User Profile */}
-        <div
+        <NavLink
+          to="/dashboard/profile"
           className={`relative flex items-center justify-between p-4 h-[85px] bg-white rounded-[14px] ${
             open ? "w-67" : "w-28"
           }`}
@@ -61,7 +62,7 @@ const SideBar = ({ setOpen, open }) => {
               />
             </div>
           </div>
-        </div>
+        </NavLink>
 
         {/* Navigation */}
         <nav className={`mb-4 bg-white p-4 rounded-xl ${open ? "w-67" : "w-28"}`}>
