@@ -173,4 +173,4 @@ const IndividualCase = () => {
   );
 };
 
-export default IndividualCase;
+export default IndividualCase

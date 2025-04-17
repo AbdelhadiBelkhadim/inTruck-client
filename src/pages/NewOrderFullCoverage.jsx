@@ -1,14 +1,14 @@
 import React from 'react';
 import Header from '../componants/ui/DashboardHeader';
-import NewOrderMain from '../componants/ui/NewOrderMain';
+import NewOrderFullCoverageMain from '../componants/ui/NewOrderFullCoverageMain';
 
-const NewOrder = () => {
+const NewOrderFullCoverage = () => {
   return (
     <div className="bg-[#F2F2F2] w-full h-full container mx-auto">
       <Header />
-      <NewOrderMain />
+      <NewOrderFullCoverageMain />
     </div>
   );
 };
 
-export default NewOrder;
+export default NewOrderFullCoverage;
