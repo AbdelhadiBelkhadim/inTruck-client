@@ -27,7 +27,7 @@ const Register = () => {
                             <div className=''>
                                 <div className="flex items-center justify-center space-x-[30px] md:space-x-[50px] lg:space-x-[70px]">
                                     <NavLink
-                                        to="/register"
+                                        to="/register/company"
                                         className={({ isActive }) =>
                                             `flex items-center justify-center ${
                                                 isActive ? "font-bold" : "font-light"
