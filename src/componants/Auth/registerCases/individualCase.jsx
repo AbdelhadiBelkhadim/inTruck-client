@@ -12,9 +12,9 @@ const IndividualCase = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  // ✅ API function to register an individual user
+  // ✅ API function to register an individual user //https://intruck-backend-production.up.railway.app/auth/register
   const registerIndividual = async (userData) => {
-    const response = await axios.post('https://intruck-backend-production.up.railway.app/auth/register', userData);
+    const response = await axios.post('http://localhost:3000/auth/register', userData);
     return response.data;
   };
 

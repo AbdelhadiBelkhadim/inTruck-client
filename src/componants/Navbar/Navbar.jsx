@@ -1,10 +1,9 @@
 import React, { useState } from 'react';
+import { NavLink } from 'react-router-dom'
 import { Link } from 'react-scroll'; // Import Link from react-scroll
 import { FaBars, FaTimes } from 'react-icons/fa';
 import logo from '../../assets/logo.png';
 import Button from '../ui/primaryBtn'
-import Booking from './Booking';
-import Getstart from './Getstart';
 
 const NavLinks = [
     { id: 1, name: 'Home', link: 'home' },
@@ -44,8 +43,8 @@ const Navbar = () => {
                         ))}
 
                         {/* update in this part */}
-                        <li><Button label="Login" type="enabled1" size="medium"  /></li>
-                        <li><Button label="Get Stared" type="enabled" size="medium" /></li>
+                        <NavLink to='/login' ><Button label="Login" type="enabled1" size="small"  /></NavLink>
+                        <NavLink to='/register/company'><Button label="Get Stared" type="enabled" size="small" /></NavLink>
                     </ul>
                 </div>
 
@@ -72,8 +71,8 @@ const Navbar = () => {
                                 </Link>
                             </li>
                         ))}
-                        <li><Getstart /></li>
-                        <li><Booking /></li>
+                        <NavLink to='/login' ><Button label="Login" type="enabled1" size="small"  /></NavLink>
+                        <NavLink to='/register/company'><Button label="Get Stared" type="enabled" size="small" /></NavLink>
                     </ul>
                 </div>
             )}

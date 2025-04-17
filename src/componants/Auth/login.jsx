@@ -1,9 +1,12 @@
 import React from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { Formik, Form } from 'formik';
-import { loginSchema } from "../../../utils/FormValidation";
 import { useMutation } from '@tanstack/react-query';
+import { Mail } from 'lucide-react';
+import { RiLockPasswordLine } from "react-icons/ri";
 
+
+import { loginSchema } from "../../../utils/FormValidation";
 
 import InputAuth from '../ui/authInput'
 import Button from '../ui/secondaryBtn'
@@ -20,9 +23,9 @@ const Login = () => {
     password: ''
   };
 
-  // Login API function
+  // Login API function //https://intruck-backend-production.up.railway.app/auth/login
   const loginUser = async (credentials) => {
-    const response = await fetch('https://intruck-backend-production.up.railway.app/auth/login', {
+    const response = await fetch('http://localhost:3000/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -45,7 +48,7 @@ const Login = () => {
       localStorage.setItem('token', data.token);
       localStorage.setItem('user', JSON.stringify(data.user));
       alert('Login successful!');
-      navigate('/dashboard');
+      navigate('/dashboard'); // Redirect to dashboard or home page
     },
     onError: (error) => {
       alert(`Login failed: ${error.message}`);
@@ -103,7 +106,9 @@ const Login = () => {
                         onChange={handleChange} 
                         errors={touched.email && errors.email} 
                         onBlur={handleBlur}
-                      />
+                      >
+                        <Mail />
+                      </InputAuth>
                       <InputAuth 
                         label="Password" 
                         type="password"
@@ -113,7 +118,9 @@ const Login = () => {
                         onChange={handleChange} 
                         errors={touched.password && errors.password} 
                         onBlur={handleBlur}
-                      />
+                      >
+                        <RiLockPasswordLine />
+                      </InputAuth>
                     </div>
                     <div className="px-3 md:px-0">
                       <Button 
@@ -143,5 +150,5 @@ const Login = () => {
       );
     };
     
-    export default Login;
+export default Login;
 
