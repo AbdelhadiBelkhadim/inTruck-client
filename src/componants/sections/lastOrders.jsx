@@ -1,7 +1,7 @@
 import React from 'react'
 import { Package } from 'lucide-react';
 
-const LastOrders = () => {
+const LastOrders = ({count}) => {
     const orders = [
       {
         id: "#DJFJSAD526SAD9",
@@ -30,7 +30,7 @@ const LastOrders = () => {
     ];
 
     return (
-      <div className="mb-6 lg:col-span-2 lg:row-span-3 md:col-span-2">
+      <div className={`mb-6 lg:col-span-2 lg:row-span-3 md:col-span-2 ${count}`}>
         <h2 className="text-2xl font-bold text-indigo-800 mb-4">Last Orders</h2>
         
         <div className="space-y-3">

@@ -1,59 +1,73 @@
 import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { MdLogout, MdMenu } from "react-icons/md";
-import { IoIosArrowDown } from "react-icons/io";
-import { Plus } from 'lucide-react';
 
-import SideBar from '../componants/sections/sideBar';
+import Layout from '../layout/Layout'; // Import Layout component
+import {SideBar, SideNavMenu} from '../componants/sections/sideBar';
 import Logo from '../componants/ui/logo';
 import TrackingMain from '../componants/sections/dashboardsMain/trackingMain';
 import DashboardMain from '../componants/sections/dashboardsMain/DashboardMain'; // Import DashboardMain
-import CargoMain from '../componants/sections/dashboardsMain/cargoMain'; // Import CargoMain
-import HistoryMain from '../componants/sections/dashboardsMain/historyMain'; // Import HistoryMain
 import DEliveriesMain from '../componants/sections/dashboardsMain/deliveriesMain'
 import NotificationMain from '../componants/sections/dashboardsMain/notificationsMain'
 
 const Dashboard = () => {
   const [open, setOpen] = useState(true);
-
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+  
   return (
-    <div className="bg-[#F2F2F2] w-full h-full">
-      <div className="md:flex justify-between px-3 space-y-2 md:space-y-0 md:space-x-4 lg:space-x-6">
+
+    <div className="w-full h-full bg-[#F2F2F2]">
+      <div className="md:flex justify-between md:px-4 space-y-2 md:space-y-0 md:space-x-4 lg:space-x-6">
         {/* Mobile Header */}
-        <header className="flex item-center justify-between p-2 shadow-b-md bg-white md:bg-transparent md:hidden">
-          <div className="burgerMenu flex items-center justify-center px-2 py-1 rounded-md bg-primary text-white">
+        <header className="flex items-center justify-between p-2 shadow-md bg-white md:bg-transparent md:hidden">
+          <Logo open={`${open ? 'flex' : 'hidden'}`} />
+          <div 
+            className="burgerMenu flex items-center justify-center px-2 py-1 rounded-md bg-primary text-white cursor-pointer"
+            onClick={toggleMobileMenu}
+          >
             <MdMenu size={20} />
           </div>
-          <Logo logoWith={`w-[30px] md:w-auto`} open={`${open ? 'flex' : 'hidden'}`} />
           <div className="hidden md:flex items-center justify-center">
             <h1 className="text-4xl text-primary font-bold">Dashboard</h1>
           </div>
-          <div className="flex items-center justify-between space-x-4">
-            <div className="profile md:hidden bg-primary rounded-lg flex items-center justify-between p-1">
-              <div className="w-[15px] h-[15px] bg-secondaire rounded-[33px] flex items-center justify-center">
-                <div className="font-normal text-white text-[7px] tracking-[0] leading-[normal] flex items-center justify-center">
-                  OU
-                </div>
-              </div>
-              <IoIosArrowDown className="text-white text-[12px]" />
-            </div>
-            <a href="" className="">
-              <MdLogout className="text-lg md:text-3xl text-primary md:flex" />
-            </a>
-          </div>
         </header>
-        {/* Sidebar */}
+        
+        {/* Mobile Navigation Menu */}
+        {mobileMenuOpen && (
+          <div className="md:hidden fixed inset-0 z-50 bg-black bg-opacity-50">
+            <div className="relative h-full">
+              <div className="absolute right-0 top-0 h-full w-4/5 bg-white shadow-xl animate-slide-in">
+                <div className="p-4 flex justify-end">
+                  <div 
+                    className="p-2 rounded-full bg-gray-100 cursor-pointer" 
+                    onClick={toggleMobileMenu}
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                      <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                    </svg>
+                  </div>
+                </div>
+                <SideNavMenu onClick={toggleMobileMenu} />
+              </div>
+            </div>
+          </div>
+        )}
+        
+        {/* Desktop Sidebar */}
         <div className="hidden md:flex">
           <SideBar open={open} setOpen={setOpen} />
         </div>
+        
+        {/* Main Content Area */}
         <main className="w-full">
-          {/* Main Content Area */}
           <div className="space-y-2 md:space-y-3 w-full p-4 md:p-0">
             <Routes>
               <Route index element={<DashboardMain />} /> {/* Default page at /dashboard */}
               <Route path="tracking" element={<TrackingMain />} /> {/* TrackingMain */}
-              <Route path="cargo" element={<CargoMain />} /> {/* CargoMain */}
-              <Route path="history" element={<HistoryMain />} /> {/* HistoryMain */}
               <Route path="deliveries" element={<DEliveriesMain />} /> {/* DeliveriesMain */}
               <Route path="notifications" element={<NotificationMain />} /> {/* NotificationsMain */}
               {/* Add other routes here */}
