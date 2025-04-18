@@ -25,7 +25,7 @@ const queryClient = new QueryClient();
 const App = () => {
 
   return (
-<<<<<<< HEAD
+    <QueryClientProvider client={queryClient}>
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
@@ -48,35 +48,8 @@ const App = () => {
         
       </Routes>
     </Router>
-=======
-    <QueryClientProvider client={queryClient}>
-      <Router>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/dashboard/*" element={<Dashboard />} /> {/* Dashboard with nested routes */}
-          <Route path="/register/*" element={<Register />} /> {/* Rejester component */}
-          <Route path="/login" element={<Login />} /> {/* Login component */}
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ResetPassword />} />
-          <Route path="*" element={<NotFound />} /> {/* Catch-all route for 404 */}
-          <Route path="/new-order" element={<NewOrder />} /> {/* NewOrder component */}
-          <Route path="/new-order/:id" element={<NewOrder />} /> {/* NewOrder component with ID */}
-          <Route path="/new-order/:id/edit" element={<NewOrder />} /> {/* NewOrder component with ID for editing */}
-          <Route path="/new-order-details" element={<NewOrderDetails />} /> {/* NewOrderDetails component */}
-          <Route path="/new-order-details/:id" element={<NewOrderDetails />} /> {/* NewOrderDetails component with ID */}
-          <Route path="/new-order-details-package" element={<NewOrderDetailsPackage />} /> {/* NewOrderDetailsPackage component */}
-          <Route path="/new-order-full-coverage" element={<NewOrderFullCoverage />} /> {/* NewOrderFullCoverage component */}
-          <Route path="/pick-up-location" element={<PickUpLocation />} /> {/* PickUpLocation component */}
-          <Route path="/setup-payment" element={<SetupPayment />} /> {/* SetupPayment component */}
-          <Route path="/where-delivered" element={<WhereDelivered />} /> {/* WhereDelivered component */}
-          <Route path="/checking-order" element={<CheckingOrder />} /> {/* CheckingOrder component */}
-          <Route path="/checking-done" element={<CheckingDone />} /> {/* CheckingDone component */}
-          <Route path="/profile" element={<Profile />} /> {/* Profile component */} 
-          
-        </Routes>
-      </Router>
     </QueryClientProvider>
->>>>>>> 3ef20d25bbe72b3b05c6c763e4b5d2122095d35d
+
   );
 };
 
