@@ -1,13 +1,8 @@
 import React, { useState } from 'react';
-import { ArrowUpToLine } from "lucide-react";
 
 const NewOrderDetailsPackageMain = () => {
   const [packageContents, setPackageContents] = useState("");
   const [additionalNote, setAdditionalNote] = useState("");
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   return (
     <div className="px-6 py-8 md:mt-8">
@@ -41,21 +36,6 @@ const NewOrderDetailsPackageMain = () => {
             className="w-full px-2 py-2 text-gray-400 bg-transparent border-b border-[#2e3192] focus:outline-none"
           />
         </div>
-      </div>
-
-      {/* Next Button */}
-      <button className="bg-primary text-white text-[12px] md:text-[24px] px-4 py-2 rounded-sm hover:bg-[#00B4D8] transition duration-300 ease-in-out w-[124px] h-[28px] md:w-[367px] md:h-[53px] flex items-center justify-center my-20 mx-auto">
-        Next
-      </button>
-
-      {/* Back to Top Button */}
-      <div className="fixed bottom-6 right-6">
-        <button
-          onClick={scrollToTop}
-          className="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center shadow-lg"
-        >
-          <ArrowUpToLine className="w-6 h-6" />
-        </button>
       </div>
     </div>
   );

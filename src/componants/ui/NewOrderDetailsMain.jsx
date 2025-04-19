@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronDown, ArrowUpToLine } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 
 const NewOrderDetailsMain = () => {
   const [heightUnit, setHeightUnit] = useState('Cm');
@@ -91,18 +91,7 @@ const NewOrderDetailsMain = () => {
               />
             </div>
           </div>
-
-          <button className="bg-primary text-white text-[12px] md:text-[24px] px-4 py-2 rounded-sm hover:bg-[#00B4D8] transition duration-300 ease-in-out w-[124px] h-[28px] md:w-[367px] md:h-[53px] flex items-center justify-center my-20 mx-auto">
-            Next
-          </button>
         </div>
-      </div>
-
-      {/* Back to Top Button */}
-      <div className="fixed bottom-6 right-6">
-        <button className="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center shadow-lg">
-          <ArrowUpToLine className="w-6 h-6" />
-        </button>
       </div>
     </div>
   );

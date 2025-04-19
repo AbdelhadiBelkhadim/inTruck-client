@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import { ChevronDown, ArrowUp } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { GiCash } from "react-icons/gi";
 import { BsCreditCard2BackFill } from "react-icons/bs";
 
 const NewOrderFullCoverageMain = () => {
   const [selectedOption, setSelectedOption] = useState(null);
-
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
 
   return (
     <div className="px-6 mt-12 h-full flex flex-col">
@@ -66,21 +62,6 @@ const NewOrderFullCoverageMain = () => {
             </h2>
           </div>
         </div>
-      </div>
-
-      {/* Next Button */}
-      <button className="bg-primary text-white text-[12px] md:text-[24px] px-4 py-2 rounded-sm hover:bg-[#00B4D8] transition duration-300 ease-in-out w-[124px] h-[28px] md:w-[367px] md:h-[53px] flex items-center justify-center my-20 mx-auto">
-        Next
-      </button>
-
-      {/* Scroll to top button */}
-      <div className="fixed bottom-6 right-6">
-        <button
-          onClick={scrollToTop}
-          className="bg-[#2e3192] text-white p-4 rounded-full shadow-lg hover:bg-[#1a1c66] transition-colors"
-        >
-          <ArrowUp className="h-6 w-6" />
-        </button>
       </div>
     </div>
   );

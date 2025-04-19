@@ -9,6 +9,7 @@ import DashboardMain from '../componants/sections/dashboardsMain/DashboardMain';
 import DeliveriesMain from '../componants/sections/dashboardsMain/deliveriesMain';
 import NotificationMain from '../componants/sections/dashboardsMain/notificationsMain';
 import Profile from './Profile';
+import CancelledMain from '../componants/sections/dashboardsMain/CancelledMain';
 
 const Dashboard = () => {
   const [open, setOpen] = useState(true);
@@ -73,6 +74,7 @@ const Dashboard = () => {
               <Route index element={<DashboardMain />} /> {/* Default page at /dashboard */}
               <Route path="tracking" element={<TrackingMain />} /> {/* TrackingMain */}
               <Route path="deliveries" element={<DeliveriesMain />} /> {/* DeliveriesMain */}
+              <Route path="cancelled" element={<CancelledMain />} /> {/* CancelledMain */}
               <Route path="notifications" element={<NotificationMain />} /> {/* NotificationsMain */}
             </Routes>
           </div>
