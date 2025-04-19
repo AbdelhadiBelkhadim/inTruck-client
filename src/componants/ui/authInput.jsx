@@ -20,7 +20,7 @@ const AuthInput = ({label, name, type, placeholder,onChange , onBlur, errors, va
                     </button>
                 )}
                 <div className="flex items-center space-x-1">
-                    <div className="text-[#73E8FF] text-xl md:text-2xl absolute left-5 top-1/4 md:top-[15px]">{children}</div>
+                    <div className="text-secondaire text-xl md:text-2xl absolute left-5 top-1/4 md:top-[15px]">{children}</div>
                     <input  
                         name={name}
                         value={value}

@@ -1,8 +1,8 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, NavLink } from 'react-router-dom';
 import { IoMailOutline } from "react-icons/io5";
 
 import { forgotPasswordSchema } from '../../../utils/FormValidation';
@@ -11,12 +11,11 @@ import Input from '../ui/authInput';
 import Button from '../ui/secondaryBtn';
 
 const ForgotPassword = () => {
-    const queryClient = useQueryClient();
     const navigate = useNavigate();
   
     // API function to request password reset
     const forgotPassword = async (forgotPasswordData) => {
-        const response = await axios.post('http://localhost:3000/auth/forgotPassword', forgotPasswordData);
+        const response = await axios.post('https://intruck-backend-production.up.railway.app/auth/forgetPassword', forgotPasswordData);
         return response.data;
     };
 
@@ -28,10 +27,9 @@ const ForgotPassword = () => {
     // Set up mutation
     const forgotPasswordMutation = useMutation({
         mutationFn: forgotPassword,
-        onSuccess: () => {
-            queryClient.invalidateQueries({ queryKey: ['user'] });
-            alert('email sent successfully! Check your email for further instructions.');
-            navigate('/reset-password');
+        onSuccess: (data) => {
+            alert(data.message || 'Password reset link has been sent to your email!');
+            navigate('/check-email', { state: { email: initialValues.email } });
         },
         onError: (error) => {
             console.error('Password reset request failed:', error);
@@ -39,12 +37,12 @@ const ForgotPassword = () => {
     });
 
     // Submit handler
-    const handleSubmit = (values, { setSubmitting, resetForm }) => {
+    const handleSubmit = (values, { setSubmitting }) => {
         forgotPasswordMutation.mutate(values, {
-            onSettled: () => setSubmitting(false),
-            onSuccess: () => resetForm()
+            onSettled: () => setSubmitting(false)
         });
     };
+    
     
     return (
         <div className="flex flex-col items-center justify-center min-h-screen bg-white px-4">
@@ -81,7 +79,7 @@ const ForgotPassword = () => {
                                     </div>
                                     <div className="px-3 md:px-0 md:max-w-[500px] lg:max-w-[700px]">
                                         <Button 
-                                            label={forgotPasswordMutation.isLoading ? "Sending..." : "Reset Password"} 
+                                            label={forgotPasswordMutation.isLoading ? "Sending..." : "Send Reset Password"} 
                                             disabled={isSubmitting || forgotPasswordMutation.isLoading} 
                                             type="enabled" 
                                             size="large" 
@@ -91,6 +89,14 @@ const ForgotPassword = () => {
                                 </Form>
                             )}
                         </Formik>
+                    </div>
+                    <div className="flex items-center justify-center relative bottom-0 pb-3 md:pb-5">
+                        <p className="text-[16px] text-gray-400 font-light">
+                            Already have an account?
+                            <NavLink to="/login" className="text-primary font-bold">
+                                Sign In
+                            </NavLink>
+                        </p>
                     </div>
                 </div>
             </div>

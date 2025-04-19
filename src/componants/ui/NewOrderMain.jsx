@@ -1,8 +1,15 @@
 import React from 'react';
-import { PiPackageDuotone } from "react-icons/pi";
+import { PiPackageThin , PiPackage  ,PiPackageDuotone ,PiPackageFill  } from "react-icons/pi";
 import { ArrowUpToLine } from "lucide-react";
 
 const NewOrderMain = () => {
+  const icons = [
+    <PiPackageThin className="w-[161px] h-[167px] text-primary" />,
+    <PiPackage className="w-[161px] h-[167px] text-primary" />,
+    <PiPackageDuotone className="w-[161px] h-[167px] text-primary" />,
+    <PiPackageFill className="w-[161px] h-[167px] text-primary" />,
+  ];
+
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="my-6 text-center">
@@ -12,12 +19,13 @@ const NewOrderMain = () => {
       </div>
 
       <div className="grid grid-col md:grid-cols-2 items-center justify-center gap-4 md:gap-6 lg:gap-12 mt-10">
-        {[...Array(4)].map((_, index) => (
+        {icons.map((icon, index) => (
           <div
             key={index}
             className="w-[285px] h-[269px] p-6 rounded-sm flex flex-col items-center justify-center mt-4 border border-gray-300 shadow-md hover:scale-105 transition duration-300 ease-in-out"
           >
-            <PiPackageDuotone className="w-[161px] h-[167px]" />
+            {icon}
+            
             <div className="flex flex-col items-center justify-center text-[27px] font-semibold text-[#00B4D8]">
               <h4>Shipment</h4>
               <p className="text-primary text-[18px] font-normal">(1000kg - 5000kg)</p>

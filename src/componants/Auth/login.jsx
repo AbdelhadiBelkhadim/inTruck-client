@@ -4,6 +4,7 @@ import { Formik, Form } from 'formik';
 import { useMutation } from '@tanstack/react-query';
 import { Mail } from 'lucide-react';
 import { RiLockPasswordLine } from "react-icons/ri";
+import axios from 'axios';
 
 
 import { loginSchema } from "../../../utils/FormValidation";
@@ -25,20 +26,13 @@ const Login = () => {
 
   // Login API function //https://intruck-backend-production.up.railway.app/auth/login
   const loginUser = async (credentials) => {
-    const response = await fetch('http://localhost:3000/auth/login', {
-      method: 'POST',
+    const response = await axios.post('https://intruck-backend-production.up.railway.app/auth/login', credentials, {
       headers: {
         'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(credentials)
+      }
     });
     
-    if (!response.ok) {
-      const errorData = await response.json();
-      throw new Error(errorData.message || 'Login failed');
-    }
-    
-    return response.json();
+    return response.data;
   };
 
   // React Query mutation hook
@@ -96,31 +90,38 @@ const Login = () => {
                       </div>
                     )}
                     
-                    <div className="space-y-[30px] md:space-y-[50px]">
-                      <InputAuth 
-                        label="Email" 
-                        type="email" 
-                        name="email"
-                        placeholder="Enter your Email" 
-                        value={values.email}
-                        onChange={handleChange} 
-                        errors={touched.email && errors.email} 
-                        onBlur={handleBlur}
-                      >
-                        <Mail />
-                      </InputAuth>
-                      <InputAuth 
-                        label="Password" 
-                        type="password"
-                        name="password" 
-                        placeholder="Enter Password"
-                        value={values.password} 
-                        onChange={handleChange} 
-                        errors={touched.password && errors.password} 
-                        onBlur={handleBlur}
-                      >
-                        <RiLockPasswordLine />
-                      </InputAuth>
+                    <div className="space-y-2">
+                      <div className="space-y-[30px] md:space-y-[50px]">
+                        <InputAuth 
+                          label="Email" 
+                          type="email" 
+                          name="email"
+                          placeholder="Enter your Email" 
+                          value={values.email}
+                          onChange={handleChange} 
+                          errors={touched.email && errors.email} 
+                          onBlur={handleBlur}
+                        >
+                          <Mail />
+                        </InputAuth>
+                        <InputAuth 
+                          label="Password" 
+                          type="password"
+                          name="password" 
+                          placeholder="Enter Password"
+                          value={values.password} 
+                          onChange={handleChange} 
+                          errors={touched.password && errors.password} 
+                          onBlur={handleBlur}
+                        >
+                          <RiLockPasswordLine />
+                        </InputAuth>
+                      </div>
+                      <div className="flex items-center justify-end">
+                        <NavLink to="/forgot-password" className="text-primary font-bold text-[16px]">
+                          Forgot Password?
+                        </NavLink>
+                      </div>
                     </div>
                     <div className="px-3 md:px-0">
                       <Button 
@@ -138,7 +139,7 @@ const Login = () => {
             <div className="flex items-center justify-center relative bottom-0">
               <p className="text-[16px] text-gray-400 font-light">
                 Don't have an account?{" "}
-                <NavLink to="/register/company" className="text-primary font-bold">
+                <NavLink to="/register" className="text-primary font-bold">
                   Sign Up
                 </NavLink>
               </p>

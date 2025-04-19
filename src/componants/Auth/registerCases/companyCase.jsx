@@ -15,7 +15,7 @@ const CompanyCase = () => {
   
   // API function to register a company //https://intruck-backend-production.up.railway.app/auth/register
   const registerCompany = async (companyData) => {
-    const response = await axios.post('http://localhost:3000/auth/register', companyData);
+    const response = await axios.post('https://intruck-backend-production.up.railway.app/auth/register', companyData);
     return response.data;
   };
 

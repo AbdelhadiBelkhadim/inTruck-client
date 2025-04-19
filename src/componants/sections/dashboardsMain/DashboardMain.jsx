@@ -1,5 +1,6 @@
 
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 import CountDev from '../count';
 import Summary from '../summary';
@@ -50,15 +51,17 @@ const DashboardMain = () => {
               </div>
             </div>
             {/* Create Delivery Button */}
-            <div className={`bg-white border border-dashed border-indigo-800 rounded-xl p-2 flex flex-col items-center justify-center text-center ${count === 0 ? 'w-full' : 'w-[40%]'} h-full`}>
-              <button
-                className="bg-indigo-800 text-white p-1 rounded-full cursor-pointer font-bold"
-                onClick={() => setCount(count + 1)}
-              >
-                <Plus size={13} />
-              </button>
-              <p className="text-indigo-800 text-[6px]">Create a new delivery</p>
-            </div>
+            <Link to='/new-order'>
+              <div className={`bg-white border border-dashed border-indigo-800 rounded-xl p-2 flex flex-col items-center justify-center text-center ${count === 0 ? 'w-full' : 'w-[40%]'} h-full`}>
+                <button
+                  className="bg-indigo-800 text-white p-1 rounded-full cursor-pointer font-bold"
+                  onClick={() => setCount(count + 1)}
+                >
+                  <Plus size={13} />
+                </button>
+                <p className="text-indigo-800 text-[6px]">Create a new delivery</p>
+              </div>
+            </Link>
           </div>
 
           {/* Desktop View */}
@@ -84,15 +87,17 @@ const DashboardMain = () => {
             </div>
             {/* Create Delivery Button */}
             <div className={`bg-white border border-dashed border-indigo-800 rounded-xl flex flex-col items-center justify-center ${count === 0 ? 'w-full' : 'w-1/2 lg:w-2/3'} h-[130px] `}>
-              <button
-                className={`bg-indigo-800 text-white p-2 rounded-full ${open ? 'mb-2' : 'mb-0'} cursor-pointer`}
-                onClick={() => setCount(count + 1)}
-              >
-                <Plus size={20} />
-              </button>
-              <p className={`text-indigo-800 text-sm ${open ? 'flex' : 'hidden'}`}>
-                Create a new delivery
-              </p>
+              <Link to='/new-order'>
+                <button
+                  className={`bg-indigo-800 text-white p-2 rounded-full ${open ? 'mb-2' : 'mb-0'} cursor-pointer`}
+                  onClick={() => setCount(count + 1)}
+                >
+                  <Plus size={20} />
+                </button>
+                <p className={`text-indigo-800 text-sm ${open ? 'flex' : 'hidden'}`}>
+                  Create a new delivery
+                </p>
+              </Link>
             </div>
           </div>
 
