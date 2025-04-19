@@ -4,16 +4,17 @@ import { NavLink, Link } from "react-router-dom";
 import Logo from "../ui/logo";
 import Footer from "../sections/footer";
 
-import { MdOutlineDashboard, MdHistoryToggleOff, MdLogout } from "react-icons/md";
+import { MdOutlineDashboard, MdHistoryToggleOff, MdLogout, MdOutlineCancel  } from "react-icons/md";
 import { LuPanelLeftClose } from "react-icons/lu";
 import { IoIosArrowDown } from "react-icons/io";
-import { Truck, Package, Clipboard, Bell } from "lucide-react";
+import { Truck, Clipboard, Bell } from "lucide-react";
 
 
 const menuItem = [
   { to: "/dashboard", icon: <MdOutlineDashboard size={20} />, label: "Dashboard" },
   { to: "/dashboard/tracking", icon: <Truck size={20} />, label: "Tracking" },
   { to: "/dashboard/deliveries", icon: <Clipboard size={20} />, label: "Deliveries" },
+  { to: "/dashboard/cancelled", icon: <MdOutlineCancel  size={20} />, label: "Cancelled" },
   { to: "/dashboard/notifications", icon: <Bell size={20} />, label: "Notifications", badge: 3 },
 ];
 
@@ -34,7 +35,8 @@ const SideBar = ({setOpen, open}) => {
         </div>
 
         {/* User Profile */}
-        <div
+        <NavLink
+          to="/dashboard/profile"
           className={`relative flex items-center justify-between p-4 h-[85px] bg-white rounded-[14px] ${
             open ? "w-67" : "w-28"
           }`}
@@ -60,7 +62,7 @@ const SideBar = ({setOpen, open}) => {
               />
             </div>
           </div>
-        </div>
+        </NavLink>
 
         {/* Navigation */}
         <nav className={`mb-4 bg-white p-4 rounded-xl ${open ? "w-67" : "w-28"}`}>

@@ -14,15 +14,6 @@ import ResetSuccess from './componants/Auth/ResetSuccess'; // Import the ResetSu
 import Profile from './pages/Profile.jsx'
 import NotFound from './pages/NotFound';
 import NewOrder from './pages/NewOrder'; // Import the NewOrder component
-import NewOrderDetails from './pages/NewOrderDetails'; // Import the NewOrderDetails component
-import NewOrderDetailsPackage from './pages/NewOrderDetailsPackage'; // Import the NewOrderDetailsPackage component
-import NewOrderFullCoverage from './pages/NewOrderFullCoverage'; // Import the NewOrderFullCoverage component
-import PickUpLocation from './pages/PickUpLocation'; // Import the PickUpLocation component
-import SetupPayment from './pages/SetupPayment'; // Import the SetupPayment component
-import WhereDelivered from './pages/WhereDelivered'; // Import the WhereDelivered component
-import CheckingOrder from './pages/CheckingOrder'; // Import the CheckingOrder component
-import CheckingDone from './pages/CheckingDone'; // Import the OrderDone component
-import FormTest from './componants/formTest.jsx'; // Import the FormTest component
 
 // Create a QueryClient instance (can configure options here)
 const queryClient = new QueryClient();
@@ -59,6 +50,7 @@ const App = () => {
         </Routes>
       </Router>
     </QueryClientProvider>
+
   );
 };
 

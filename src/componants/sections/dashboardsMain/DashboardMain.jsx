@@ -9,9 +9,12 @@ import ShippingDetails from '../shipipingDetails'; // Fixed typo
 import DashboardHeader from '../../../componants/ui/DashboardHeader';
 
 import { Plus } from 'lucide-react';
+// import { useNavigate } from 'react-router-dom';
 
 const DashboardMain = () => {
   const [count, setCount] = React.useState(0);
+
+  // Removed unused function
 
   return (
     <div className="space-y-2 md:space-y-3 w-full p-4 md:p-0">
