@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { MoreVertical } from "lucide-react";
 import Pagination from './Pagination';
+import MoreDetails from './MoreDetails';
 
 const Table = ({ 
   data = [], 
@@ -9,14 +10,18 @@ const Table = ({
   totalItems = 0,
   onPageChange 
 }) => {
-  // const totalPages = Math.ceil(totalItems / itemsPerPage);
-  
-  // Reset to page 1 when data changes
-  // React.useEffect(() => {
-  //   if (onPageChange && currentPage !== 1) {
-  //     onPageChange(1);
-  //   }
-  // }, [data]);
+  const [showMoreDetails, setShowMoreDetails] = useState(false);
+  const [selectedRowIndex, setSelectedRowIndex] = useState(null);
+
+  const handleMoreClick = (index) => {
+    setSelectedRowIndex(index);
+    setShowMoreDetails(true);
+  };
+
+  const handleCloseMoreDetails = () => {
+    setShowMoreDetails(false);
+    setSelectedRowIndex(null);
+  };
 
   return (
     <div className="w-full overflow-x-auto">
@@ -39,7 +44,13 @@ const Table = ({
               <td className="text-center px-2">
                 <span
                   className="text-white w-[156px] p-1 md:p-2 px-6 rounded-sm truncate inline-block max-w-full"
-                  style={item.state === 'Processing' ? { backgroundColor: '#F1B966', color: 'black' } : { backgroundColor: '#00B4D8' }}
+                  style={
+                    item.state === 'Processing' ? 
+                      { backgroundColor: '#F1B966', color: 'black' } : 
+                    item.state === 'Delivered' ?
+                      { backgroundColor: 'green', color: 'white' } :
+                      { backgroundColor: '#00B4D8' }
+                  }
                 >
                   {item.state}
                 </span>
@@ -48,7 +59,7 @@ const Table = ({
                 ${item.totalCoverage}<span className="text-gray-400 text-xs">.00</span>
               </td>
               <td className="py-3 text-center">
-                <button className="mx-auto">
+                <button className="mx-auto" onClick={() => handleMoreClick(index)}>
                   <MoreVertical className="w-4 h-4 md:w-5 md:h-5" />
                 </button>
               </td>
@@ -66,6 +77,7 @@ const Table = ({
             />
         </div>
       )}
+      {showMoreDetails && <MoreDetails onClose={handleCloseMoreDetails} />}
     </div>
   );
 };

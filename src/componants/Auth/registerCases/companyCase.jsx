@@ -13,7 +13,7 @@ const CompanyCase = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   
-  // API function to register a company
+  // API function to register a company //https://intruck-backend-production.up.railway.app/auth/register
   const registerCompany = async (companyData) => {
     const response = await axios.post('https://intruck-backend-production.up.railway.app/auth/register', companyData);
     return response.data;
@@ -45,7 +45,6 @@ const CompanyCase = () => {
     },
     onError: (error) => {
       console.error('Registration failed:', error);
-      alert(`Registration failed: ${error.response?.data?.message || 'An error occurred'}`);
     }
   });
 

@@ -4,7 +4,7 @@ import App from '../App'
 
 const Layout = () => {
   return (
-    <div className='2xl:container'>
+    <div className='2xl:container w-full h-full flex flex-col justify-between'>
       <App />
         <Outlet /> {/* Render child routes */}
     </div>

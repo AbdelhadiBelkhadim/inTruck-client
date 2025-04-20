@@ -1,207 +1,181 @@
-import React from 'react';
-import { Formik, Form, Field, ErrorMessage } from 'formik';
-import * as Yup from 'yup';
+import React, { useState, useEffect } from 'react';
+import { 
+  CardElement, 
+  useStripe, 
+  useElements,
+  Elements 
+} from '@stripe/react-stripe-js';
+import { loadStripe } from '@stripe/stripe-js';
 
-// Validation schema using Yup
-const validationSchema = Yup.object({
-  firstName: Yup.string()
-    .max(15, 'Must be 15 characters or less')
-    .required('First name is required'),
-  lastName: Yup.string()
-    .max(20, 'Must be 20 characters or less')
-    .required('Last name is required'),
-  email: Yup.string()
-    .email('Invalid email address')
-    .required('Email is required'),
-  password: Yup.string()
-    .min(8, 'Password must be at least 8 characters')
-    .matches(
-      /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
-      'Password must contain at least one uppercase letter, one lowercase letter, one number, and one special character'
-    )
-    .required('Password is required'),
-  confirmPassword: Yup.string()
-    .oneOf([Yup.ref('password'), null], 'Passwords must match')
-    .required('Confirm password is required'),
-  phoneNumber: Yup.string()
-    .matches(/^\+?[0-9]{10,14}$/, 'Phone number is not valid')
-    .required('Phone number is required'),
-  age: Yup.number()
-    .positive('Age must be a positive number')
-    .integer('Age must be an integer')
-    .min(18, 'You must be at least 18 years old')
-    .required('Age is required'),
-  terms: Yup.boolean()
-    .oneOf([true], 'You must accept the terms and conditions')
-});
+// Remember to replace with your actual publishable key
+const stripePromise = loadStripe('pk_test_your_publishable_key');
 
-// Initial form values
-const initialValues = {
-  firstName: '',
-  lastName: '',
-  email: '',
-  password: '',
-  confirmPassword: '',
-  phoneNumber: '',
-  age: '',
-  terms: false
-};
+const PaymentForm = ({ amount, userId, orderId, onSuccess }) => {
+  const stripe = useStripe();
+  const elements = useElements();
+  const [clientSecret, setClientSecret] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const [processing, setProcessing] = useState(false);
+  const [succeeded, setSucceeded] = useState(false);
 
-// Form submission handler
-const handleSubmit = (values, { setSubmitting, resetForm }) => {
-  // In a real app, you would send the form data to your backend here
-  setTimeout(() => {
-    console.log('Form values:', values);
-    alert('Form submitted successfully!');
-    resetForm();
-    setSubmitting(false);
-  }, 1000);
-};
+  useEffect(() => {
+    // Create PaymentIntent as soon as the page loads
+    async function fetchPaymentIntent() {
+      try {
+        setLoading(true);
+        const response = await fetch('/create-payment-intent', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ amount, userId, orderId }),
+        });
+        
+        const data = await response.json();
+        
+        if (!response.ok) {
+          throw new Error(data.message || 'Something went wrong');
+        }
+        
+        setClientSecret(data.clientSecret);
+      } catch (err) {
+        setError(err.message);
+        console.error('Error fetching payment intent:', err);
+      } finally {
+        setLoading(false);
+      }
+    }
+    
+    fetchPaymentIntent();
+  }, [amount, userId, orderId]);
 
-const FormValidationExample = () => {
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    
+    if (!stripe || !elements) {
+      // Stripe.js has not loaded yet. Make sure to disable form submission until it's available
+      return;
+    }
+    
+    setProcessing(true);
+    setError(null);
+    
+    const cardElement = elements.getElement(CardElement);
+    
+    const { error, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
+      payment_method: {
+        card: cardElement,
+        billing_details: {
+          // You can add billing details here if you collect them
+          // name: 'Jane Doe',
+        },
+      },
+    });
+    
+    if (error) {
+      setError(`Payment failed: ${error.message}`);
+      setProcessing(false);
+    } else if (paymentIntent.status === 'succeeded') {
+      setSucceeded(true);
+      setProcessing(false);
+      // Call any callback function passed from parent component
+      if (onSuccess) onSuccess(paymentIntent);
+    }
+  };
+
+  const cardStyle = {
+    style: {
+      base: {
+        color: '#32325d',
+        fontFamily: 'Arial, sans-serif',
+        fontSmoothing: 'antialiased',
+        fontSize: '16px',
+        '::placeholder': {
+          color: '#aab7c4',
+        },
+      },
+      invalid: {
+        color: '#fa755a',
+        iconColor: '#fa755a',
+      },
+    },
+  };
+
   return (
-    <div className="max-w-md mx-auto p-6 bg-white rounded-lg shadow-md">
-      <h1 className="text-2xl font-bold mb-6 text-center">Registration Form</h1>
-      
-      <Formik
-        initialValues={initialValues}
-        validationSchema={validationSchema}
-        onSubmit={handleSubmit}
-      >
-        {({ isSubmitting, errors, touched }) => (
-          <Form className="space-y-4">
-            <div>
-              <label htmlFor="firstName" className="block text-sm font-medium text-gray-700 mb-1">
-                First Name
-              </label>
-              <Field
-                type="text"
-                name="firstName"
-                id="firstName"
-                className={`w-full px-3 py-2 border rounded-md ${
-                  errors.firstName && touched.firstName ? 'border-red-500' : 'border-gray-300'
-                }`}
-              />
-              <ErrorMessage name="firstName" component="div" className="text-red-500 text-sm mt-1" />
+    <form id="payment-form" onSubmit={handleSubmit} className="w-full">
+      <div className="bg-white p-6 rounded-lg shadow-md">
+        <h3 className="text-xl font-semibold text-gray-800 mb-4">Enter Payment Details</h3>
+        {loading ? (
+          <div className="text-gray-600">Loading payment form...</div>
+        ) : (
+          <>
+            <div className="py-3 mb-4 border-b border-gray-200">
+              <p className="text-lg font-semibold text-gray-700">Amount to Pay: ${amount.toFixed(2)}</p>
             </div>
-
-            <div>
-              <label htmlFor="lastName" className="block text-sm font-medium text-gray-700 mb-1">
-                Last Name
+            
+            <div className="mb-6">
+              <label htmlFor="card-element" className="block mb-2 text-sm text-gray-600">
+                Credit or debit card
               </label>
-              <Field
-                type="text"
-                name="lastName"
-                id="lastName"
-                className={`w-full px-3 py-2 border rounded-md ${
-                  errors.lastName && touched.lastName ? 'border-red-500' : 'border-gray-300'
-                }`}
-              />
-              <ErrorMessage name="lastName" component="div" className="text-red-500 text-sm mt-1" />
+              <div className="p-3 border border-gray-200 rounded bg-gray-50">
+                <CardElement 
+                  id="card-element" 
+                  options={cardStyle} 
+                />
+              </div>
             </div>
-
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
-                Email Address
-              </label>
-              <Field
-                type="email"
-                name="email"
-                id="email"
-                className={`w-full px-3 py-2 border rounded-md ${
-                  errors.email && touched.email ? 'border-red-500' : 'border-gray-300'
-                }`}
-              />
-              <ErrorMessage name="email" component="div" className="text-red-500 text-sm mt-1" />
-            </div>
-
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
-              <Field
-                type="password"
-                name="password"
-                id="password"
-                className={`w-full px-3 py-2 border rounded-md ${
-                  errors.password && touched.password ? 'border-red-500' : 'border-gray-300'
-                }`}
-              />
-              <ErrorMessage name="password" component="div" className="text-red-500 text-sm mt-1" />
-            </div>
-
-            <div>
-              <label htmlFor="confirmPassword" className="block text-sm font-medium text-gray-700 mb-1">
-                Confirm Password
-              </label>
-              <Field
-                type="password"
-                name="confirmPassword"
-                id="confirmPassword"
-                className={`w-full px-3 py-2 border rounded-md ${
-                  errors.confirmPassword && touched.confirmPassword ? 'border-red-500' : 'border-gray-300'
-                }`}
-              />
-              <ErrorMessage name="confirmPassword" component="div" className="text-red-500 text-sm mt-1" />
-            </div>
-
-            <div>
-              <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700 mb-1">
-                Phone Number
-              </label>
-              <Field
-                type="text"
-                name="phoneNumber"
-                id="phoneNumber"
-                className={`w-full px-3 py-2 border rounded-md ${
-                  errors.phoneNumber && touched.phoneNumber ? 'border-red-500' : 'border-gray-300'
-                }`}
-              />
-              <ErrorMessage name="phoneNumber" component="div" className="text-red-500 text-sm mt-1" />
-            </div>
-
-            <div>
-              <label htmlFor="age" className="block text-sm font-medium text-gray-700 mb-1">
-                Age
-              </label>
-              <Field
-                type="number"
-                name="age"
-                id="age"
-                className={`w-full px-3 py-2 border rounded-md ${
-                  errors.age && touched.age ? 'border-red-500' : 'border-gray-300'
-                }`}
-              />
-              <ErrorMessage name="age" component="div" className="text-red-500 text-sm mt-1" />
-            </div>
-
-            <div className="flex items-center">
-              <Field
-                type="checkbox"
-                name="terms"
-                id="terms"
-                className={`h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500 ${
-                  errors.terms && touched.terms ? 'border-red-500' : ''
-                }`}
-              />
-              <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
-                I accept the terms and conditions
-              </label>
-            </div>
-            <ErrorMessage name="terms" component="div" className="text-red-500 text-sm mt-1" />
-
+            
+            {error && (
+              <div className="text-red-600 text-sm mb-4" role="alert">
+                {error}
+              </div>
+            )}
+            
             <button
-              type="submit"
-              disabled={isSubmitting}
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50"
+              disabled={processing || !stripe || succeeded}
+              id="submit"
+              className={`w-full py-3 px-4 rounded text-white font-medium ${
+                processing || !stripe || succeeded
+                  ? 'bg-gray-400 cursor-not-allowed'
+                  : 'bg-blue-500 hover:bg-blue-600 transition duration-200'
+              }`}
             >
-              {isSubmitting ? 'Submitting...' : 'Register'}
+              {processing ? 'Processing...' : 'Pay Now'}
             </button>
-          </Form>
+            
+            {succeeded && (
+              <div className="mt-4 p-3 text-center text-green-700 bg-green-50 border border-green-200 rounded">
+                Payment succeeded!
+              </div>
+            )}
+          </>
         )}
-      </Formik>
+      </div>
+    </form>
+  );
+};
+
+// The actual payment page component that wraps everything with Stripe
+const PaymentPage = ({ amount = 49.99, userId, orderId }) => {
+  return (
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+      <div className="w-full max-w-md">
+        <h2 className="text-center text-2xl font-bold text-gray-800 mb-6">Complete Your Purchase</h2>
+        <Elements stripe={stripePromise}>
+          <PaymentForm 
+            amount={amount} 
+            userId={userId} 
+            orderId={orderId}
+            onSuccess={(paymentIntent) => {
+              console.log('Payment successful!', paymentIntent);
+              // You can redirect or show a success page here
+            }}
+          />
+        </Elements>
+      </div>
     </div>
   );
 };
 
-export default FormValidationExample;
+export default PaymentPage;
