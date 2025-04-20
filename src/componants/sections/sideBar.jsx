@@ -2,7 +2,6 @@ import React , {useState} from "react";
 import { NavLink, Link } from "react-router-dom";
 
 import Logo from "../ui/Logo";
-import Footer from "../sections/footer";
 
 import { MdOutlineDashboard, MdHistoryToggleOff, MdLogout, MdOutlineCancel  } from "react-icons/md";
 import { LuPanelLeftClose } from "react-icons/lu";
