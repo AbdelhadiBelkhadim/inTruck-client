@@ -1,6 +1,6 @@
 import React from 'react';
-import Vector5 from '../../assets/Vector 5.png';
-import Vector6 from '../../assets/Vector 6.png';
+import Vector5 from '../../assets/Vecto5.png';
+import Vector6 from '../../assets/Vector6.png';
 
 const TestimonialsCarte = ({ testimonial }) => {
   return (

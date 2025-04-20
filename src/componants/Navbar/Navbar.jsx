@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { NavLink } from 'react-router-dom'
 import { Link } from 'react-scroll'; // Import Link from react-scroll
 import { FaBars, FaTimes } from 'react-icons/fa';
+
 import logo from '../../assets/logo.png';
 import Button from '../ui/PrimaryBtn'
 

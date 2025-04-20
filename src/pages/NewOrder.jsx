@@ -6,7 +6,7 @@ import NewOrderDetailsPackageMain from '../componants/ui/NewOrderDetailsPackageM
 import NewOrderFullCoverageMain from '../componants/ui/NewOrderFullCoverageMain';
 import PickUpLocationMain from '../componants/ui/PickUpLocationMain';
 import WhereDelivery from '../componants/ui/WhereDelivery';
-import SetUpPaymentMain from '../componants/ui/SetUpPaymentMain';
+import SetUpPaymentMain from '../componants/ui/SetupPaymentMain.jsx';
 import CheckingDone from '../componants/ui/CheckingDoneMain';
 import CheckingOrderMain from '../componants/ui/CheckingOrderMain';
 import NextButton from '../componants/ui/NextButton';
