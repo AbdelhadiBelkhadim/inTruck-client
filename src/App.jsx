@@ -30,7 +30,7 @@ const App = () => {
           <Route path="/register/*" element={<Register />} /> {/* Rejester component */}
           <Route path="/login" element={<Login />} /> {/* Login component */}
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password/*" element={<ResetPassword />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/check-email" element={<CheckEmail />} /> {/* CheckEmail component */}
           <Route path="/reset-success" element={<ResetSuccess />} /> {/* ResetSuccess component */}
           <Route path="*" element={<NotFound />} /> {/* Catch-all route for 404 */}

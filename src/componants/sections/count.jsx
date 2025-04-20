@@ -1,21 +1,28 @@
-import React from "react";
+import * as React from 'react';
+import { PieChart } from '@mui/x-charts/PieChart';
 
 const Countdev = () => {
   return (
     <div className="h-[200px] md:h-auto flex items-center lg:items-end justify-between md:py-5 lg:py-8 md:px-3 relative bg-white rounded-[28px] border border-solid border-[#d9d9d9] lg:col-start-3  lg:order-last">
-      <div className="text-center w-[49%] p-2">
-        <h5 className="md:text-[14px] lg:text-[18px]">Signed deliveries</h5>
-        <span className="flex items-center justify-center">
-          <p className="text-[40px] md:text-[60px] lg:text-[70px] text-primary font-bold">25</p>
-        </span>
-      </div>
-      <div className="w-[1px] h-full bg-gray-300 "></div>
-      <div className="text-center w-[49%] p-2">
-        <h5 className="md:text-[14px] lg:text-[18px]">Total Loads</h5>
-        <span className="flex items-center justify-center">
-          <p className="text-[40px] md:text-[60px] lg:text-[70px] text-primary font-bold">31</p>
-        </span>
-      </div>
+      <PieChart
+        series={[
+          {
+            data: [ 
+              { id: 0, value: 10, label: 'series A' },
+              { id: 1, value: 15, label: 'series B' },
+              { id: 2, value: 20, label: 'series C' },
+            ],
+            innerRadius: 55,
+            outerRadius: 91,
+            paddingAngle: 2,
+            cornerRadius: 5,
+            startAngle: 0,
+            endAngle: 383,
+            cx: 150,
+            cy: 150,
+          }
+        ]}
+      />
     </div>
   );
 };

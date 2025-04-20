@@ -2,7 +2,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import CountDev from '../Count';
+// import CountDev from '../Count';/
 import Summary from '../Summary';
 import LastOrders from '../LastOrders';
 import ShippingDetails from '../ShipipingDetails'; // Fixed typo
@@ -90,7 +90,7 @@ const DashboardMain = () => {
             </div>
             {/* Create Delivery Button */}
             <div className={`bg-white border border-dashed border-indigo-800 rounded-xl flex flex-col items-center justify-center ${count === 0 ? 'w-full' : 'w-1/2 lg:w-2/3'} h-[130px] `}>
-              <Link to='/new-order'>
+              <Link to='/new-order' className='flex flex-col items-center justify-center'>
                 <button
                   className={`bg-indigo-800 text-white p-2 rounded-full ${open ? 'mb-2' : 'mb-0'} cursor-pointer`}
                   onClick={() => setCount(count + 1)}
@@ -108,7 +108,7 @@ const DashboardMain = () => {
           <div className="md:grid-cols-2 md:grid lg:grid-cols-3 space-y-4 md:space-y-0 md:gap-2 lg:gap-4">
             <ShippingDetails count={count === 0 ? 'hidden' : 'block'} />
             <Summary />
-            <CountDev />
+            {/* <CountDev /> */}
             <LastOrders count={count === 0 ? 'hidden' : 'block'} />
           </div>
         </div>

@@ -1,8 +1,8 @@
-import React , {useState,useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Formik, Form } from 'formik';
 import { useMutation } from '@tanstack/react-query';
 import axios from 'axios';
-import { useNavigate, useLocation, NavLink } from 'react-router-dom';
+import { useNavigate, useParams, NavLink } from 'react-router-dom';
 import { RiLockPasswordLine } from "react-icons/ri";
 import { AlertCircle } from "lucide-react";
 
@@ -13,12 +13,8 @@ import Button from '../ui/SecondaryBtn';
 
 const ResetPassword = () => {
     const navigate = useNavigate();
-    const location = useLocation();
+    const { token } = useParams(); // Get token from URL path instead of query params
     const [tokenError, setTokenError] = useState('');
-    
-    // Get token from URL query parameters
-    const queryParams = new URLSearchParams(location.search);
-    const token = queryParams.get('token');
     
     useEffect(() => {
         if (!token) {
@@ -28,9 +24,8 @@ const ResetPassword = () => {
     
     // API function to reset password
     const resetPassword = async (resetPasswordData) => {
-        const response = await axios.post('https://intruck-backend-production.up.railway.app/auth/resetPassword', {
-            ...resetPasswordData,
-            token: token
+        const response = await axios.post(`https://intruck-backend-production.up.railway.app/auth/reset_password/${token}`, {
+            ...resetPasswordData
         });
         return response.data;
     };
@@ -51,6 +46,8 @@ const ResetPassword = () => {
             console.error('Password reset failed:', error);
             if (error.response?.data?.message?.includes('token')) {
                 setTokenError('This reset link has expired or is invalid. Please request a new password reset.');
+            } else {
+                setTokenError(error.response?.data?.message || 'An error occurred while resetting your password.');
             }
         }
     });
@@ -58,7 +55,7 @@ const ResetPassword = () => {
     // Submit handler
     const handleSubmit = (values, { setSubmitting }) => {
         if (!token) {
-            setTokenError('Invalid reset link. Please request a new password reset.');
+            setTokenError('Invalid reset link. Please request a new password resettt.');
             return;
         }
         
@@ -104,7 +101,7 @@ const ResetPassword = () => {
                         <Form className="space-y-10">
                             {resetPasswordMutation.isError && (
                                 <div className="text-red-500 text-center">
-                                    {resetPasswordMutation.error.message}
+                                    {resetPasswordMutation.error.response?.data?.message || resetPasswordMutation.error.message}
                                 </div>
                             )}
                             
@@ -150,7 +147,7 @@ const ResetPassword = () => {
             </div>
             <div className="flex items-center justify-center relative bottom-0 pb-3 md:pb-5">
                 <p className="text-[16px] text-gray-400 font-light">
-                    Already have an account?
+                    Already have an account?{" "}
                     <NavLink to="/login" className="text-primary font-bold">
                         Sign In
                     </NavLink>
