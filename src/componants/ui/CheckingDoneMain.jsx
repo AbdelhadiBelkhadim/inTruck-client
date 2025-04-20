@@ -1,5 +1,5 @@
 import React from 'react';
-import CheckingOrderIcon from '../../assets/ArtBoard 1.png'; // Adjust the path if necessary
+import CheckingOrderIcon from '../../assets/ArtBoard1.png'; // Adjust the path if necessary
 
 const CheckingDoneMain = () => {
   return (
