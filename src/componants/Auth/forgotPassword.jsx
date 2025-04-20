@@ -7,8 +7,8 @@ import { IoMailOutline } from "react-icons/io5";
 
 import { forgotPasswordSchema } from '../../../utils/FormValidation';
 
-import Input from '../ui/authInput';
-import Button from '../ui/secondaryBtn';
+import Input from '../ui/AuthInput';
+import Button from '../ui/SecondaryBtn';
 
 const ForgotPassword = () => {
     const navigate = useNavigate();

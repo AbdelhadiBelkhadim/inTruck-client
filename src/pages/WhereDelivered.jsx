@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ArrowUpToLine, ArrowLeft } from "lucide-react";
 
-import NewOrderHeader from '../componants/ui/newOrderHead';
+import NewOrderHeader from '../componants/ui/NewOrderHead';
 
 const WhereDelivered = () => {
   const [formData, setFormData] = useState({

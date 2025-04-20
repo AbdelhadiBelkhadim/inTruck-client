@@ -2,10 +2,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-import CountDev from '../count';
-import Summary from '../summary';
-import LastOrders from '../lastOrders';
-import ShippingDetails from '../shipipingDetails'; // Fixed typo
+import CountDev from '../Count';
+import Summary from '../Summary';
+import LastOrders from '../LastOrders';
+import ShippingDetails from '../ShipipingDetails'; // Fixed typo
 import DashboardHeader from '../../../componants/ui/DashboardHeader';
 
 import { Plus } from 'lucide-react';

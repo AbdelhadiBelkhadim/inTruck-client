@@ -1,7 +1,7 @@
 import React , {useState} from "react";
 import { NavLink, Link } from "react-router-dom";
 
-import Logo from "../ui/logo";
+import Logo from "../ui/Logo";
 import Footer from "../sections/footer";
 
 import { MdOutlineDashboard, MdHistoryToggleOff, MdLogout, MdOutlineCancel  } from "react-icons/md";

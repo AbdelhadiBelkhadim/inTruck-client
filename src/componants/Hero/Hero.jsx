@@ -2,7 +2,7 @@ import React from 'react';
 
 import StartTrakingNow from '../Hero/StartTrakingNow';
 import heroImg from '../../assets/hero.png';
-import Button from '../ui/primaryBtn'
+import Button from '../ui/PrimaryBtn'
 
 
 const Hero = () => {

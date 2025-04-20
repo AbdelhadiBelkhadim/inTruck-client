@@ -9,9 +9,9 @@ import axios from 'axios';
 
 import { loginSchema } from "../../../utils/FormValidation";
 
-import InputAuth from '../ui/authInput'
-import Button from '../ui/secondaryBtn'
-import SideLeftAuth from '../ui/sideLeftAuth'
+import InputAuth from '../ui/AuthInput'
+import Button from '../ui/SecondaryBtn'
+import SideLeftAuth from '../ui/SideLeftAuth'
 
 import Bg from '../../assets/loginBg.png'
 

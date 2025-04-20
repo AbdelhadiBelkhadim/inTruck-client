@@ -5,8 +5,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
 import { individualSchema } from '../../../../utils/FormValidation';
-import Input from '../../ui/authInput';
-import Button from '../../ui/secondaryBtn';
+import Input from '../../ui/AuthInput';
+import Button from '../../ui/SecondaryBtn';
 
 const IndividualCase = () => {
   const queryClient = useQueryClient();

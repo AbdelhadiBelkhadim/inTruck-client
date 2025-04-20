@@ -2,9 +2,9 @@ import React from 'react'
 import { NavLink } from "react-router-dom";
 import { Routes, Route } from 'react-router-dom';
 
-import SideLeftAuth from '../ui/sideLeftAuth'
-import Company from './registerCases/companyCase'
-import Individual from './registerCases/individualCase'
+import SideLeftAuth from '../ui/SideLeftAuth'
+import Company from './registerCases/CompanyCase'
+import Individual from './registerCases/IndividualCase'
 
 import Bg from '../../assets/signupBg.png'
 

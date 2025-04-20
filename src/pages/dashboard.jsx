@@ -2,12 +2,12 @@ import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { MdLogout, MdMenu } from "react-icons/md";
 import Layout from '../layout/Layout'; // Import Layout component
-import { SideBar, SideNavMenu } from '../componants/sections/sideBar';
-import Logo from '../componants/ui/logo';
-import TrackingMain from '../componants/sections/dashboardsMain/trackingMain';
+import { SideBar, SideNavMenu } from '../componants/sections/SideBar';
+import Logo from '../componants/ui/Logo';
+import TrackingMain from '../componants/sections/dashboardsMain/TrackingMain';
 import DashboardMain from '../componants/sections/dashboardsMain/DashboardMain'; // Import DashboardMain
-import DeliveriesMain from '../componants/sections/dashboardsMain/deliveriesMain';
-import NotificationMain from '../componants/sections/dashboardsMain/notificationsMain';
+import DeliveriesMain from '../componants/sections/dashboardsMain/DeliveriesMain';
+import NotificationMain from '../componants/sections/dashboardsMain/NotificationsMain';
 import Profile from './Profile';
 import CancelledMain from '../componants/sections/dashboardsMain/CancelledMain';
 

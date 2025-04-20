@@ -5,9 +5,9 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Layout from './layout/Layout.jsx'
 import Home from './pages/Home';
 import Dashboard from "./pages/Dashboard.jsx"; // Import the Dashboard component
-import Register from './componants/Auth/register'; // Import the Rejester component
-import Login from './componants/Auth/login'; // Import the Login component
-import ForgotPassword from './componants/Auth/forgotPassword.jsx'
+import Register from './componants/Auth/Register.jsx'; // Import the Rejester component
+import Login from './componants/Auth/Login.jsx'; // Import the Login component
+import ForgotPassword from './componants/Auth/ForgotPassword.jsx'
 import ResetPassword from './componants/Auth/ResetPassword.jsx'
 import CheckEmail from './componants/Auth/CheckEmail'; // Import the CheckEmail component
 import ResetSuccess from './componants/Auth/ResetSuccess'; // Import the ResetSuccess component
