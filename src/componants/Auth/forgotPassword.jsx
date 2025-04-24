@@ -1,10 +1,10 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
 import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { IoMailOutline } from "react-icons/io5";
 
+import { forgotPassword } from '../../api/api'; // Adjust the import path as needed
 import { forgotPasswordSchema } from '../../../utils/FormValidation';
 
 import Input from '../ui/AuthInput';
@@ -13,11 +13,7 @@ import Button from '../ui/SecondaryBtn';
 const ForgotPassword = () => {
     const navigate = useNavigate();
   
-    // API function to request password reset
-    const forgotPassword = async (forgotPasswordData) => {
-        const response = await axios.post('https://intruck-backend-production.up.railway.app/auth/forgetPassword', forgotPasswordData);
-        return response.data;
-    };
+
 
     // Initial form values
     const initialValues = {

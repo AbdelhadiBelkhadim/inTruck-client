@@ -4,7 +4,7 @@ import { Formik, Form } from 'formik';
 import { useMutation } from '@tanstack/react-query';
 import { Mail } from 'lucide-react';
 import { RiLockPasswordLine } from "react-icons/ri";
-import axios from 'axios';
+import { loginUser } from '../../api/api'; // Adjust the import path as needed
 
 
 import { loginSchema } from "../../../utils/FormValidation";
@@ -24,17 +24,6 @@ const Login = () => {
     password: ''
   };
 
-  // Login API function //https://intruck-backend-production.up.railway.app/auth/login
-  const loginUser = async (credentials) => {
-    const response = await axios.post('https://intruck-backend-production.up.railway.app/auth/login', credentials, {
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    });
-    
-    return response.data;
-  };
-
   // React Query mutation hook
   const loginMutation = useMutation({
     mutationFn: loginUser,
@@ -46,6 +35,7 @@ const Login = () => {
     },
     onError: (error) => {
       alert(`Login failed: ${error.message}`);
+      console.error('Login error:', error);
     }
   });
   
@@ -86,7 +76,7 @@ const Login = () => {
                   <Form className="Form space-y-[32px] md:space-y-[48px]" onSubmit={handleSubmit} autoComplete="off">
                     {loginMutation.isError && (
                       <div className="text-red-500 text-center">
-                        {loginMutation.error.message}
+                        Your email or password is incorrect.
                       </div>
                     )}
                     

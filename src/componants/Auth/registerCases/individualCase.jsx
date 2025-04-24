@@ -1,9 +1,9 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+import { registerIndividual } from '../../../api/api'; // Adjust the import path as needed
 import { individualSchema } from '../../../../utils/FormValidation';
 import Input from '../../ui/AuthInput';
 import Button from '../../ui/SecondaryBtn';
@@ -12,11 +12,6 @@ const IndividualCase = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
 
-  // ✅ API function to register an individual user //https://intruck-backend-production.up.railway.app/auth/register
-  const registerIndividual = async (userData) => {
-    const response = await axios.post('https://intruck-backend-production.up.railway.app/auth/register', userData);
-    return response.data;
-  };
 
   // ✅ Initial form values - match backend expectations
   const initialValues = {
