@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { ArrowUpToLine, ArrowLeft } from "lucide-react";
-
 import NewOrderHeader from '../componants/ui/NewOrderHead';
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 const WhereDelivered = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +10,8 @@ const WhereDelivered = () => {
     address2: '',
     city: '',
     receiverName: '',
-    receiverPhone: ''
+    receiverPhone: '',
+    coordinates: null
   });
 
   const handleChange = (e) => {
@@ -19,6 +20,25 @@ const WhereDelivered = () => {
       ...prevState,
       [name]: value
     }));
+  };
+
+  const handleCitySelect = (place) => {
+    if (place) {
+      const geocoder = new window.google.maps.Geocoder();
+      geocoder.geocode({ placeId: place.value.place_id }, (results, status) => {
+        if (status === 'OK' && results[0]) {
+          const location = results[0].geometry.location;
+          setFormData(prevState => ({
+            ...prevState,
+            city: place.label,
+            coordinates: {
+              lat: location.lat(),
+              lng: location.lng()
+            }
+          }));
+        }
+      });
+    }
   };
 
   return (
@@ -75,12 +95,30 @@ const WhereDelivered = () => {
 
             <div>
               <label className="block text-[#00b4d8] text-lg md:text-2xl mb-4 text-center">City / Town</label>
-              <input
-                type="text"
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-                className="w-full px-2 py-2 text-gray-400 bg-transparent border-b border-primary focus:outline-none"
+              <GooglePlacesAutocomplete
+                apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+                selectProps={{
+                  value: formData.city ? { label: formData.city, value: formData.city } : null,
+                  onChange: handleCitySelect,
+                  placeholder: 'Search for a city...',
+                  className: 'w-full',
+                  styles: {
+                    control: (base) => ({
+                      ...base,
+                      border: 'none',
+                      borderBottom: '1px solid #00b4d8',
+                      borderRadius: '0',
+                      boxShadow: 'none',
+                      '&:hover': {
+                        borderBottom: '1px solid #00b4d8',
+                      },
+                    }),
+                    input: (base) => ({
+                      ...base,
+                      color: '#9ca3af',
+                    }),
+                  },
+                }}
               />
             </div>
 
