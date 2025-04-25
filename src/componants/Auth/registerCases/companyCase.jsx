@@ -33,8 +33,8 @@ const CompanyCase = () => {
     mutationFn: registerCompany,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
-      if (data.token) localStorage.setItem('token', data.token);
-      if (data.user) localStorage.setItem('user', JSON.stringify(data.user));
+      if (data.token) localStorage.setItem('token', data.token); // Switched to localStorage
+      if (data.user) localStorage.setItem('user', JSON.stringify(data.user)); // Switched to localStorage
       alert('Company registration successful!');
       navigate('/login');
     },

@@ -4,11 +4,8 @@ import { Formik, Form } from 'formik';
 import { useMutation } from '@tanstack/react-query';
 import { Mail } from 'lucide-react';
 import { RiLockPasswordLine } from "react-icons/ri";
-import { loginUser } from '../../api/api'; // Adjust the import path as needed
-
-
-import { loginSchema } from "../../../utils/FormValidation";
-
+import { loginUser } from '../../api/api'; // Ensure this path is correct
+import { loginSchema } from "../../../utils/FormValidation"; // Ensure this path is correct
 import InputAuth from '../ui/AuthInput'
 import Button from '../ui/SecondaryBtn'
 import SideLeftAuth from '../ui/SideLeftAuth'
@@ -17,7 +14,7 @@ import Bg from '../../assets/loginBg.png'
 
 const Login = () => {
   const navigate = useNavigate();
-  
+
   // Initial form values
   const initialValues = {
     email: '',
@@ -28,37 +25,33 @@ const Login = () => {
   const loginMutation = useMutation({
     mutationFn: loginUser,
     onSuccess: (data) => {
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
+      localStorage.setItem('token', data.token); // Store token in localStorage
       alert('Login successful!');
-      navigate('/dashboard'); // Redirect to dashboard or home page
+      navigate('/dashboard'); // Redirect to dashboard
     },
     onError: (error) => {
       alert(`Login failed: ${error.message}`);
-      console.error('Login error:', error);
     }
   });
-  
 
   // Form submission handler with React Query
   const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    loginMutation.mutate(values);
-    
-    // Reset form and submitting state when mutation completes
-    setTimeout(() => {
-      if (!loginMutation.isLoading) {
-        setSubmitting(false);
-        if (loginMutation.isSuccess) {
-          resetForm();
-        }
-      }
-    }, 1000);
+    loginMutation.mutate(values, {
+      onSettled: () => {
+        setSubmitting(false); // Ensure submitting state is reset
+      },
+    });
+
+    // Reset form only if login is successful
+    if (loginMutation.isSuccess) {
+      resetForm();
+    }
   };
-  
+
   return (
     <div className="md:flex h-[100vh]">
-      <div className="md:w-[50%] ">
-        <SideLeftAuth h1="Login" src={Bg} />
+      <div className="md:w-[50%]">
+        <SideLeftAuth h1="Login" src={Bg} alt="Login Background" />
       </div>
 
       {/* SideRight */}
@@ -79,7 +72,7 @@ const Login = () => {
                         Your email or password is incorrect.
                       </div>
                     )}
-                    
+
                     <div className="space-y-2">
                       <div className="space-y-[30px] md:space-y-[50px]">
                         <InputAuth 
@@ -133,13 +126,12 @@ const Login = () => {
                   Sign Up
                 </NavLink>
               </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-      );
-    };
-    
-export default Login;
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
+export default Login;

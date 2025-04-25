@@ -17,10 +17,15 @@ const ResetPassword = () => {
     const [tokenError, setTokenError] = useState('');
     
     useEffect(() => {
-        if (!token) {
+        const storedToken = localStorage.getItem('resetToken');
+        if (!token && !storedToken) {
             setTokenError('Invalid reset link. Please request a new password reset.');
+        } else if (!token && storedToken) {
+            navigate(`/reset-password/${storedToken}`);
+        } else {
+            localStorage.setItem('resetToken', token);
         }
-    }, [token]);
+    }, [token, navigate]);
     
     // API function to reset password
     const resetPassword = async (resetPasswordData) => {
@@ -54,15 +59,23 @@ const ResetPassword = () => {
 
     // Submit handler
     const handleSubmit = (values, { setSubmitting }) => {
-        if (!token) {
-            setTokenError('Invalid reset link. Please request a new password resettt.');
+        const storedToken = localStorage.getItem('resetToken');
+        if (!token && !storedToken) {
+            setTokenError('Invalid reset link. Please request a new password reset.');
             return;
         }
-        
-        resetPasswordMutation.mutate(values, {
+
+        const activeToken = token || storedToken;
+        resetPasswordMutation.mutate({ ...values, token: activeToken }, {
             onSettled: () => setSubmitting(false)
         });
     };
+
+    useEffect(() => {
+        return () => {
+            localStorage.removeItem('resetToken');
+        };
+    }, []);
 
     if (tokenError) {
         return (

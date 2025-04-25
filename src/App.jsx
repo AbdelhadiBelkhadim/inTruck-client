@@ -34,11 +34,8 @@ const App = () => {
           {/* Routes using Layout */}
           <Route path="/" element={<Layout />}>
             <Route index element={<Home />} />
-            <Route path="dashboard/*" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-            <Route path="new-order" element={<ProtectedRoute><NewOrder /></ProtectedRoute>} />
-            <Route path="new-order/:id" element={<ProtectedRoute><NewOrder /></ProtectedRoute>} />
-            <Route path="new-order/:id/edit" element={<ProtectedRoute><NewOrder /></ProtectedRoute>} />
-            <Route path="profile/:id" element={<ProtectedRoute><Profile /></ProtectedRoute>} />
+            <Route path="dashboard/*" element={ <ProtectedRoute> <Dashboard /></ProtectedRoute>} />
+            <Route path="new-order" element={ <ProtectedRoute><NewOrder /></ProtectedRoute>} />
             <Route path="*" element={<NotFound />} />
           </Route>
         </Routes>

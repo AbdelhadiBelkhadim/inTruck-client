@@ -1,67 +1,43 @@
+// ✅ src/contexts/AuthContext.jsx
 import React, { createContext, useState, useEffect } from 'react';
 import axios from 'axios';
 
 export const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const checkAuthStatus = async () => {
-      try {
-        const response = await axios.get('https://intruck-backend-production.up.railway.app/auth/profile', {
-          withCredentials: true,
-        });
-        setUser(response.data.user); // assumes your backend sends { user }
-      } catch (error) {
-        setUser(null); // not logged in
-        console.error("Error checking auth status:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    checkAuthStatus();
+    const token = localStorage.getItem('token');
+    setIsAuthenticated(!!token);
+    setLoading(false);
   }, []);
 
   const login = async (email, password) => {
     try {
-      await axios.post(
+      const response = await axios.post(
         'https://intruck-backend-production.up.railway.app/auth/login',
-        { email, password },
-        { withCredentials: true }
+        { email, password }
       );
 
-      // Fetch user profile after login
-      const response = await axios.get('https://intruck-backend-production.up.railway.app/auth/profile', {
-        withCredentials: true,
-      });
-
-      setUser(response.data.user);
+      const { token } = response.data;
+      localStorage.setItem('token', token);
+      setIsAuthenticated(true);
       return true;
     } catch (error) {
-      console.error("Login failed:", error);
+      console.error("Login failed:", error.response?.data?.message || error.message);
       return false;
     }
   };
 
-  const logout = async () => {
-    try {
-      await axios.post(
-        'https://intruck-backend-production.up.railway.app/auth/logout',
-        {},
-        { withCredentials: true }
-      );
-      setUser(null);
-    } catch (error) {
-      console.error("Logout failed:", error);
-    }
+  const logout = () => {
+    localStorage.removeItem('token');
+    setIsAuthenticated(false);
   };
 
   const value = {
-    user,
-    isAuthenticated: !!user,
+    isAuthenticated,
     login,
     logout,
     loading,
@@ -73,4 +49,3 @@ export const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
-

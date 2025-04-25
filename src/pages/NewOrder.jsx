@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import NewOrderHeader from '../componants/ui/NewOrderHeader';
 import NewOrderMain from '../componants/ui/NewOrderMain';
 import NewOrderDetailsMain from '../componants/ui/NewOrderDetailsMain';
@@ -11,22 +12,33 @@ import CheckingDone from '../componants/ui/CheckingDoneMain';
 import CheckingOrderMain from '../componants/ui/CheckingOrderMain';
 import NextButton from '../componants/ui/NextButton';
 
-const steps = [
-  NewOrderMain,
-  NewOrderDetailsMain,
-  NewOrderDetailsPackageMain,
-  PickUpLocationMain,
-  WhereDelivery,
-  NewOrderFullCoverageMain,
-  SetUpPaymentMain,
-  CheckingOrderMain,
-  CheckingDone,
-];
-
 const NewOrder = () => {
-  const [currentStep, setCurrentStep] = useState(0);
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Define the steps with their respective routes
+  const steps = [
+    { path: '', component: NewOrderMain },
+    { path: 'details', component: NewOrderDetailsMain },
+    { path: 'package', component: NewOrderDetailsPackageMain },
+    { path: 'pickup', component: PickUpLocationMain },
+    { path: 'delivery', component: WhereDelivery },
+    { path: 'coverage', component: NewOrderFullCoverageMain },
+    { path: 'payment', component: SetUpPaymentMain },
+    { path: 'check', component: CheckingOrderMain },
+    { path: 'done', component: CheckingDone },
+  ];
 
-  // Add formData state to hold form inputs for PickUpLocationMain
+  // Get current step index based on the current path
+  const getCurrentStepIndex = () => {
+    const currentPath = location.pathname.split('/').pop();
+    const index = steps.findIndex(step => 
+      step.path === currentPath || (currentPath === 'new-order' && step.path === '')
+    );
+    return index >= 0 ? index : 0;
+  };
+
+  // Add formData state to hold form inputs
   const [formData, setFormData] = useState({
     postcode: '',
     address: '',
@@ -47,24 +59,32 @@ const NewOrder = () => {
     }));
   };
 
-  const StepComponent = steps[currentStep];
-
   const handleNext = () => {
-    if (currentStep < steps.length - 1) {
-      setCurrentStep(currentStep + 1);
+    const currentIndex = getCurrentStepIndex();
+    if (currentIndex < steps.length - 1) {
+      const nextPath = steps[currentIndex + 1].path;
+      navigate(`/new-order/${nextPath}`);
     }
   };
 
   return (
     <div className="bg-[#F2F2F2] w-full h-full container mx-auto">
       <NewOrderHeader />
-      {/* Pass formData and handleChange to PickUpLocationMain and WhereDelivery */}
-      {(StepComponent === PickUpLocationMain || StepComponent === WhereDelivery) ? (
-        <StepComponent formData={formData} handleChange={handleChange} />
-      ) : (
-        <StepComponent />
+      <Routes>
+        <Route path="" element={<NewOrderMain />} />
+        <Route path="details" element={<NewOrderDetailsMain />} />
+        <Route path="package" element={<NewOrderDetailsPackageMain />} />
+        <Route path="pickup" element={<PickUpLocationMain formData={formData} handleChange={handleChange} />} />
+        <Route path="delivery" element={<WhereDelivery formData={formData} handleChange={handleChange} />} />
+        <Route path="coverage" element={<NewOrderFullCoverageMain />} />
+        <Route path="payment" element={<SetUpPaymentMain />} />
+        <Route path="check" element={<CheckingOrderMain />} />
+        <Route path="done" element={<CheckingDone />} />
+        <Route path="*" element={<Navigate to="" replace />} />
+      </Routes>
+      {getCurrentStepIndex() < steps.length - 1 && (
+        <NextButton to={`/new-order/${steps[getCurrentStepIndex() + 1].path}`} onClick={handleNext} />
       )}
-      {currentStep < steps.length - 1 && <NextButton onClick={handleNext} />}
     </div>
   );
 };

@@ -32,11 +32,11 @@ const IndividualCase = () => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
 
       if (data.token) {
-        localStorage.setItem('token', data.token);
+        localStorage.setItem('token', data.token); // Store token in local storage
       }
 
       if (data.user) {
-        localStorage.setItem('user', JSON.stringify(data.user));
+        localStorage.setItem('user', JSON.stringify(data.user)); // Store user data in local storage
       }
 
       alert('Registration successful!');
@@ -168,4 +168,4 @@ const IndividualCase = () => {
   );
 };
 
-export default IndividualCase
+export default IndividualCase;

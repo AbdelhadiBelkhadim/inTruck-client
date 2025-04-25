@@ -25,7 +25,8 @@ const ForgotPassword = () => {
         mutationFn: forgotPassword,
         onSuccess: (data) => {
             alert(data.message || 'Password reset link has been sent to your email!');
-            navigate('/check-email', { state: { email: initialValues.email } });
+            localStorage.setItem('resetEmail', initialValues.email); // Store email in local storage
+            navigate('/check-email');
         },
         onError: (error) => {
             console.error('Password reset request failed:', error);

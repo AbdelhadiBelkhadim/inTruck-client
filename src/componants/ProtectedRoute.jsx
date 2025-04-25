@@ -1,16 +1,9 @@
-// src/componants/ProtectedRoute.jsx
+// ✅ src/components/ProtectedRoute.jsx
 import { Navigate } from 'react-router-dom';
-import { useAuth } from '../hooks/useAuth';
+import useAuth from '../hooks/useAuth';
 
 const ProtectedRoute = ({ children }) => {
-  const auth = useAuth();
-
-  if (!auth) {
-    console.warn('Auth context not found. Make sure <AuthProvider> wraps your app.');
-    return <Navigate to="/login" replace />;
-  }
-
-  const { isAuthenticated, loading } = auth;
+  const { isAuthenticated, loading } = useAuth();
 
   if (loading) return <div>Loading...</div>;
 
@@ -18,3 +11,4 @@ const ProtectedRoute = ({ children }) => {
 };
 
 export default ProtectedRoute;
+
