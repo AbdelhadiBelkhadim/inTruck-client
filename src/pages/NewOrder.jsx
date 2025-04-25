@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
-import NewOrderHeader from '../componants/ui/NewOrderHeader';
-import NewOrderMain from '../componants/ui/NewOrderMain';
-import NewOrderDetailsMain from '../componants/ui/NewOrderDetailsMain';
-import NewOrderDetailsPackageMain from '../componants/ui/NewOrderDetailsPackageMain';
-import NewOrderFullCoverageMain from '../componants/ui/NewOrderFullCoverageMain';
-import PickUpLocationMain from '../componants/ui/PickUpLocationMain';
-import WhereDelivery from '../componants/ui/WhereDelivery';
-import SetUpPaymentMain from '../componants/ui/SetupPaymentMain.jsx';
-import CheckingDone from '../componants/ui/CheckingDoneMain';
-import CheckingOrderMain from '../componants/ui/CheckingOrderMain';
-import NextButton from '../componants/ui/NextButton';
+import NewOrderHeader from '../components/'; // Fixed typo in 'components'
+import NewOrderMain from '../components/ui/NewOrderMain'; // Fixed typo in 'components'
+import NewOrderDetailsMain from '../components/ui/NewOrderDetailsMain'; // Fixed typo in 'components'
+import NewOrderDetailsPackageMain from '../components/ui/NewOrderDetailsPackageMain'; // Fixed typo in 'components'
+import NewOrderFullCoverageMain from '../components/ui/NewOrderFullCoverageMain'; // Fixed typo in 'components'
+import PickUpLocationMain from '../components/ui/PickUpLocationMain'; // Fixed typo in 'components'
+import WhereDelivery from '../components/ui/WhereDelivery'; // Fixed typo in 'components'
+import SetUpPaymentMain from '../components/ui/SetupPaymentMain.jsx'; // Fixed typo in 'components'
+import CheckingDone from '../components/ui/CheckingDoneMain'; // Fixed typo in 'components'
+import CheckingOrderMain from '../components/ui/CheckingOrderMain'; // Fixed typo in 'components'
+import NextButton from '../components/ui/NextButton'; // Fixed typo in 'components'
 
 const NewOrder = () => {
   const navigate = useNavigate();
@@ -83,7 +83,13 @@ const NewOrder = () => {
         <Route path="*" element={<Navigate to="" replace />} />
       </Routes>
       {getCurrentStepIndex() < steps.length - 1 && (
-        <NextButton to={`/new-order/${steps[getCurrentStepIndex() + 1].path}`} onClick={handleNext} />
+        <NextButton 
+          to={`/new-order/${steps[getCurrentStepIndex() + 1].path}`} 
+          onClick={(e) => {
+            e.preventDefault(); // Prevent default link behavior
+            handleNext();
+          }} 
+        />
       )}
     </div>
   );
