@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { ArrowUpToLine, ArrowLeft } from "lucide-react";
 import Logo from '../assets/IT.png';
 import { Link } from 'react-router-dom';
+import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 const PickUpLocation = () => {
   const [formData, setFormData] = useState({
@@ -10,7 +11,8 @@ const PickUpLocation = () => {
     address2: '',
     city: '',
     contactName: '',
-    contactPhone: ''
+    contactPhone: '',
+    coordinates: null
   });
 
   const handleChange = (e) => {
@@ -19,6 +21,25 @@ const PickUpLocation = () => {
       ...prevState,
       [name]: value
     }));
+  };
+
+  const handleCitySelect = (place) => {
+    if (place) {
+      const geocoder = new window.google.maps.Geocoder();
+      geocoder.geocode({ placeId: place.value.place_id }, (results, status) => {
+        if (status === 'OK' && results[0]) {
+          const location = results[0].geometry.location;
+          setFormData(prevState => ({
+            ...prevState,
+            city: place.label,
+            coordinates: {
+              lat: location.lat(),
+              lng: location.lng()
+            }
+          }));
+        }
+      });
+    }
   };
 
   return (
@@ -86,12 +107,29 @@ const PickUpLocation = () => {
 
             <div>
               <label className="block text-[#00b4d8] text-lg md:text-xl mb-4 text-center">City / Town</label>
-              <input
-                type="text"
-                name="city"
-                value={formData.city}
-                onChange={handleChange}
-                className="w-full px-4 py-3 text-gray-700 bg-white border-2 border-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+              <GooglePlacesAutocomplete
+                apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
+                selectProps={{
+                  value: formData.city ? { label: formData.city, value: formData.city } : null,
+                  onChange: handleCitySelect,
+                  placeholder: 'Search for a city...',
+                  className: 'w-full',
+                  styles: {
+                    control: (base) => ({
+                      ...base,
+                      border: '2px solid #00b4d8',
+                      borderRadius: '0.5rem',
+                      boxShadow: 'none',
+                      '&:hover': {
+                        border: '2px solid #00b4d8',
+                      },
+                    }),
+                    input: (base) => ({
+                      ...base,
+                      color: '#374151',
+                    }),
+                  },
+                }}
               />
             </div>
 
