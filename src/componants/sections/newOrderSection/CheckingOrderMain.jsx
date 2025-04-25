@@ -1,8 +1,7 @@
 import React from 'react';
-import CheckingOrderIcon from '../../assets/Artboard1.png';
- // Adjust the path if necessary
+import CheckingOrderIcon from '../../../assets/Artboard2.png'; // Adjusted path if necessary
 
-const CheckingDoneMain = () => {
+const CheckingOrderMain = () => {
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="px-6 py-8 w-full max-w-3xl">
@@ -14,8 +13,8 @@ const CheckingDoneMain = () => {
         <div className="mx-auto">
           <img
             src={CheckingOrderIcon}
-            className="text-primary mx-auto w-[280px] h-[369px]"
             alt="Checking Order Icon"
+            className="text-primary mx-auto w-70 h-70"
           />
           <div className="w-1/2 mx-auto my-8 flex h-2 rounded-full overflow-hidden">
             <div className="bg-[#2e3192] w-1/3 h-full"></div>
@@ -27,4 +26,4 @@ const CheckingDoneMain = () => {
   );
 };
 
-export default CheckingDoneMain;
+export default CheckingOrderMain;

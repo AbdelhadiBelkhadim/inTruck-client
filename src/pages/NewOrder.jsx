@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
-import NewOrderHeader from '../components/'; // Fixed typo in 'components'
-import NewOrderMain from '../components/ui/NewOrderMain'; // Fixed typo in 'components'
-import NewOrderDetailsMain from '../components/ui/NewOrderDetailsMain'; // Fixed typo in 'components'
-import NewOrderDetailsPackageMain from '../components/ui/NewOrderDetailsPackageMain'; // Fixed typo in 'components'
-import NewOrderFullCoverageMain from '../components/ui/NewOrderFullCoverageMain'; // Fixed typo in 'components'
-import PickUpLocationMain from '../components/ui/PickUpLocationMain'; // Fixed typo in 'components'
-import WhereDelivery from '../components/ui/WhereDelivery'; // Fixed typo in 'components'
-import SetUpPaymentMain from '../components/ui/SetupPaymentMain.jsx'; // Fixed typo in 'components'
-import CheckingDone from '../components/ui/CheckingDoneMain'; // Fixed typo in 'components'
-import CheckingOrderMain from '../components/ui/CheckingOrderMain'; // Fixed typo in 'components'
-import NextButton from '../components/ui/NextButton'; // Fixed typo in 'components'
+import NewOrderHeader from '../componants/ui/NewOrderHead.jsx'; // Fixed typo in 'components'
+import NewOrderMain from '../componants/sections/newOrderSection/NewOrderMain.jsx'; // Fixed typo in 'components'
+import NewOrderDetailsMain from '../componants/sections/newOrderSection/NewOrderDetailsMain.jsx'; // Fixed typo in 'components'
+import NewOrderDetailsPackageMain from '../componants/sections/newOrderSection/NewOrderDetailsPackageMain'; // Fixed typo in 'components'
+import NewOrderFullCoverageMain from '../componants/sections/newOrderSection/NewOrderFullCoverageMain'; // Fixed typo in 'components'
+import PickUpLocationMain from '../componants/sections/newOrderSection/PickUpLocationMain'; // Fixed typo in 'components'
+import WhereDelivery from '../componants/sections/newOrderSection/WhereDelivered.jsx'; // Fixed typo in 'components'
+import SetUpPaymentMain from '../componants/sections/newOrderSection/SetupPayment.jsx'; // Fixed typo in 'components'
+import CheckingDone from '../componants/sections/newOrderSection/CheckingDoneMain'; // Fixed typo in 'components'
+import CheckingOrderMain from '../componants/sections/newOrderSection/CheckingOrderMain'; // Fixed typo in 'components'
+import NextButton from '../componants/ui/NextButton'; // Fixed typo in 'components'
 
 const NewOrder = () => {
   const navigate = useNavigate();

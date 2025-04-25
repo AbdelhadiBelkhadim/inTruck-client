@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ArrowUpToLine, ArrowLeft } from "lucide-react";
-import NewOrderHeader from '../componants/ui/NewOrderHead';
+// import NewOrderHeader from '../componants/ui/NewOrderHead';
 import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 const WhereDelivered = () => {

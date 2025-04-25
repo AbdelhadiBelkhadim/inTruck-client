@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { ArrowUpToLine, ChevronDown, ArrowLeft } from "lucide-react";
-import Logo from '../assets/IT.png';
+import Logo from '../../../assets/IT.png';
 import { Link } from 'react-router-dom';
 
 const SetupPayment = () => {
