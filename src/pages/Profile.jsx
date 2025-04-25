@@ -1,38 +1,49 @@
 // src/pages/Profile.jsx
 import React, { useState, useEffect } from 'react';
 import DashboardHeader from '../componants/ui/DashboardHeader';
-import { getUserProfile, updateUserProfile } from '../api/api';
-
+import { updateUserProfile } from '../api/api';
 
 const Profile = () => {
   const [profileData, setProfileData] = useState({
-    companyName: '',
-    registrationNumber: '',
-    taxId: '',
+    userType: '', // Will be set from localStorage
+    company: {
+      companyName: '',
+      rc: '',
+      nIf: '',
+      responsableName: '',
+    },
+    individual: {
+      fullName: '',
+      nationalId: '',
+      phone: '',
+      address: '',
+    },
     email: '',
     phone: '',
     address: '',
-    responsiblePerson: ''
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchProfileData = async () => {
+    const fetchProfileData = () => {
       try {
         setLoading(true);
-        const data = await getUserProfile(); // No ID needed
-        const user = data.company || data.individual || data; // Adjust as per backend
 
-        setProfileData({
-          companyName: user.companyName || '',
-          registrationNumber: user.registrationNumber || '',
-          taxId: user.taxId || '',
-          email: user.email || '',
-          phone: user.phone || '',
-          address: user.address || '',
-          responsiblePerson: user.responsiblePerson || ''
-        });
+        // Fetch user data from localStorage
+        const localData = localStorage.getItem('user');
+        if (localData) {
+          const parsedData = JSON.parse(localData);
+          setProfileData(prev => ({
+            ...prev,
+            ...parsedData,
+            userType: parsedData.userType || 'company', // Default to 'company' if userType is missing
+            company: parsedData.company || {},
+            individual: parsedData.individual || {}
+          }));
+        } else {
+          setError('No profile data found in localStorage');
+        }
       } catch (err) {
         console.error('Failed to fetch profile data:', err);
         setError('Failed to load profile information');
@@ -46,10 +57,24 @@ const Profile = () => {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setProfileData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+    
+    // Handle nested properties (for company and individual fields)
+    if (name.includes('.')) {
+      const [parent, child] = name.split('.');
+      setProfileData(prev => ({
+        ...prev,
+        [parent]: {
+          ...prev[parent],
+          [child]: value
+        }
+      }));
+    } else {
+      // Handle top-level properties
+      setProfileData(prev => ({
+        ...prev,
+        [name]: value
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -57,6 +82,9 @@ const Profile = () => {
     try {
       await updateUserProfile(profileData);
       alert('Profile updated successfully');
+      
+      // Update localStorage with new data
+      localStorage.setItem('user', JSON.stringify(profileData));
     } catch (err) {
       console.error('Failed to update profile:', err);
       setError('Failed to update profile information');
@@ -64,8 +92,12 @@ const Profile = () => {
   };
 
   const getInitials = () => {
-    if (profileData.responsiblePerson) {
-      return profileData.responsiblePerson
+    const nameSource = profileData.userType === 'company' 
+      ? (profileData.company?.companyName || '')
+      : (profileData.individual?.fullName || '');
+
+    if (nameSource) {
+      return nameSource
         .split(' ')
         .map(name => name[0])
         .join('')
@@ -74,15 +106,35 @@ const Profile = () => {
     return 'OU';
   };
 
-  const formFields = [
-    { name: 'companyName', label: 'Company Name' },
-    { name: 'registrationNumber', label: 'Registration Number (RC)' },
-    { name: 'taxId', label: 'Tax Identification Number (IF)' },
-    { name: 'email', label: 'Company Email' },
-    { name: 'phone', label: 'Company Phone Number' },
-    { name: 'address', label: 'Company Address' },
-    { name: 'responsiblePerson', label: "Responsible Person's Full Name" }
-  ];
+  // Define form fields based on userType
+  const formFields = profileData.userType === 'company' 
+    ? [
+        { name: 'company.companyName', label: 'Company Name' },
+        { name: 'company.rc', label: 'Registration Number (RC)' },
+        { name: 'company.nIf', label: 'Tax Identification Number (IF)' },
+        { name: 'email', label: 'Company Email' },
+        { name: 'phone', label: 'Company Phone Number' },
+        { name: 'address', label: 'Company Address' },
+        { name: 'company.responsableName', label: "Responsible Person's Full Name" }
+      ]
+    : [
+        { name: 'individual.fullName', label: 'Full Name' },
+        { name: 'individual.nationalId', label: 'National ID' },
+        { name: 'email', label: 'Email Address' },
+        { name: 'individual.phone', label: 'Phone Number' },
+        { name: 'individual.address', label: 'Address' }
+      ];
+
+  // Helper function to get nested values
+  const getNestedValue = (obj, path) => {
+    const parts = path.split('.');
+    let value = obj;
+    for (const part of parts) {
+      value = value?.[part];
+      if (value === undefined) return '';
+    }
+    return value || '';
+  };
 
   return (
     <div>
@@ -103,24 +155,30 @@ const Profile = () => {
                   {getInitials()}
                 </div>
                 <div>
-                  <h2 className="text-lg md:text-xl font-bold">{profileData.responsiblePerson || '—'}</h2>
-                  <p className="text-[#00b4d8]">{profileData.companyName || '—'}, {profileData.address?.split(',').pop()?.trim() || '—'}</p>
+                  <h2 className="text-lg md:text-xl font-bold">
+                    {profileData.userType === 'company' 
+                      ? profileData.company?.companyName || '—'
+                      : profileData.individual?.fullName || '—'}
+                  </h2>
+                  <p className="text-[#00b4d8]">
+                    {profileData.email || '—'}
+                  </p>
                 </div>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 space-y-8 md:space-y-15">
               {formFields.map((field, index) => (
-                <div key={field.name} className={`auth-input-container w-full max-w-[530px] ${index === 6 ? 'md:col-span-2' : ''}`}>
+                <div key={field.name} className={`auth-input-container w-full max-w-[530px] ${index === formFields.length - 1 ? 'md:col-span-2' : ''}`}>
                   <div className="relative w-full px-3 md:px-0">
-                    <label htmlFor={field.name} className="absolute text-[14px] md:text-[15px] font-semibold bottom-8 lg:bottom-[45px] left-[8px] bg-white px-3 py-0 text-primary">
+                    <label htmlFor={field.name.replace('.', '-')} className="absolute text-[14px] md:text-[15px] font-semibold bottom-8 lg:bottom-[45px] left-[8px] bg-white px-3 py-0 text-primary">
                       {field.label}
                     </label>
                     <input  
                       name={field.name}
-                      id={field.name}
+                      id={field.name.replace('.', '-')}
                       type="text" 
-                      value={profileData[field.name]}
+                      value={getNestedValue(profileData, field.name)}
                       onChange={handleInputChange}
                       placeholder={`Enter your ${field.label.toLowerCase()}`} 
                       className="text-[12px] md:text-[16px] font-medium text-secondaire outline-none appearance-none border border-primary rounded-[50px] py-[12px] lg:py-[15px] px-[15px] md:px-[20px] lg:px-[25px] w-full"

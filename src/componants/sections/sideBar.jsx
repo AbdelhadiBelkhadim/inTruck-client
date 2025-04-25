@@ -22,14 +22,21 @@ const SideBar = ({ setOpen, open }) => {
     const userData = JSON.parse(localStorage.getItem('user'));
     
     if (userData) {
-      setUserProfile({
-        initials: userData.individual?.fullName
-          ? userData.individual.fullName.split(" ").map(n => n[0]).join("")
-          : "UK",
-        name: userData.individual.fullName  || "Unknown User",
-        company: userData.company?.name || userData.email || "Unknown Company",
-        id: userData.id
-      });
+      if (userData.userType === "company") {
+        setUserProfile({
+          name: userData.company.name || "Unknown Company",
+          initials: userData.company.name?.split(" ").map(n => n[0]).join("") || "UC",
+          company: userData.company.name || "Unknown Company",
+          adress: userData.company.address || "Unknown Address"
+        });
+      } else {
+        setUserProfile({
+          name: userData.individual.fullName || "Unknown User",
+          initials: userData.individual.fullName?.split(" ").map(n => n[0]).join("") || "UU",
+          adress: userData.individual.address || "Unknown Address"
+        });
+      }
+
     }
   }, []);
 
@@ -72,6 +79,7 @@ const SideBar = ({ setOpen, open }) => {
                 </div>
                 <div className="text-secondaire text-[13px]">
                   {userProfile?.company}
+                  {userProfile?.adress || userProfile?.company || "Unknown Address"}
                 </div>
               </div>
               
