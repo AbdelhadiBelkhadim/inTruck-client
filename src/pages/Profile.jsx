@@ -37,7 +37,7 @@ const Profile = () => {
           setProfileData(prev => ({
             ...prev,
             ...parsedData,
-            userType: parsedData.userType || 'company', // Default to 'company' if userType is missing
+            userType: parsedData.userType || 'COMPANY', // Default to 'company' if userType is missing
             company: parsedData.company || {},
             individual: parsedData.individual || {}
           }));
@@ -92,7 +92,7 @@ const Profile = () => {
   };
 
   const getInitials = () => {
-    const nameSource = profileData.userType === 'company' 
+    const nameSource = profileData.userType === 'COMPANY' 
       ? (profileData.company?.companyName || '')
       : (profileData.individual?.fullName || '');
 
@@ -107,14 +107,14 @@ const Profile = () => {
   };
 
   // Define form fields based on userType
-  const formFields = profileData.userType === 'company' 
+  const formFields = profileData.userType === 'COMPANY' 
     ? [
         { name: 'company.companyName', label: 'Company Name' },
         { name: 'company.rc', label: 'Registration Number (RC)' },
         { name: 'company.nIf', label: 'Tax Identification Number (IF)' },
         { name: 'email', label: 'Company Email' },
-        { name: 'phone', label: 'Company Phone Number' },
-        { name: 'address', label: 'Company Address' },
+        { name: 'company.phone', label: 'Company Phone Number' },
+        { name: 'company.address', label: 'Company Address' },
         { name: 'company.responsableName', label: "Responsible Person's Full Name" }
       ]
     : [
@@ -156,7 +156,7 @@ const Profile = () => {
                 </div>
                 <div>
                   <h2 className="text-lg md:text-xl font-bold">
-                    {profileData.userType === 'company' 
+                    {profileData.userType === 'COMPANY' 
                       ? profileData.company?.companyName || '—'
                       : profileData.individual?.fullName || '—'}
                   </h2>

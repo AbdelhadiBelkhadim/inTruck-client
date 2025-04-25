@@ -18,33 +18,45 @@ const SideBar = ({ setOpen, open }) => {
   const [userProfile, setUserProfile] = useState(null);
 
   useEffect(() => {
-    // Get user data from localStorage
-    const userData = JSON.parse(localStorage.getItem('user'));
-    
-    if (userData) {
-      if (userData.userType === "company") {
-        setUserProfile({
-          name: userData.company.name || "Unknown Company",
-          initials: userData.company.name?.split(" ").map(n => n[0]).join("") || "UC",
-          company: userData.company.name || "Unknown Company",
-          adress: userData.company.address || "Unknown Address"
-        });
-      } else {
-        setUserProfile({
-          name: userData.individual.fullName || "Unknown User",
-          initials: userData.individual.fullName?.split(" ").map(n => n[0]).join("") || "UU",
-          adress: userData.individual.address || "Unknown Address"
-        });
+    try {
+      // Get user data from localStorage
+      const userData = JSON.parse(localStorage.getItem('user'));
+      
+      if (userData) {
+        if (userData.userType === "COMPANY") {
+          setUserProfile({
+            name: userData.company.companyName || "Unknown Company",
+            initials: userData.company.companyName?.split(" ").map(n => n[0]).join("") || "UC",
+            company: userData.company.companyName || "Unknown Company",
+            adress: userData.company.address || "Unknown Address"
+          });
+        } else {
+          setUserProfile({
+            name: userData.individual.fullName || "Unknown User",
+            initials: userData.individual.fullName?.split(" ").map(n => n[0]).join("") || "UU",
+            adress: userData.individual.address || "Unknown Address"
+          });
+        }
       }
-
+    } catch (error) {
+      console.error("Error parsing user data from localStorage:", error);
+      setUserProfile({
+        name: "Unknown User",
+        initials: "UU",
+        adress: "Unknown Address"
+      });
     }
   }, []);
 
   const handleLogout = () => {
-    localStorage.removeItem('token');
-    localStorage.removeItem('user');
-    localStorage.removeItem('id');
-    window.location.href = '/login';
+    try {
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      localStorage.removeItem('id');
+      window.location.href = '/login';
+    } catch (error) {
+      console.error("Error during logout:", error);
+    }
   };
 
   return (
