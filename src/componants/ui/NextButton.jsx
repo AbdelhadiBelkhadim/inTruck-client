@@ -1,20 +1,32 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-const NextButton = ({ onClick, label = 'Next' }) => {
+const NextButton = ({ to, onClick }) => {
+  // If both to and onClick are provided, use to (Link) with priority
+  if (to) {
+    return (
+      <div className="fixed bottom-0 w-full max-w-3xl mb-6">
+        <Link 
+          to={to}
+          className="block w-32 mx-auto py-2 bg-primary text-white font-medium rounded-full text-center"
+        >
+          Next
+        </Link>
+      </div>
+    );
+  }
+  
+  // Fallback to onClick (button) if no to prop is provided
   return (
-    <button
-      className="bg-primary text-white text-[12px] md:text-[24px] px-4 py-2 rounded-lg hover:bg-[#00B4D8] transition duration-300 ease-in-out w-[124px] h-[28px] md:w-[367px] md:h-[53px] flex items-center justify-center my-20 mx-auto shadow-md"
-      onClick={onClick}
-    >
-      {label}
-    </button>
+    <div className="fixed bottom-0 w-full max-w-3xl mb-6">
+      <button
+        onClick={onClick}
+        className="block w-32 mx-auto py-2 bg-primary text-white font-medium rounded-full text-center"
+      >
+        Next
+      </button>
+    </div>
   );
-};
-
-NextButton.propTypes = {
-  onClick: PropTypes.func,
-  label: PropTypes.string,
 };
 
 export default NextButton;

@@ -4,12 +4,7 @@ body{
   font-family : "Montserrat", sans-serif;
 }
 
-/* .newsreader-custom {
-  font-family: "Newsreader", serif;
-  font-optical-sizing: auto;
-  font-weight: normal;
-  font-style: normal;
-} */
+
 
 @utility container {
   width: 100%;
@@ -46,6 +41,7 @@ body{
   --color-secondaire: oklch(71.14% 0.1286 218.98);
   --color-Accent: oklch(61.22% 0.2082 22.24);
   --font-newsreader: "Newsreader", "serif";
+  --font-hussar:'Hussar', sans-serif; 
   /* ... */
 }
 

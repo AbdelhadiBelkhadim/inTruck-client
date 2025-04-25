@@ -1,74 +1,78 @@
-import React from 'react'
+import React, { useEffect, useContext } from 'react'
 import { NavLink, useNavigate } from 'react-router-dom'
 import { Formik, Form } from 'formik';
-import { useMutation } from '@tanstack/react-query';
 import { Mail } from 'lucide-react';
 import { RiLockPasswordLine } from "react-icons/ri";
-import axios from 'axios';
-
-
-import { loginSchema } from "../../../utils/FormValidation";
-
+import * as Yup from 'yup';
+import { AuthContext } from '../../contexts/AuthContext';
 import InputAuth from '../ui/AuthInput'
 import Button from '../ui/SecondaryBtn'
 import SideLeftAuth from '../ui/SideLeftAuth'
 
 import Bg from '../../assets/loginBg.png'
 
+// Define validation schema
+const loginSchema = Yup.object().shape({
+  email: Yup.string()
+    .email('Invalid email address')
+    .required('Email is required'),
+  password: Yup.string()
+    .min(6, 'Password must be at least 6 characters')
+    .required('Password is required'),
+});
+
 const Login = () => {
   const navigate = useNavigate();
-  
+  const { login, isAuthenticated, loading, error } = useContext(AuthContext);
+
+  // Redirect to dashboard if already authenticated
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [isAuthenticated, navigate]);
+
   // Initial form values
   const initialValues = {
     email: '',
     password: ''
   };
 
-  // Login API function //https://intruck-backend-production.up.railway.app/auth/login
-  const loginUser = async (credentials) => {
-    const response = await axios.post('https://intruck-backend-production.up.railway.app/auth/login', credentials, {
-      headers: {
-        'Content-Type': 'application/json'
+  // Form submission handler
+  const handleSubmit = async (values, { setSubmitting }) => {
+    try {
+      const success = await login(values.email, values.password);
+      if (success) {
+        navigate('/dashboard', { replace: true });
       }
-    });
-    
-    return response.data;
-  };
-
-  // React Query mutation hook
-  const loginMutation = useMutation({
-    mutationFn: loginUser,
-    onSuccess: (data) => {
-      localStorage.setItem('token', data.token);
-      localStorage.setItem('user', JSON.stringify(data.user));
-      alert('Login successful!');
-      navigate('/dashboard'); // Redirect to dashboard or home page
-    },
-    onError: (error) => {
-      alert(`Login failed: ${error.message}`);
+    } catch (error) {
+      console.error('Login error:', error);
+    } finally {
+      setSubmitting(false);
     }
-  });
-  
-
-  // Form submission handler with React Query
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    loginMutation.mutate(values);
-    
-    // Reset form and submitting state when mutation completes
-    setTimeout(() => {
-      if (!loginMutation.isLoading) {
-        setSubmitting(false);
-        if (loginMutation.isSuccess) {
-          resetForm();
-        }
-      }
-    }, 1000);
   };
-  
+
+  // Show loading state while checking authentication
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
+          <p className="mt-4 text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // Don't render login form if authenticated
+  if (isAuthenticated) {
+    return null;
+  }
+
   return (
     <div className="md:flex h-[100vh]">
-      <div className="md:w-[50%] ">
-        <SideLeftAuth h1="Login" src={Bg} />
+      <div className="md:w-[50%]">
+        <SideLeftAuth h1="Login" src={Bg} alt="Login Background" />
       </div>
 
       {/* SideRight */}
@@ -84,12 +88,12 @@ const Login = () => {
               >
                 {({ values, errors, touched, handleChange, handleBlur, handleSubmit, isSubmitting }) => (
                   <Form className="Form space-y-[32px] md:space-y-[48px]" onSubmit={handleSubmit} autoComplete="off">
-                    {loginMutation.isError && (
+                    {error && (
                       <div className="text-red-500 text-center">
-                        {loginMutation.error.message}
+                        {error}
                       </div>
                     )}
-                    
+
                     <div className="space-y-2">
                       <div className="space-y-[30px] md:space-y-[50px]">
                         <InputAuth 
@@ -125,8 +129,8 @@ const Login = () => {
                     </div>
                     <div className="px-3 md:px-0">
                       <Button 
-                        label={loginMutation.isLoading ? "Logging in..." : "Login"} 
-                        disabled={isSubmitting || loginMutation.isLoading} 
+                        label={loading ? "Logging in..." : "Login"} 
+                        disabled={isSubmitting || loading} 
                         type="enabled" 
                         size="large" 
                         withprop="full"
@@ -143,13 +147,12 @@ const Login = () => {
                   Sign Up
                 </NavLink>
               </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
-      );
-    };
-    
-export default Login;
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
+export default Login;

@@ -1,9 +1,14 @@
 import React, { useState } from 'react';
-import { PiPackageDuotone } from "react-icons/pi";
+import { PiPackageLight ,PiPackage ,PiPackageDuotone ,PiPackageFill } from "react-icons/pi";
 
 const NewOrderMain = () => {
   const [selectedIndex, setSelectedIndex] = useState(null);
-
+  const icons = [
+    {icon:<PiPackageLight size={150} />,shepment:'(1000kg - 5000kg)'},
+    {icon:<PiPackage size={150} />,shepment:'(5000kg - 10000kg)'},
+    {icon:<PiPackageDuotone size={150} />,shepment:'(10000kg - 15000kg)'},
+    {icon:<PiPackageFill size={150} />,shepment:'(15000kg - 28800kg)'},
+  ];
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
       <div className="my-6 text-center">
@@ -13,7 +18,7 @@ const NewOrderMain = () => {
       </div>
 
       <div className="grid grid-col md:grid-cols-2 items-center justify-center gap-4 md:gap-6 lg:gap-12 mt-10">
-        {[...Array(4)].map((_, index) => {
+        {icons.map((item, index) => {
           const isSelected = selectedIndex === index;
           return (
             <div
@@ -23,10 +28,12 @@ const NewOrderMain = () => {
                 ${isSelected ? 'bg-[#00B4D8] border-[#0077b6] text-white' : 'border-gray-300 hover:bg-[#90e0ef] hover:border-[#00b4d8] hover:text-[#0077b6] hover:scale-105'}
               `}
             >
-              <PiPackageDuotone className={`w-[161px] h-[167px] ${isSelected ? 'text-white' : 'text-[#00B4D8]'}`} />
+              <div className='w-full h-full flex items-center justify-center text-secondaire'>
+                {item.icon}
+              </div>
               <div className="flex flex-col items-center justify-center text-[27px] font-semibold">
-                <h4>{isSelected ? <span className="text-white">Shipment</span> : <span className="text-[#00B4D8]">Shipment</span>}</h4>
-                <p className={`text-[18px] font-normal ${isSelected ? 'text-white' : 'text-primary'}`}> (1000kg - 5000kg)</p>
+                <h4>{isSelected ? <span className="text-white">Shepment</span> : <span className="text-[#00B4D8]">Shipment</span>}</h4>
+                <p className={`text-[18px] font-normal ${isSelected ? 'text-white' : 'text-primary'}`}>{item.shepment}</p>
               </div>
             </div>
           );

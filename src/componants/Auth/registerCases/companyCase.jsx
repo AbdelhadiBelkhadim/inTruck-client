@@ -1,9 +1,9 @@
 import React from 'react';
 import { Formik, Form } from 'formik';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
+import { registerCompany } from '../../../api/api'; // Adjust the import path as needed
 import { companySchema } from '../../../../utils/FormValidation';
 
 import Input from '../../ui/AuthInput';
@@ -13,11 +13,6 @@ const CompanyCase = () => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
   
-  // API function to register a company //https://intruck-backend-production.up.railway.app/auth/register
-  const registerCompany = async (companyData) => {
-    const response = await axios.post('https://intruck-backend-production.up.railway.app/auth/register', companyData);
-    return response.data;
-  };
 
   // Initial form values (✅ all field names corrected)
   const initialValues = {
@@ -38,8 +33,8 @@ const CompanyCase = () => {
     mutationFn: registerCompany,
     onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['user'] });
-      if (data.token) localStorage.setItem('token', data.token);
-      if (data.user) localStorage.setItem('user', JSON.stringify(data.user));
+      if (data.token) localStorage.setItem('token', data.token); // Switched to localStorage
+      if (data.user) localStorage.setItem('user', JSON.stringify(data.user)); // Switched to localStorage
       alert('Company registration successful!');
       navigate('/login');
     },
