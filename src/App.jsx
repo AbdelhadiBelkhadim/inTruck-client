@@ -14,6 +14,7 @@ import ResetSuccess from './componants/Auth/ResetSuccess'; // Import the ResetSu
 import Profile from './pages/Profile.jsx'
 import NotFound from './pages/NotFound';
 import NewOrder from './pages/NewOrder'; // Import the NewOrder component
+import DashboardAdmin from './pages/DashboardAdmin.jsx';
 
 // Create a QueryClient instance (can configure options here)
 const queryClient = new QueryClient();
@@ -38,6 +39,7 @@ const App = () => {
           <Route path="/new-order/:id" element={<NewOrder />} /> {/* NewOrder component with ID */}
           <Route path="/new-order/:id/edit" element={<NewOrder />} /> {/* NewOrder component with ID for editing */}
           <Route path="/profile" element={<Profile />} /> {/* Profile component */} 
+          <Route path="/dashboard-admin" element={<DashboardAdmin />} /> {/* DashboardAdmin component */}
         </Routes>
       </Router>
     </QueryClientProvider>

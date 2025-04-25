@@ -35,8 +35,8 @@ const LastOrders = ({count}) => {
         
         <div className="space-y-3">
           {orders.map((order, index) => (
-            <div key={index} className="bg-white p-1 md:p-4 rounded-xl flex items-center justify-between oredr-none md:order-last lg:order-none">
-              <div className="flex justify-between item-center">
+            <div key={index} className="bg-white p-1 md:p-4 rounded-xl flex items-center justify-between oredr-none md:order-last lg:order-none shadow-md">
+              <div className="flex justify-between item-center ">
                 <div className="p-2 bg-gray-200 rounded-lg mr-3 flex items-center justify-center">
                   <Package size={20} />
                 </div>
