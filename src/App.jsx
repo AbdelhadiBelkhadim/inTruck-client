@@ -25,6 +25,7 @@ import Dashboard from './pages/Dashboard.jsx';
 import Home from './pages/Home';
 import NewOrder from './pages/NewOrder.jsx';
 import NotFound from './pages/NotFound.jsx';
+import DashboardAdmin from './pages/DashboardAdmin.jsx';
 
 const queryClient = new QueryClient();
 
@@ -41,6 +42,7 @@ const App = () => {
             <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="/check-email" element={<CheckEmail />} />
             <Route path="/reset-success" element={<ResetSuccess />} />
+            <Route path="/admin/*" element={<DashboardAdmin />} />
 
             {/* Routes using Layout */}
             <Route path="/" element={<Layout />}>
