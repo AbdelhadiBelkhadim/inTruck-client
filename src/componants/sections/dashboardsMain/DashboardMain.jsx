@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import { getDashboardData } from '../../../api/api.js'
 
 // import CountDev from '../Count';
 import Summary from '../Summary';
@@ -30,15 +30,11 @@ const DashboardMain = () => {
     const fetchDashboardData = async () => {
       try {
         setLoading(true);
-        const response = await axios.get('/api/dashboard', {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`
-          }
-        });
-        setDashboardData(response.data);
+        const response = await getDashboardData();
+        setDashboardData(response);
         
         // Set count based on whether there are orders
-        if (response.data.lastOrders && response.data.lastOrders.length > 0) {
+        if (response.lastOrders && response.lastOrders.length > 0) {
           setCount(1);
         }
       } catch (err) {

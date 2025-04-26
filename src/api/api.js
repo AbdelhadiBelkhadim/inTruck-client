@@ -67,3 +67,9 @@ export const updateUserProfile = async (profileData) => {
   const response = await apiClient.put('/auth/profile', profileData);
   return response.data;
 };
+
+//dashboard API calls
+export const getDashboardData = async () => {
+  const response = await apiClient.get('/dashboard');
+  return response.data;
+};
