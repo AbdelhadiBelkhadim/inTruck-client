@@ -5,7 +5,7 @@ import { Link, useLocation } from 'react-router-dom';
 import Summary from '../Summary';
 import LastOrders from '../LastOrders';
 import ShippingDetails from '../ShipipingDetails'; // Fixed typo
-import DashboardHeader from '../../../componants/ui/DashboardHeader';
+import DashboardHeader from '../../ui/DashboardHeader';
 
 import { Plus, User } from 'lucide-react';
 // import { useNavigate } from 'react-router-dom';

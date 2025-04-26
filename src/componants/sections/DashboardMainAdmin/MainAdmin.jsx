@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Package, Truck, Users } from 'lucide-react';
 import StatsCard from '../../ui/StatsCard';
-import Summary from '../../sections/Summary';
-import LastOrders from '../../sections/LastOrders';
+import Summary from '../Summary';
+import LastOrders from '../LastOrders';
 import WatingConfirmation from '../../ui/WatingConfirmation';
 
 

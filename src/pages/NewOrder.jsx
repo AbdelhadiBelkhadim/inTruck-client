@@ -12,8 +12,8 @@ import SetUpPaymentMain from '../componants/sections/newOrderSection/SetupPaymen
 import CheckingDone from '../componants/sections/newOrderSection/CheckingDoneMain.jsx';
 import CheckingOrderMain from '../componants/sections/newOrderSection/CheckingOrderMain.jsx';
 import NextButton from '../componants/ui/NextButton.jsx';
-import { submitOrder } from '../services/orderService';
-import { calculateDirectDistance } from '../services/directDistanceService';
+import { submitOrder } from '../services/orderService.js';
+import { calculateDirectDistance } from '../services/directDistanceService.js';
 
 const NewOrder = () => {
   const navigate = useNavigate();
