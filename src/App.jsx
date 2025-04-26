@@ -42,7 +42,7 @@ const App = () => {
             <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="/check-email" element={<CheckEmail />} />
             <Route path="/reset-success" element={<ResetSuccess />} />
-            <Route path="/dashboard-admin" element={<DashboardAdmin />} />
+            <Route path="/admin/*" element={<DashboardAdmin />} />
 
             {/* Routes using Layout */}
             <Route path="/" element={<Layout />}>

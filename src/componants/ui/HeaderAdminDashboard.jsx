@@ -1,30 +1,22 @@
-
 import React, { useState, useRef, useEffect } from 'react';
 import Logo from './Logo';
 import { Menu, LayoutDashboard, Truck, ListTodo, CircleDot, Bell, Clock, LogOut, X } from "lucide-react";
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const menuItems = [
-  { icon: LayoutDashboard, name: 'Dashboard' },
-  { icon: Truck, name: 'Trucking' },
-  { icon: ListTodo, name: 'Deliveries' },
-  { icon: CircleDot, name: 'Cancelled' },
-  { icon: Bell, name: 'Notifications' },
-  { icon: Clock, name: 'Confirmation Order' },
+  { icon: LayoutDashboard, name: 'Dashboard', path: '/admin' },
+  { icon: Truck, name: 'Trucking', path: '/admin/tracking' },
+  { icon: ListTodo, name: 'Deliveries', path: '/admin/deliveries' },
+  { icon: CircleDot, name: 'Cancelled', path: '/admin/cancelled' },
+  { icon: Bell, name: 'Notifications', path: '/admin/send-message' },
+  { icon: Clock, name: 'Confirmation Order', path: '/admin/confirmation-order' },
 ];
 
-const HeaderAdminDashboard = ({ activeIdx, setActiveIdx }) => {
+const HeaderAdminDashboard = () => {
   const [menuOpen, setMenuOpen] = useState(false);
   const containerRef = useRef(null);
   const sidebarRef = useRef(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    const activeBtn = container?.querySelector(`button[data-idx="${activeIdx}"]`);
-    if (activeBtn) {
-      activeBtn.scrollIntoView({ behavior: 'smooth', inline: 'center' });
-    }
-  }, [activeIdx]);
+  const location = useLocation();
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -38,8 +30,8 @@ const HeaderAdminDashboard = ({ activeIdx, setActiveIdx }) => {
   }, []);
 
   return (
-    <div className="flex items-center justify-between mb-6 h-[50px] ">
-      {/* Mobile Sidebar - Works for sm and md */}
+    <div className="flex items-center justify-between mb-6 h-[50px]">
+      {/* Mobile Sidebar */}
       <div
         ref={sidebarRef}
         className={`fixed inset-y-0 left-0 w-64 bg-white z-50 transform transition-transform duration-300
@@ -56,9 +48,9 @@ const HeaderAdminDashboard = ({ activeIdx, setActiveIdx }) => {
         </div>
         
         <nav className="p-2">
-          {/* Profile Section in Mobile Sidebar - Now first */}
+          {/* Profile Section */}
           <NavLink 
-            to="/dashboard/profile" 
+            to="/admin/profile" 
             onClick={() => setMenuOpen(false)}
             className="w-full mb-4 p-3 rounded-lg hover:bg-gray-100 flex items-center space-x-3"
           >
@@ -74,37 +66,36 @@ const HeaderAdminDashboard = ({ activeIdx, setActiveIdx }) => {
           {/* Menu Items */}
           {menuItems.map((item, idx) => {
             const Icon = item.icon;
-            const isActive = idx === activeIdx;
+            const isActive = location.pathname === item.path;
 
             return (
-              <button
+              <NavLink
                 key={idx}
-                onClick={() => {
-                  setActiveIdx(idx);
-                  setMenuOpen(false);
-                }}
+                to={item.path}
+                onClick={() => setMenuOpen(false)}
                 className={`w-full flex items-center p-3 rounded-lg mb-1 text-sm ${
                   isActive ? 'bg-primary text-white' : 'text-gray-600 hover:bg-gray-100'
                 }`}
               >
                 <Icon className="w-5 h-5 mr-3" />
                 {item.name}
-              </button>
+              </NavLink>
             );
           })}
 
-          {/* Add Button in Mobile Sidebar */}
-          <button
+          {/* Add Button */}
+          <NavLink
+            to="/admin/add-new"
             onClick={() => setMenuOpen(false)}
             className="w-full bg-[#2e3192] text-white p-3 rounded-lg mt-4 flex items-center justify-center text-sm"
           >
             <Truck className="w-5 h-5 mr-3" />
             Add new (Driver/Truck)
-          </button>
+          </NavLink>
         </nav>
       </div>
 
-      {/* Backdrop for mobile menu */}
+      {/* Backdrop */}
       {menuOpen && (
         <div className="fixed inset-0 bg-black/30 z-40 lg:hidden" onClick={() => setMenuOpen(false)} />
       )}
@@ -114,42 +105,43 @@ const HeaderAdminDashboard = ({ activeIdx, setActiveIdx }) => {
         <Logo />
 
         <div className="flex items-center gap-4 max-lg:gap-3">
-          {/* Desktop Menu - Only for lg */}
+          {/* Desktop Menu */}
           <div
             ref={containerRef}
             className="hidden lg:flex items-center space-x-4 h-[50px] bg-white rounded-xl p-1 overflow-x-auto whitespace-nowrap"
           >
             {menuItems.map((item, idx) => {
               const Icon = item.icon;
-              const isActive = idx === activeIdx;
-              const btnClass = `flex items-center h-full rounded-md transition-all duration-200 whitespace-nowrap text-sm ${
-                isActive ? 'bg-[#00b4d8] text-white px-3 py-1' : 'text-[#2e3192] px-2 py-1'
-              }`;
+              const isActive = location.pathname === item.path;
 
               return (
-                <button
+                <NavLink
                   key={idx}
-                  data-idx={idx}
-                  onClick={() => setActiveIdx(idx)}
-                  className={btnClass}
+                  to={item.path}
+                  className={`flex items-center h-full rounded-md transition-all duration-200 whitespace-nowrap text-sm ${
+                    isActive ? 'bg-[#00b4d8] text-white px-3 py-1' : 'text-[#2e3192] px-2 py-1'
+                  }`}
                 >
                   <Icon className="w-4 h-4" />
                   {isActive && <span className="ml-2">{item.name}</span>}
-                </button>
+                </NavLink>
               );
             })}
           </div>
 
-          {/* Add Button - Desktop Only */}
-          <div className="hidden lg:flex items-center h-[50px]">
+          {/* Add Button - Desktop */}
+          <NavLink 
+            to="/admin/add-new"
+            className="hidden lg:flex items-center h-[50px]"
+          >
             <button className="bg-[#2e3192] text-white px-2 py-1 rounded-md flex items-center h-full text-sm">
               <Truck className="w-4 h-4 mr-1" />
               <span>Add new (Driver/Truck)</span>
             </button>
-          </div>
+          </NavLink>
 
-          {/* Profile Section - Desktop Only */}
-          <NavLink to="/dashboard/profile" className="hidden lg:flex items-center h-[50px]">
+          {/* Profile Section - Desktop */}
+          <NavLink to="/admin/profile" className="hidden lg:flex items-center h-[50px]">
             <div className="flex items-center space-x-5 bg-white h-[50px] rounded-xl px-4">
               <div className="w-[40px] h-[40px] bg-secondaire rounded-full flex items-center justify-center">
                 <div className="font-normal text-white text-[16px]">OU</div>
@@ -161,7 +153,7 @@ const HeaderAdminDashboard = ({ activeIdx, setActiveIdx }) => {
             </div>
           </NavLink>
 
-          {/* Mobile Menu Button - Works for sm and md */}
+          {/* Mobile Menu Button */}
           <div className="lg:hidden">
             <button
               onClick={() => setMenuOpen(true)}
