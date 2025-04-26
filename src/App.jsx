@@ -54,7 +54,7 @@ const App = () => {
                 } 
               />
               <Route 
-                path="new-order" 
+                path="new-order/*" 
                 element={
                   <ProtectedRoute>
                     <NewOrder />

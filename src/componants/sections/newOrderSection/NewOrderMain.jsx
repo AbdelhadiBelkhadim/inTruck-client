@@ -4,10 +4,10 @@ import { PiPackageLight ,PiPackage ,PiPackageDuotone ,PiPackageFill } from "reac
 const NewOrderMain = () => {
   const [selectedIndex, setSelectedIndex] = useState(null);
   const icons = [
-    {icon:<PiPackageLight size={150} />,shepment:'(1000kg - 5000kg)'},
-    {icon:<PiPackage size={150} />,shepment:'(5000kg - 10000kg)'},
-    {icon:<PiPackageDuotone size={150} />,shepment:'(10000kg - 15000kg)'},
-    {icon:<PiPackageFill size={150} />,shepment:'(15000kg - 28800kg)'},
+    {icon:<PiPackageLight size={150} />, shepment:'(1000kg - 5000kg)', isSelected: selectedIndex === 0},
+    {icon:<PiPackage size={150} />, shepment:'(5000kg - 10000kg)', isSelected: selectedIndex === 1},
+    {icon:<PiPackageDuotone size={150} />, shepment:'(10000kg - 15000kg)', isSelected: selectedIndex === 2},
+    {icon:<PiPackageFill size={150} />, shepment:'(15000kg - 28800kg)', isSelected: selectedIndex === 3},
   ];
   return (
     <div className="w-full h-full flex flex-col items-center justify-center">
@@ -19,7 +19,7 @@ const NewOrderMain = () => {
 
       <div className="grid grid-col md:grid-cols-2 items-center justify-center gap-4 md:gap-6 lg:gap-12 mt-10">
         {icons.map((item, index) => {
-          const isSelected = selectedIndex === index;
+          const isSelected = item.isSelected;
           return (
             <div
               key={index}
