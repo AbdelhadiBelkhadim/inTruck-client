@@ -20,11 +20,13 @@ import Register from './componants/Auth/Register.jsx';
 import ResetPassword from './componants/Auth/ResetPassword.jsx';
 import ResetSuccess from './componants/Auth/ResetSuccess.jsx';
 import ProtectedRoute from './componants/ProtectedRoute.jsx';
+import AdminProtectedRoute from './componants/AdminProtectedRoute.jsx';
 import Layout from './layout/Layout.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Home from './pages/Home.jsx';
 import NewOrder from './pages/NewOrder.jsx';
 import NotFound from './pages/NotFound.jsx';
+import Unauthorized from './pages/Unauthorized.jsx';
 import DistanceCalculator from './pages/DistanceCalculator.jsx';
 import TestDirectCalculation from './pages/TestDirectCalculation.jsx';
 import DashboardAdmin from './pages/DashboardAdmin.jsx';
@@ -44,7 +46,15 @@ const App = () => {
             <Route path="/reset-password/:token" element={<ResetPassword />} />
             <Route path="/check-email" element={<CheckEmail />} />
             <Route path="/reset-success" element={<ResetSuccess />} />
-            <Route path="/admin/*" element={<DashboardAdmin />} />
+            <Route path="/unauthorized" element={<Unauthorized />} />
+            <Route 
+              path="/admin/*" 
+              element={
+                <AdminProtectedRoute>
+                  <DashboardAdmin />
+                </AdminProtectedRoute>
+              } 
+            />
 
             {/* Routes using Layout */}
             <Route path="/" element={<Layout />}>
