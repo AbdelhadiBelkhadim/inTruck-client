@@ -13,13 +13,12 @@ const NavLinks = [
     { id: 4, name: 'Contact us', link: 'contactus' },
 ];
 
-const Navbar = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+const Navbar = ({isLoggedIn}) => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
-
     return (
         <div  className="shadow-2xs p-4 fixed top-0 left-0 right-0 z-50 bg-white">
             <div className="container flex justify-between items-center text-center">
@@ -42,10 +41,15 @@ const Navbar = () => {
                                 </Link>
                             </li>
                         ))}
-
-                        {/* update in this part */}
-                        <NavLink to='/login' ><Button label="Login" type="enabled1" size="small"  /></NavLink>
-                        <NavLink to='/register/company'><Button label="Get Stared" type="enabled" size="small" /></NavLink>
+                        {isLoggedIn ? (
+                            <NavLink to='/dashboard' ><Button label="Dashboard" type="enabled" size="small" /></NavLink>
+                        ) : (
+                            <>
+                                <NavLink to='/login' ><Button label="Login" type="enabled1" size="small"  /></NavLink>
+                                <NavLink to='/register/company'><Button label="Get Stared" type="enabled" size="small" /></NavLink>
+                            </>
+                        )}
+                        
                     </ul>
                 </div>
 
@@ -72,8 +76,14 @@ const Navbar = () => {
                                 </Link>
                             </li>
                         ))}
-                        <NavLink to='/login' ><Button label="Login" type="enabled1" size="small"  /></NavLink>
-                        <NavLink to='/register/company'><Button label="Get Stared" type="enabled" size="small" /></NavLink>
+                        {isLoggedIn ? (
+                            <NavLink to='/dashboard' ><Button label="Dashboard" type="enabled" size="small" /></NavLink>
+                        ) : (
+                            <>
+                                <NavLink to='/login' ><Button label="Login" type="enabled1" size="small"  /></NavLink>
+                                <NavLink to='/register/company'><Button label="Get Stared" type="enabled" size="small" /></NavLink>
+                            </>
+                        )}
                     </ul>
                 </div>
             )}

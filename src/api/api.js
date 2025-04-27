@@ -68,6 +68,12 @@ export const updateUserProfile = async (profileData) => {
   return response.data;
 };
 
+//dashboard API calls
+export const getDashboardData = async () => {
+  const response = await apiClient.get('/dashboard');
+  return response.data;
+};
+
 // ✅ Order API calls
 
 export const createOrder = async (orderData) => {
@@ -92,22 +98,22 @@ export const getCancelledOrders = async () => {
 };
 
 export const getOrders = async () => {
-  const response = await apiClient.get('/orders');
+  const response = await apiClient.get('/dashboard/orders');
   return response.data;
 };
 
 export const getOrderById = async (orderId) => {
-  const response = await apiClient.get(`/orders/${orderId}`);
+  const response = await apiClient.get(`/dashboard/orders/${orderId}`);
   return response.data;
 };
 
 export const updateOrder = async (orderId, orderData) => {
-  const response = await apiClient.put(`/orders/${orderId}`, orderData);
+  const response = await apiClient.put(`/dashboard/orders/${orderId}`, orderData);
   return response.data;
 };
 
 export const cancelOrder = async (orderId) => {
-  const response = await apiClient.delete(`/orders/${orderId}`);
+  const response = await apiClient.delete(`/dashboard/orders/${orderId}`);
   return response.data;
 };
 

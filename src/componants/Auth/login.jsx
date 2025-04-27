@@ -8,6 +8,7 @@ import { AuthContext } from '../../contexts/AuthContext';
 import InputAuth from '../ui/AuthInput'
 import Button from '../ui/SecondaryBtn'
 import SideLeftAuth from '../ui/SideLeftAuth'
+import LoadingSpinner from '../LoadingSpinner'
 
 import Bg from '../../assets/loginBg.png'
 
@@ -56,10 +57,7 @@ const Login = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto"></div>
-          <p className="mt-4 text-gray-600">Loading...</p>
-        </div>
+        <LoadingSpinner size={50} color="#4A90E2" /> {/* Adjust size and color as needed */}
       </div>
     );
   }
