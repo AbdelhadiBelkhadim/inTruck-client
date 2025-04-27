@@ -4,10 +4,10 @@ import { FaCheck } from 'react-icons/fa6';
 
 const Summary = ({ dashboardData }) => {
   // Get the count for each status or default to 0
-  const inTransitCount = dashboardData.IN_TRANSIT || 0;
-  const deliveredCount = dashboardData.DELIVERED || 0;
-  const pendingCount = dashboardData.PENDING || 0;
-  const canceledCount = dashboardData.CANCELED || 0;
+  const inTransitCount = dashboardData?.IN_TRANSIT || 0;
+  const deliveredCount = dashboardData?.DELIVERED || 0;
+  const pendingCount = dashboardData?.PENDING || 0;
+  const canceledCount = dashboardData?.CANCELED || 0;
 
   return (
     <div className="bg-white p-4 rounded-xl lg:col-start-3">
