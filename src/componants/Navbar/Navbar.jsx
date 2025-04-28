@@ -14,8 +14,7 @@ const NavLinks = [
     { id: 4, name: 'Contact us', link: 'contactus' },
 ];
 
-
-const Navbar = ({isLoggedIn}) => {
+const Navbar = ({ isLoggedIn }) => {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
@@ -27,7 +26,7 @@ const Navbar = ({isLoggedIn}) => {
                     <img src={logo} alt="Logo" className="w-[107px] h-[32px] md:w-[187px] md:h-[55px] lg:w-[200px] lg:h-[60px]" />
                 </div>
 
-                {/* Desktop Navigation - Unchanged */}
+                {/* Desktop Navigation */}
                 <div className="hidden lg:flex items-center gap-10">
                     <ul className="flex items-center gap-10">
                         {NavLinks.map(({ id, name, link }) => (
@@ -44,14 +43,13 @@ const Navbar = ({isLoggedIn}) => {
                             </li>
                         ))}
                         {isLoggedIn ? (
-                            <NavLink to='/dashboard' ><Button label="Dashboard" type="enabled" size="small" /></NavLink>
+                            <NavLink to='/dashboard'><Button label="Dashboard" type="enabled" size="small" /></NavLink>
                         ) : (
                             <>
-                                <NavLink to='/login' ><Button label="Login" type="enabled1" size="small"  /></NavLink>
+                                <NavLink to='/login'><Button label="Login" type="enabled1" size="small" /></NavLink>
                                 <NavLink to='/register/company'><Button label="Get Stared" type="enabled" size="small" /></NavLink>
                             </>
                         )}
-                        
                     </ul>
                 </div>
 
@@ -62,17 +60,17 @@ const Navbar = ({isLoggedIn}) => {
                     </button>
                 </div>
 
-                {/* Mobile Menu Sidebar - Modified Section */}
+                {/* Mobile Menu Sidebar */}
                 {isMenuOpen && (
                     <div className="lg:hidden fixed inset-0 bg-black/30 z-50" onClick={toggleMenu}>
-                        <div 
+                        <div
                             className="fixed left-0 top-0 h-full w-3/4 bg-white shadow-xl p-6 transform transition-transform duration-300"
                             onClick={(e) => e.stopPropagation()}
                         >
                             {/* Header Section */}
                             <div className="flex justify-between items-center mb-8">
                                 <img src={logo} alt="Logo" className="w-[120px] h-[40px]" />
-                                <button 
+                                <button
                                     onClick={toggleMenu}
                                     className="p-2 text-primary rounded-md hover:bg-gray-100"
                                 >
@@ -80,33 +78,37 @@ const Navbar = ({isLoggedIn}) => {
                                 </button>
                             </div>
 
-            {isMenuOpen && (
-                <div className="lg:hidden mt-4">
-                    <ul className="flex flex-col items-center gap-4">
-                        {NavLinks.map(({ id, name, link }) => (
-                            <li key={id}>
-                                <Link
-                                    to={link} // Use react-scroll Link
-                                    smooth={true}
-                                    duration={500}
-                                    onClick={toggleMenu} // Close menu on click
-                                    className="cursor-pointer hover:text-primary text-xl font-semibold"
-                                >
-                                    {name}
-                                </Link>
-                            </li>
-                        ))}
-                        {isLoggedIn ? (
-                            <NavLink to='/dashboard' ><Button label="Dashboard" type="enabled" size="small" /></NavLink>
-                        ) : (
-                            <>
-                                <NavLink to='/login' ><Button label="Login" type="enabled1" size="small"  /></NavLink>
-                                <NavLink to='/register/company'><Button label="Get Stared" type="enabled" size="small" /></NavLink>
-                            </>
-                        )}
-                    </ul>
-                </div>
-            )}
+                            {/* Mobile Navigation Links */}
+                            <div className="mt-4">
+                                <ul className="flex flex-col items-center gap-4">
+                                    {NavLinks.map(({ id, name, link }) => (
+                                        <li key={id}>
+                                            <Link
+                                                to={link}
+                                                smooth={true}
+                                                duration={500}
+                                                onClick={toggleMenu}
+                                                className="cursor-pointer hover:text-primary text-xl font-semibold"
+                                            >
+                                                {name}
+                                            </Link>
+                                        </li>
+                                    ))}
+                                    {isLoggedIn ? (
+                                        <NavLink to='/dashboard'><Button label="Dashboard" type="enabled" size="small" /></NavLink>
+                                    ) : (
+                                        <>
+                                            <NavLink to='/login'><Button label="Login" type="enabled1" size="small" /></NavLink>
+                                            <NavLink to='/register/company'><Button label="Get Stared" type="enabled" size="small" /></NavLink>
+                                        </>
+                                    )}
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                )}
+            </div>
         </div>
     );
 };
