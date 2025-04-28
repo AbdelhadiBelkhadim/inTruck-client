@@ -1,216 +1,211 @@
 // ✅ src/api/api.js
 import axios from 'axios';
 
-const api = axios.create({
-  baseURL: 'https://intruck-backend-production.up.railway.app/',
+// Create Axios client
+const apiClient = axios.create({
+  baseURL: 'https://intruck-backend-production.up.railway.app',
   headers: {
     'Content-Type': 'application/json',
   },
 });
 
-// Add a request interceptor to attach the token to requests
-api.interceptors.request.use(
+// Request interceptor to add token
+apiClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('token');
     if (token) {
-      config.headers['Authorization'] = `Bearer ${token}`;
+      config.headers.Authorization = `Bearer ${token}`;
     }
     return config;
   },
-  (error) => {
-    return Promise.reject(error);
-  }
+  (error) => Promise.reject(error)
 );
 
-// Add a response interceptor to handle 401 errors
-api.interceptors.response.use(
-  (response) => {
-    return response;
-  },
+// Response interceptor for auth errors
+apiClient.interceptors.response.use(
+  (response) => response,
   (error) => {
-    if (error.response && error.response.status === 401) {
-      // Redirect to login or handle token expiration
+    if (error.response?.status === 401) {
       localStorage.removeItem('token');
-      window.location.href = '/login'; // Adjust this as needed
+      window.location.href = '/login';
     }
     return Promise.reject(error);
   }
 );
 
-// Authentication
-
-export const loginUser = async (userData) => {
-  const response = await api.post('/auth/login', userData);
+// ✅ Auth API
+export const loginUser = async (credentials) => {
+  const response = await apiClient.post('/auth/login', credentials);
+  const { token } = response.data;
+  localStorage.setItem('token', token);
+  localStorage.setItem('user', JSON.stringify(response.data.user));
+  localStorage.setItem('id', response.data.user.id);
   return response.data;
 };
 
 export const registerIndividual = async (userData) => {
-  const response = await api.post('/auth/register', {
-    ...userData,
-    accountType: 'INDIVIDUAL',
-  });
+  const response = await apiClient.post('/auth/register', userData);
   return response.data;
 };
 
-export const registerCompany = async (userData) => {
-  const response = await api.post('/auth/register', {
-    ...userData,
-    accountType: 'COMPANY',
-  });
+export const registerCompany = async (companyData) => {
+  const response = await apiClient.post('/auth/register', companyData);
   return response.data;
 };
 
-export const forgotPassword = async (email) => {
-  const response = await api.post('/auth/forgot-password', { email });
+export const forgotPassword = async (forgotPasswordData) => {
+  const response = await apiClient.post('/auth/forgetPassword', forgotPasswordData);
   return response.data;
 };
-
-// User Profile
 
 export const getUserProfile = async () => {
-  const response = await api.get('/users/profile');
-  return response.data;
+  try {
+    const response = await apiClient.get('/auth/profile');
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
 };
 
-// Update user profile data
 export const updateUserProfile = async (profileData) => {
-  const response = await api.put('/users/profile', profileData);
-  return response.data;
+  try {
+    const response = await apiClient.put('/auth/updateProfile', profileData);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
 };
 
-// Dashboard Data
-
+// ✅ Dashboard API
 export const getDashboardData = async () => {
-  const response = await api.get('/dashboard');
+  const response = await apiClient.get('/dashboard');
   return response.data;
 };
 
-// Orders
-
+// ✅ Order API
 export const createOrder = async (orderData) => {
-  const response = await api.post('/orders', orderData);
+  const response = await apiClient.post('/dashboard/newOrder', orderData);
   return response.data;
 };
 
 export const getTrackingOrders = async () => {
-  const response = await api.get('/orders/tracking');
+  const response = await apiClient.get('/dashboard/tracking');
+  console.log(response.data);
   return response.data;
 };
 
 export const getDeliveredOrders = async () => {
-  const response = await api.get('/orders/delivered');
+  const response = await apiClient.get('/dashboard/deleveries');
   return response.data;
 };
 
 export const getCancelledOrders = async () => {
-  const response = await api.get('/orders/cancelled');
+  const response = await apiClient.get('/dashboard/canceled');
   return response.data;
 };
 
 export const getOrders = async () => {
-  try {
-    const response = await api.get('/orders');
-    return response.data;
-  } catch (error) {
-    const errorMessage = error.response?.data?.message || 
-      error.message || 
-      'Failed to fetch orders';
-    throw new Error(errorMessage);
-  }
+  const response = await apiClient.get('/dashboard/orders');
+  return response.data;
 };
 
-export const getOrderById = async (id) => {
-  try {
-    const response = await api.get(`/orders/${id}`);
-    return response.data;
-  } catch (error) {
-    const errorMessage = error.response?.data?.message || 
-      error.message || 
-      `Failed to fetch order with ID: ${id}`;
-    throw new Error(errorMessage);
-  }
+export const getOrderById = async (orderId) => {
+  const response = await apiClient.get(`/dashboard/orders/${orderId}`);
+  return response.data;
 };
 
-/**
- * Gets detailed information about an order including tracking status
- * @param {string} id - The ID of the order to fetch
- * @returns {Promise<Object>} - The order data with tracking details
- */
-export const getOrderDetails = async (id) => {
-  try {
-    const response = await api.get(`/orders/${id}/details`);
-    return response.data;
-  } catch (error) {
-    const errorMessage = error.response?.data?.message || 
-      error.message || 
-      `Failed to fetch detailed information for order: ${id}`;
-    throw new Error(errorMessage);
-  }
+export const updateOrder = async (orderId, orderData) => {
+  const response = await apiClient.put(`/dashboard/orders/${orderId}`, orderData);
+  return response.data;
 };
 
-export const updateOrder = async (id, orderData) => {
-  try {
-    const response = await api.put(`/orders/${id}`, orderData);
-    return response.data;
-  } catch (error) {
-    const errorMessage = error.response?.data?.message || 
-      error.message || 
-      'Failed to update order';
-    throw new Error(errorMessage);
-  }
+export const cancelOrder = async (orderId) => {
+  const response = await apiClient.delete(`/dashboard/orders/${orderId}`);
+  return response.data;
 };
 
-export const cancelOrder = async (id, reason) => {
+// ✅ Pricing API
+export const calculatePrice = async (pickupCoordinates, deliveryCoordinates, packageDetails) => {
+  console.log('Calculate price called with coordinates:', { 
+    pickup: pickupCoordinates, 
+    delivery: deliveryCoordinates,
+    packageDetails
+  });
+  
   try {
-    const response = await api.put(`/orders/${id}/update-status`, { 
-      status: 'CANCELLED',
-      reason 
-    });
-    return response.data;
-  } catch (error) {
-    const errorMessage = error.response?.data?.message || 
-      error.message || 
-      'Failed to cancel order';
-    throw new Error(errorMessage);
-  }
-};
+    const requestBody = {
+      origin: {
+        lat: pickupCoordinates.lat,
+        lng: pickupCoordinates.lng,
+      },
+      destination: {
+        lat: deliveryCoordinates.lat,
+        lng: deliveryCoordinates.lng,
+      },
+      packageDetails,
+    };
 
-// Pricing calculation
+    console.log('Sending request with body:', requestBody);
 
-export const calculatePrice = async (requestData) => {
-  console.log('Price Calculation Request Body:', requestData);
-  try {
-    const response = await api.post('/pricing/calculate', requestData);
-    console.log('Price Calculation API Response:', response.data);
-    const price = response.data.price;
-    console.log('Extracted Price Value:', price);
-    return price;
+    const response = await apiClient.post('/dashboard/distance', requestBody);
+    console.log('Distance calculation API response:', response.data);
+
+    const { distanceText, distanceKm, durationText, price } = response.data;
+
+    let priceValue = 0;
+    if (typeof price === 'string') {
+      const priceMatch = price.match(/\d+(\.\d+)?/);
+      if (priceMatch) {
+        priceValue = parseFloat(priceMatch[0]);
+      }
+    } else if (typeof price === 'number') {
+      priceValue = price;
+    } else if (price && typeof price === 'object') {
+      if (price.hasOwnProperty('price')) {
+        priceValue = price.price;
+      } else if (price.hasOwnProperty('value')) {
+        priceValue = price.value;
+      } else {
+        const firstValue = Object.values(price).find(v => !isNaN(parseFloat(v)));
+        if (firstValue) {
+          priceValue = parseFloat(firstValue);
+        }
+      }
+    }
+
+    console.log('Extracted price value:', priceValue);
+
+    return {
+      price: priceValue,
+      distance: distanceKm || 0,
+      distanceText: distanceText || `${distanceKm?.toFixed(2) || 0} km`,
+      duration: durationText || 'Not available',
+    };
   } catch (error) {
-    console.error('Price Calculation Error:', error);
+    console.error('Error calculating price:', error);
     throw error;
   }
 };
 
-// Haversine formula for calculating distance
-export const calculateDistance = (lat1, lon1, lat2, lon2) => {
-  const R = 6371; // Earth's radius in km
-  const dLat = (lat2 - lat1) * (Math.PI / 180);
-  const dLon = (lon2 - lon1) * (Math.PI / 180);
-  const a =
-    Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(lat1 * (Math.PI / 180)) * Math.cos(lat2 * (Math.PI / 180)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
-  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-  const distance = R * c; // Distance in km
-  return distance;
-<<<<<<< HEAD
+// Helper: Calculate distance using Haversine formula
+function calculateHaversineDistance(lat1, lng1, lat2, lng2) {
+  lat1 = parseFloat(lat1);
+  lng1 = parseFloat(lng1);
+  lat2 = parseFloat(lat2);
+  lng2 = parseFloat(lng2);
+
+  const R = 6371; // Radius of Earth in km
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = 
+    Math.sin(dLat/2) * Math.sin(dLat/2) +
+    Math.cos(lat1 * Math.PI/180) * Math.cos(lat2 * Math.PI/180) *
+    Math.sin(dLng/2) * Math.sin(dLng/2);
+  const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+  return R * c;
 }
 
-// creatpaument api
-export async function createPayment(paymentData) {
+// ✅ Payment API
+export const createPayment = async (paymentData) => {
   return apiClient.post('/payment/create-payment-intent', paymentData);
-}
-=======
 };
-
-export default api;
->>>>>>> 37ec7de8c3a1b2239a4f6ce6d942b9284d982b09
