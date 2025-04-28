@@ -25,7 +25,8 @@ const ConfirmationOrderAdmin = () => {
       }
 
       setLoading(true);
-      const response = await axios.get(`${API_BASE_URL}/admin/tracking`, {
+      // Fetch orders with specific query parameter for pending status
+      const response = await axios.get(`${API_BASE_URL}/admin/orders?status=PENDING`, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -33,7 +34,18 @@ const ConfirmationOrderAdmin = () => {
       });
       
       console.log('Pending orders data:', response.data);
-      setPendingOrders(response.data);
+      
+      // If response.data is an array, use it directly
+      // If it has an orders property, use that instead
+      const ordersData = Array.isArray(response.data) ? response.data : (response.data.orders || []);
+      
+      // Filter to ensure we only have pending orders (as a safety measure)
+      const filteredOrders = ordersData.filter(order => 
+        order.status === 'PENDING' || 
+        (order.tracking && order.tracking.status === 'PENDING')
+      );
+      
+      setPendingOrders(filteredOrders);
       setLoading(false);
     } catch (err) {
       console.error('Error fetching pending orders:', err);
@@ -68,7 +80,8 @@ const ConfirmationOrderAdmin = () => {
         return;
       }
 
-      await axios.post(`${API_BASE_URL}/admin/orders/${orderId}/confirm`, {}, {
+      // Try the admin-specific endpoint first
+      await axios.put(`${API_BASE_URL}/admin/orders/${orderId}/confirm`, {}, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -92,7 +105,10 @@ const ConfirmationOrderAdmin = () => {
         return;
       }
 
-      await axios.post(`${API_BASE_URL}/admin/orders/${orderId}/cancel`, {}, {
+      // Try the admin-specific endpoint first
+      await axios.put(`${API_BASE_URL}/admin/orders/${orderId}/cancel`, {
+        reason: 'Cancelled by admin'
+      }, {
         headers: {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
@@ -174,13 +190,13 @@ const ConfirmationOrderAdmin = () => {
                   #{order.id || `ORDER-${index}`}
                 </td>
                 <td className="py-6 px-4 text-left text-gray-700 truncate">
-                  {order.origin?.address || "N/A"}
+                  {order.origin?.address || order.pickup_loc || "N/A"}
                 </td>
                 <td className="py-6 px-4 text-center">
                   <ArrowRight className="w-5 h-5 text-[#2e3192] inline-block" />
                 </td>
                 <td className="py-6 px-4 text-left text-gray-700 truncate">
-                  {order.destination?.address || "N/A"}
+                  {order.destination?.address || order.delivery_loc || "N/A"}
                 </td>
                 <td className="py-6 px-4 text-center">
                   <span className="text-[#2e3192] font-bold text-2xl">
