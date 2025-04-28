@@ -215,7 +215,7 @@ const TrackingMain = () => {
           ))}
         </div>
       ) : (
-        <>
+        <div className='h-[calc(100vh-100px)] overflow-y-auto pr-2 scrollbar-hide'>
           <SearchBarWithFilter 
             onSearch={handleSearch}
             onFilterChange={handleFilterChange}
@@ -258,7 +258,7 @@ const TrackingMain = () => {
               </div>
             </div>
           )}
-        </>
+        </div>
       )}
     </div>
   );

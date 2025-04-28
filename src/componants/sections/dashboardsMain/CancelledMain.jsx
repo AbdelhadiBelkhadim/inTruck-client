@@ -217,7 +217,7 @@ const CancelledMain = () => {
           ))}
         </div>
       ) : (
-        <>
+        <div className='h-[calc(100vh-100px)] overflow-y-auto pr-2 scrollbar-hide'>
           <SearchBarWithFilter 
             onSearch={handleSearch}
             placeholder="Search by order ID or destination"
@@ -255,7 +255,7 @@ const CancelledMain = () => {
               </div>
             </div>
           )}
-        </>
+        </div>
       )}
     </div>
   );

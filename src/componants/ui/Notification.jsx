@@ -6,7 +6,7 @@ const Notification = () => {
   return (
     <div>
         {/* Notifications */}
-      <div className="flex-1 p-4 space-y-4">
+      <div className="flex-1 p-4 space-y-4 h-[calc(100vh-100px)] overflow-y-auto pr-2 scrollbar-hide">
         {/* Notification 1 */}
         <div className="bg-white rounded-lg p-4 relative">
           <div className="flex">

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Package, ChevronRight, ChevronDown, Truck, Calendar, MapPin } from "lucide-react";
+import { Package, ChevronRight, ChevronDown, Truck, Calendar, MapPin, DollarSign, Info, Box } from "lucide-react";
 import { getOrders } from "../../../api/api.js";
 import DashboardHeader from "../../../componants/ui/DashboardHeader.jsx";
 import { Link } from "react-router-dom";
@@ -111,12 +111,17 @@ const OrdersMain = () => {
     status: formatStatus(order.tracking?.status || 'PENDING'),
     statusColor: getStatusColor(order.tracking?.status || 'PENDING'),
     date: formatDate(order.createdAt),
-    // Additional fields for expanded view
-    pickupAddress: order.pickup_address || 'Address not available',
-    deliveryAddress: order.delivery_address || 'Address not available',
-    estimatedDelivery: formatDate(order.estimated_delivery_date),
-    trackingNumber: order.tracking?.tracking_number || 'Not assigned',
-    notes: order.notes || 'No additional notes',
+    // New fields for expanded view
+    shipmentRange: order.shipment_range || 'Not specified',
+    deliveryLoc: order.delivery_loc || 'Not specified',
+    width: order.width || 'N/A',
+    height: order.height || 'N/A',
+    quantity: order.quantity || 'N/A',
+    shipmentInfo: order.shipment_info || 'No information available',
+    shipmentNote: order.shipment_note || 'No notes',
+    price: order.price || 'N/A',
+    reason: order.reason || 'Not specified',
+    deliveryDate: formatDate(order.delivery_date),
     rawData: order // Store the raw order data for any additional fields
   })) : [];
 
@@ -135,7 +140,7 @@ const OrdersMain = () => {
           </Link>
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-3 h-[calc(100vh-100px)] overflow-y-auto pr-2 scrollbar-hide">
           {displayOrders.map((order, index) => (
             <div key={index} className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow overflow-hidden">
               {/* Order summary row */}
@@ -190,50 +195,65 @@ const OrdersMain = () => {
               {expandedOrderId === order.id && (
                 <div className="p-4 border-t border-gray-200 bg-gray-50">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {/* Pickup Location */}
+                    
+                    {/* Shipment Range */}
                     <div className="bg-white p-3 rounded-lg shadow-sm">
                       <div className="flex items-center mb-2">
-                        <MapPin size={16} className="text-primary mr-2" />
-                        <h3 className="font-medium">Pickup</h3>
+                        <Truck size={16} className="text-primary mr-2" />
+                        <h3 className="font-medium">Shipment Range</h3>
                       </div>
-                      <p className="text-sm text-gray-600">{order.pickupAddress}</p>
+                      <p className="text-sm text-gray-600">{order.shipmentRange}</p>
                     </div>
                     
-                    {/* Delivery Location */}
+                    {/* Dimensions */}
                     <div className="bg-white p-3 rounded-lg shadow-sm">
                       <div className="flex items-center mb-2">
-                        <MapPin size={16} className="text-secondaire mr-2" />
-                        <h3 className="font-medium">Delivery</h3>
+                        <Box size={16} className="text-blue-500 mr-2" />
+                        <h3 className="font-medium">Dimensions</h3>
                       </div>
-                      <p className="text-sm text-gray-600">{order.deliveryAddress}</p>
+                      <div className="flex justify-between text-sm text-gray-600">
+                        <span>Width: {order.width}</span>
+                        <span>Height: {order.height}</span>
+                        <span>Quantity: {order.quantity}</span>
+                      </div>
                     </div>
                     
-                    {/* Estimated Delivery */}
+                    {/* Price */}
                     <div className="bg-white p-3 rounded-lg shadow-sm">
                       <div className="flex items-center mb-2">
-                        <Calendar size={16} className="text-blue-500 mr-2" />
-                        <h3 className="font-medium">Estimated Delivery</h3>
+                        <DollarSign size={16} className="text-green-500 mr-2" />
+                        <h3 className="font-medium">Price</h3>
                       </div>
-                      <p className="text-sm text-gray-600">{order.estimatedDelivery}</p>
+                      <p className="text-sm text-gray-600">{order.price}</p>
                     </div>
                     
-                    {/* Tracking Info */}
+                    {/* Delivery Date */}
                     <div className="bg-white p-3 rounded-lg shadow-sm">
                       <div className="flex items-center mb-2">
-                        <Truck size={16} className="text-green-500 mr-2" />
-                        <h3 className="font-medium">Tracking</h3>
+                        <Calendar size={16} className="text-purple-500 mr-2" />
+                        <h3 className="font-medium">Delivery Date</h3>
                       </div>
-                      <p className="text-sm text-gray-600">#{order.trackingNumber}</p>
+                      <p className="text-sm text-gray-600">{order.deliveryDate}</p>
                     </div>
+                    
                   </div>
                   
-                  {/* Notes section */}
-                  {order.notes !== 'No additional notes' && (
-                    <div className="mt-4 bg-white p-3 rounded-lg shadow-sm">
-                      <h3 className="font-medium mb-2">Notes</h3>
-                      <p className="text-sm text-gray-600">{order.notes}</p>
-                    </div>
-                  )}
+                  {/* Shipment Info and Notes */}
+                  <div className="mt-4 grid grid-cols-1 gap-4">
+                    {order.shipmentInfo !== 'No information available' && (
+                      <div className="bg-white p-3 rounded-lg shadow-sm">
+                        <h3 className="font-medium mb-2">Shipment Information</h3>
+                        <p className="text-sm text-gray-600">{order.shipmentInfo}</p>
+                      </div>
+                    )}
+                    
+                    {order.shipmentNote !== 'No notes' && (
+                      <div className="bg-white p-3 rounded-lg shadow-sm">
+                        <h3 className="font-medium mb-2">Shipment Notes</h3>
+                        <p className="text-sm text-gray-600">{order.shipmentNote}</p>
+                      </div>
+                    )}
+                  </div>
                 </div>
               )}
             </div>
