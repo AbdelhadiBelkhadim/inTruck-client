@@ -203,3 +203,8 @@ export const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const distance = R * c; // Distance in km
   return distance;
 }
+
+// creatpaument api
+export async function createPayment(paymentData) {
+  return api.post('/payment/create-payment-intent', paymentData);
+}
