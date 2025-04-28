@@ -80,7 +80,7 @@ const LastOrders = ({ count, orders = [] }) => {
             <div className="md:flex item-center justify-between">
               <div className="text-xl md:text-3xl font-bold text-indigo-800 mr-8">
                 {order.weight}
-                <span className="text-[12px] md:text-[15px] text-secondaire">t</span>
+                <span className="text-[12px] md:text-[15px] text-secondaire">Kg</span>
               </div>
               <div className="flex items-center">
                 <div className={`w-2 md:w-3 h-2 md:h-3 ${order.statusColor} rounded-full mr-1 md:mr-2`}></div>

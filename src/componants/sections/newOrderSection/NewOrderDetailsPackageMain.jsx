@@ -57,7 +57,7 @@ const NewOrderDetailsPackageMain = ({ formData, handleChange }) => {
 
           {/* Weight */}
           <div>
-            <label className="block text-[#00b4d8] text-lg md:text-xl mb-4 text-center">Weight (tons)</label>
+            <label className="block text-[#00b4d8] text-lg md:text-xl mb-4 text-center">Weight (Kg)</label>
             <input
               type="number"
               name="weight"

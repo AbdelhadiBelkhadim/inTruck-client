@@ -78,7 +78,9 @@ const OrdersMain = () => {
   };
 
   // Toggle expanded order
-  const toggleOrderDetails = (orderId) => {
+  const toggleOrderDetails = (orderId, e) => {
+    e.preventDefault(); // Prevent navigation
+    e.stopPropagation(); // Prevent event bubbling
     setExpandedOrderId(expandedOrderId === orderId ? null : orderId);
   };
 
@@ -135,31 +137,30 @@ const OrdersMain = () => {
       ) : (
         <div className="space-y-3">
           {displayOrders.map((order, index) => (
-            <div 
-              key={index} 
-              className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow cursor-pointer overflow-hidden"
-            >
-              {/* Order summary row (always visible) */}
-              <div 
-                className="p-3 md:p-4 flex items-center justify-between"
-                onClick={() => toggleOrderDetails(order.id)}
-              >
-                <div className="flex justify-between items-center">
-                  <div className="p-2 bg-gray-200 rounded-lg mr-3 flex items-center justify-center">
-                    <Package size={20} />
-                  </div>
-                  <div className="flex-1">
-                    <p className="font-bold text-[10px] md:text-[16px]">#{order.id}</p>
-                    <div className="flex items-center text-secondaire text-[10px] md:text-sm">
-                      <span>{order.from}</span>
-                      <span className="mx-1 md:mx-2">→</span>
-                      <span>{order.to}</span>
+            <div key={index} className="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow overflow-hidden">
+              {/* Order summary row */}
+              <div className="p-3 md:p-4 rounded-xl flex items-center justify-between">
+                <Link 
+                  to={`/orders/${order.id}`} 
+                  className="flex-1 flex items-center"
+                >
+                  <div className="flex justify-between items-center">
+                    <div className="p-2 bg-gray-200 rounded-lg mr-3 flex items-center justify-center">
+                      <Package size={20} />
                     </div>
-                    <div className="text-gray-500 text-[10px] md:text-xs mt-1">
-                      {order.date}
+                    <div className="flex-1">
+                      <p className="font-bold text-[10px] md:text-[16px]">#{order.id}</p>
+                      <div className="flex items-center text-secondaire text-[10px] md:text-sm">
+                        <span>{order.from}</span>
+                        <span className="mx-1 md:mx-2">→</span>
+                        <span>{order.to}</span>
+                      </div>
+                      <div className="text-gray-500 text-[10px] md:text-xs mt-1">
+                        {order.date}
+                      </div>
                     </div>
                   </div>
-                </div>
+                </Link>
                 <div className="flex items-center">
                   <div className="md:flex items-center justify-between">
                     <div className="text-xl md:text-2xl font-bold text-indigo-800 mr-4 md:mr-8">
@@ -171,11 +172,17 @@ const OrdersMain = () => {
                       <span className="text-[10px] md:text-sm">{order.status}</span>
                     </div>
                   </div>
-                  {expandedOrderId === order.id ? (
-                    <ChevronDown size={16} className="text-gray-400 ml-2 md:ml-4" />
-                  ) : (
-                    <ChevronRight size={16} className="text-gray-400 ml-2 md:ml-4" />
-                  )}
+                  <button 
+                    onClick={(e) => toggleOrderDetails(order.id, e)}
+                    className="ml-2 md:ml-4 p-1 hover:bg-gray-100 rounded-full transition-colors"
+                    aria-label={expandedOrderId === order.id ? "Hide details" : "Show details"}
+                  >
+                    {expandedOrderId === order.id ? (
+                      <ChevronDown size={16} className="text-gray-600" />
+                    ) : (
+                      <ChevronRight size={16} className="text-gray-600" />
+                    )}
+                  </button>
                 </div>
               </div>
               
@@ -227,16 +234,6 @@ const OrdersMain = () => {
                       <p className="text-sm text-gray-600">{order.notes}</p>
                     </div>
                   )}
-                  
-                  {/* View full details button */}
-                  <div className="mt-4 flex justify-end">
-                    <Link 
-                      to={`/orders/${order.id}`}
-                      className="bg-primary text-white px-4 py-2 rounded-lg hover:bg-opacity-90 transition"
-                    >
-                      View Full Details
-                    </Link>
-                  </div>
                 </div>
               )}
             </div>
