@@ -4,6 +4,7 @@ import { Elements, CardElement, useStripe, useElements } from '@stripe/react-str
 import { createPayment } from '../../../api/api';
 import { useNavigate } from 'react-router-dom';
 
+// Use your own publishable key (test or live)
 const stripePromise = loadStripe('pk_test_51RC0RMISU9u71vhkc4cTnipAgUYqehOtoR9NuywHRNSdlK0xUiL4Bw2nSOZde39VcT6xYqUr44xIpQBQ0LS5kBoX00kNQcvqBp');
 
 const CheckoutForm = ({ formData, handleChange }) => {
@@ -20,19 +21,16 @@ const CheckoutForm = ({ formData, handleChange }) => {
     e.preventDefault();
 
     if (!stripe || !elements) return;
-
     setProcessing(true);
 
-    // Get the payment amount from formData
     const amount = formData.calculatedPrice || formData.amount || 0;
-    
+
     if (amount <= 0) {
       setError("Invalid payment amount. Please return to previous steps.");
       setProcessing(false);
       return;
     }
 
-    // 1. Create PaymentMethod
     const { error: stripeError, paymentMethod } = await stripe.createPaymentMethod({
       type: 'card',
       card: elements.getElement(CardElement),
@@ -46,19 +44,14 @@ const CheckoutForm = ({ formData, handleChange }) => {
     }
 
     try {
-      // 2. Call backend to create PaymentIntent
       const response = await createPayment({
         paymentMethodId: paymentMethod.id,
-        amount: amount, // Use the amount from formData
+        amount,
       });
 
       const { clientSecret } = response.data;
+      if (!clientSecret) throw new Error('Missing client secret from backend');
 
-      if (!clientSecret) {
-        throw new Error('Missing client secret from backend');
-      }
-
-      // 3. Confirm payment
       const confirmResult = await stripe.confirmCardPayment(clientSecret);
 
       if (confirmResult.error) {
@@ -66,16 +59,9 @@ const CheckoutForm = ({ formData, handleChange }) => {
       } else if (confirmResult.paymentIntent.status === 'succeeded') {
         setSucceeded(true);
         setError(null);
-        
-        // Update payment method in formData
-        handleChange({
-          target: {
-            name: 'paymentMethod',
-            value: 'card'
-          }
-        });
-        
-        // Proceed to next step after successful payment
+
+        handleChange({ target: { name: 'paymentMethod', value: 'card' } });
+
         setTimeout(() => {
           navigate('/new-order/check');
         }, 2000);
@@ -119,7 +105,7 @@ const CheckoutForm = ({ formData, handleChange }) => {
       <div>
         <label className="block text-blue-400 text-lg md:text-2xl mb-4 text-center">Amount to Pay</label>
         <div className="w-full px-2 py-2 text-gray-700 bg-transparent border-b border-primary text-center font-bold">
-          {formData.calculatedPrice || formData.amount || 0} DH
+          {(formData.calculatedPrice || formData.amount || 0).toFixed(2)} DH
         </div>
       </div>
 
