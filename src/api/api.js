@@ -221,3 +221,8 @@ function calculateHaversineDistance(lat1, lng1, lat2, lng2) {
   
   return distance;
 }
+
+// creatpaument api
+export async function createPayment(paymentData) {
+  return apiClient.post('/payment/create-payment-intent', paymentData);
+}
