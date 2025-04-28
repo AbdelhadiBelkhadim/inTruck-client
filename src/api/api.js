@@ -58,14 +58,24 @@ export const forgotPassword = async (forgotPasswordData) => {
   return response.data;
 };
 
+// Get user profile data
 export const getUserProfile = async () => {
-  const response = await apiClient.get('/auth/profile');
-  return response.data;
+  try {
+    const response = await apiClient.get('/auth/profile');
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
 };
 
+// Update user profile data
 export const updateUserProfile = async (profileData) => {
-  const response = await apiClient.put('/auth/profile', profileData);
-  return response.data;
+  try {
+    const response = await apiClient.put('/auth/updateProfile', profileData);
+    return response.data;
+  } catch (error) {
+    throw error.response?.data || error.message;
+  }
 };
 
 //dashboard API calls

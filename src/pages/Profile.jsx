@@ -1,11 +1,11 @@
 // src/pages/Profile.jsx
 import React, { useState, useEffect } from 'react';
 import DashboardHeader from '../componants/ui/DashboardHeader';
-import { updateUserProfile } from '../api/api';
+import { getUserProfile, updateUserProfile } from '../api/api';
 
 const Profile = () => {
   const [profileData, setProfileData] = useState({
-    userType: '', // Will be set from localStorage
+    userType: '', // Will be set from backend response
     company: {
       companyName: '',
       rc: '',
@@ -22,28 +22,28 @@ const Profile = () => {
     phone: '',
     address: '',
   });
+  
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    const fetchProfileData = () => {
+    const fetchProfileData = async () => {
       try {
         setLoading(true);
-
-        // Fetch user data from localStorage
-        const localData = localStorage.getItem('user');
-        if (localData) {
-          const parsedData = JSON.parse(localData);
-          setProfileData(prev => ({
-            ...prev,
-            ...parsedData,
-            userType: parsedData.userType || 'COMPANY', // Default to 'company' if userType is missing
-            company: parsedData.company || {},
-            individual: parsedData.individual || {}
-          }));
-        } else {
-          setError('No profile data found in localStorage');
+        const response = await getUserProfile(); 
+  
+        const user = response?.user; // ✅ FIX HERE
+        if (!user) {
+          throw new Error('Invalid profile data received');
         }
+  
+        setProfileData(prev => ({
+          ...prev,
+          ...user,
+          userType: user.userType || 'COMPANY', 
+          company: user.company || {},
+          individual: user.individual || {}
+        }));
       } catch (err) {
         console.error('Failed to fetch profile data:', err);
         setError('Failed to load profile information');
@@ -51,9 +51,11 @@ const Profile = () => {
         setLoading(false);
       }
     };
-
+  
     fetchProfileData();
   }, []);
+  
+
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -80,16 +82,15 @@ const Profile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
+      console.log(profileData); // ADD THIS
       await updateUserProfile(profileData);
       alert('Profile updated successfully');
-      
-      // Update localStorage with new data
-      localStorage.setItem('user', JSON.stringify(profileData));
     } catch (err) {
       console.error('Failed to update profile:', err);
       setError('Failed to update profile information');
     }
   };
+  
 
   const getInitials = () => {
     const nameSource = profileData.userType === 'COMPANY' 
