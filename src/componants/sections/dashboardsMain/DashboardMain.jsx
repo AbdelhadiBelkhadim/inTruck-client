@@ -7,6 +7,7 @@ import LastOrders from '../LastOrders';
 import ShippingDetails from '../ShipipingDetails'; // Fixed typo
 import DashboardHeader from '../../../componants/ui/DashboardHeader';
 import LoadingSpinner from '../../../componants/LoadingSpinner.jsx'
+import Count from '../count.jsx';
 
 import { Plus } from 'lucide-react';
 
@@ -164,6 +165,7 @@ const DashboardMain = () => {
               count={dashboardData.lastOrders?.length > 0 ? 'block' : 'hidden'} 
               orders={dashboardData.lastOrders || []}
             />
+            <Count />
           </div>
         </div>
       )}
