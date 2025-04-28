@@ -202,9 +202,15 @@ export const calculateDistance = (lat1, lon1, lat2, lon2) => {
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   const distance = R * c; // Distance in km
   return distance;
+<<<<<<< HEAD
 }
 
 // creatpaument api
 export async function createPayment(paymentData) {
-  return api.post('/payment/create-payment-intent', paymentData);
+  return apiClient.post('/payment/create-payment-intent', paymentData);
 }
+=======
+};
+
+export default api;
+>>>>>>> 37ec7de8c3a1b2239a4f6ce6d942b9284d982b09
