@@ -98,11 +98,7 @@ const Profile = () => {
       : (profileData.individual?.fullName || '');
 
     if (nameSource) {
-      return nameSource
-        .split(' ')
-        .map(name => name[0])
-        .join('')
-        .toUpperCase();
+      return nameSource.split(" ").map(n => n[0]).join("").toUpperCase();
     }
     return 'OU';
   };

@@ -25,20 +25,20 @@ const SideBar = ({ setOpen, open }) => {
         try {
           const userData = await getUserProfile();
           if (userData) {
-        if (userData.userType === "COMPANY") {
-          setUserProfile({
-            name: userData.company?.companyName || "Unknown Company",
-            initials: userData.company?.companyName?.split(" ").map(n => n[0]).join("").toUpperCase() || "UC",
-            company: userData.company?.companyName || "Unknown Company",
-            adress: userData.company?.address || "Unknown Address"
-          });
-        } else {
-          setUserProfile({
-            name: userData.individual?.fullName || "Unknown User",
-            initials: userData.individual?.fullName?.split(" ").map(n => n[0]).join("").toUpperCase() || "UU",
-            adress: userData.individual?.address || "Unknown Address"
-          });
-        }
+            if (userData.userType === "COMPANY") {
+                setUserProfile({
+                name: userData.user.company.companyName || "Unknown Company",
+                initials: userData.user.company.companyName?.split(" ").map(n => n[0]).slice(0, 2).join("").toUpperCase() || "UC",
+                company: userData.user.company.companyName || "Unknown Company",
+                adress: userData.user.company.address || "Unknown Address"
+                });
+            } else {
+              setUserProfile({
+                name: userData.user.individual.fullName || "Unknown User",
+                initials: userData.user.individual.fullName?.split(" ").map(n => n[0]).slice(0, 2).join("").toUpperCase() || "UU",
+                adress: userData.user.individual.address || "Unknown Address"
+              });
+            }
           }
         } catch (error) {
           console.error("Error fetching user data from API:", error);

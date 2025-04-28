@@ -1,37 +1,32 @@
-import React, { useEffect, useContext } from 'react'
-import { NavLink, useNavigate } from 'react-router-dom'
-import { Formik, Form } from 'formik';
-import { Mail } from 'lucide-react';
-import { RiLockPasswordLine } from "react-icons/ri";
-import * as Yup from 'yup';
 import { AuthContext } from '../../contexts/AuthContext';
 import InputAuth from '../ui/AuthInput'
 import Button from '../ui/SecondaryBtn'
 import SideLeftAuth from '../ui/SideLeftAuth'
 import LoadingSpinner from '../LoadingSpinner'
+import {loginSchema} from '../../../utils/FormValidation'
+import { useNavigate, NavLink } from 'react-router-dom';
+import { useContext, useEffect } from 'react';
+import { Formik, Form } from 'formik';
+import { Mail } from 'lucide-react';
+import { RiLockPasswordLine } from 'react-icons/ri';
 
 import Bg from '../../assets/loginBg.png'
 
-// Define validation schema
-const loginSchema = Yup.object().shape({
-  email: Yup.string()
-    .email('Invalid email address')
-    .required('Email is required'),
-  password: Yup.string()
-    .min(6, 'Password must be at least 6 characters')
-    .required('Password is required'),
-});
 
 const Login = () => {
   const navigate = useNavigate();
-  const { login, isAuthenticated, loading, error } = useContext(AuthContext);
+  const { login, isAuthenticated, loading, error, user } = useContext(AuthContext);
 
-  // Redirect to dashboard if already authenticated
+  // Redirect to appropriate dashboard based on user role if already authenticated
   useEffect(() => {
-    if (isAuthenticated) {
-      navigate('/dashboard', { replace: true });
+    if (isAuthenticated && user) {
+      if (user.role === 'ADMIN') {
+        navigate('/admin', { replace: true });
+      } else {
+        navigate('/dashboard', { replace: true });
+      }
     }
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, user]);
 
   // Initial form values
   const initialValues = {
@@ -44,7 +39,12 @@ const Login = () => {
     try {
       const success = await login(values.email, values.password);
       if (success) {
-        navigate('/dashboard', { replace: true });
+        // Navigate based on user role
+        if (user && user.role === 'admin') {
+          navigate('/admin/dashboard', { replace: true });
+        } else {
+          navigate('/dashboard', { replace: true });
+        }
       }
     } catch (error) {
       console.error('Login error:', error);
@@ -57,7 +57,7 @@ const Login = () => {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-screen">
-        <LoadingSpinner size={50} color="#4A90E2" /> {/* Adjust size and color as needed */}
+        <LoadingSpinner size={50} color="#4A90E2" />
       </div>
     );
   }
