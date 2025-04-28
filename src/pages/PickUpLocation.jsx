@@ -1,8 +1,7 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { ArrowUpToLine, ArrowLeft } from "lucide-react";
 import Logo from '../assets/IT.png';
 import { Link } from 'react-router-dom';
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
 const PickUpLocation = () => {
   const [formData, setFormData] = useState({
@@ -14,6 +13,9 @@ const PickUpLocation = () => {
     contactPhone: '',
     coordinates: null
   });
+  const [filteredCities, setFilteredCities] = useState([]);
+  const [showCities, setShowCities] = useState(false);
+  const cityInputRef = useRef(null);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -21,25 +23,6 @@ const PickUpLocation = () => {
       ...prevState,
       [name]: value
     }));
-  };
-
-  const handleCitySelect = (place) => {
-    if (place) {
-      const geocoder = new window.google.maps.Geocoder();
-      geocoder.geocode({ placeId: place.value.place_id }, (results, status) => {
-        if (status === 'OK' && results[0]) {
-          const location = results[0].geometry.location;
-          setFormData(prevState => ({
-            ...prevState,
-            city: place.label,
-            coordinates: {
-              lat: location.lat(),
-              lng: location.lng()
-            }
-          }));
-        }
-      });
-    }
   };
 
   return (
@@ -105,32 +88,28 @@ const PickUpLocation = () => {
               />
             </div>
 
-            <div>
+            <div className="relative" ref={cityInputRef}>
               <label className="block text-[#00b4d8] text-lg md:text-xl mb-4 text-center">City / Town</label>
-              <GooglePlacesAutocomplete
-                apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
-                selectProps={{
-                  value: formData.city ? { label: formData.city, value: formData.city } : null,
-                  onChange: handleCitySelect,
-                  placeholder: 'Search for a city...',
-                  className: 'w-full',
-                  styles: {
-                    control: (base) => ({
-                      ...base,
-                      border: '2px solid #00b4d8',
-                      borderRadius: '0.5rem',
-                      boxShadow: 'none',
-                      '&:hover': {
-                        border: '2px solid #00b4d8',
-                      },
-                    }),
-                    input: (base) => ({
-                      ...base,
-                      color: '#374151',
-                    }),
-                  },
-                }}
+              <input
+                type="text"
+                name="city"
+                value={formData.city}
+                onChange={handleChange}
+                className="w-full px-4 py-3 text-gray-700 bg-white border-2 border-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               />
+              {showCities && (
+                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
+                  {filteredCities.map((city, index) => (
+                    <div 
+                      key={index} 
+                      className="p-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => handleCitySelect(city)}
+                    >
+                      {city.city}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Contact Name and Phone */}

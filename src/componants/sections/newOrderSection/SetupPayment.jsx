@@ -1,109 +1,178 @@
-import React, { useState } from 'react'
-import { ArrowUpToLine, ChevronDown, ArrowLeft } from "lucide-react";
-import Logo from '../../../assets/IT.png';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { loadStripe } from '@stripe/stripe-js';
+import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
+import { createPayment } from '../../../api/api';
+import { useNavigate } from 'react-router-dom';
 
-const SetupPayment = () => {
-  const [paymentMethod, setPaymentMethod] = useState('Credit Card');
+const stripePromise = loadStripe('pk_test_51RC0RMISU9u71vhkc4cTnipAgUYqehOtoR9NuywHRNSdlK0xUiL4Bw2nSOZde39VcT6xYqUr44xIpQBQ0LS5kBoX00kNQcvqBp');
+
+const CheckoutForm = ({ formData, handleChange }) => {
+  const [name, setName] = useState('');
+  const [processing, setProcessing] = useState(false);
+  const [error, setError] = useState(null);
+  const [succeeded, setSucceeded] = useState(false);
+  const navigate = useNavigate();
+
+  const stripe = useStripe();
+  const elements = useElements();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    if (!stripe || !elements) return;
+
+    setProcessing(true);
+
+    // Get the payment amount from formData
+    const amount = formData.calculatedPrice || formData.amount || 0;
+    
+    if (amount <= 0) {
+      setError("Invalid payment amount. Please return to previous steps.");
+      setProcessing(false);
+      return;
+    }
+
+    // 1. Create PaymentMethod
+    const { error: stripeError, paymentMethod } = await stripe.createPaymentMethod({
+      type: 'card',
+      card: elements.getElement(CardElement),
+      billing_details: { name },
+    });
+
+    if (stripeError) {
+      setError(stripeError.message);
+      setProcessing(false);
+      return;
+    }
+
+    try {
+      // 2. Call backend to create PaymentIntent
+      const response = await createPayment({
+        paymentMethodId: paymentMethod.id,
+        amount: amount, // Use the amount from formData
+      });
+
+      const { clientSecret } = response.data;
+
+      if (!clientSecret) {
+        throw new Error('Missing client secret from backend');
+      }
+
+      // 3. Confirm payment
+      const confirmResult = await stripe.confirmCardPayment(clientSecret);
+
+      if (confirmResult.error) {
+        setError(`Payment failed: ${confirmResult.error.message}`);
+      } else if (confirmResult.paymentIntent.status === 'succeeded') {
+        setSucceeded(true);
+        setError(null);
+        
+        // Update payment method in formData
+        handleChange({
+          target: {
+            name: 'paymentMethod',
+            value: 'card'
+          }
+        });
+        
+        // Proceed to next step after successful payment
+        setTimeout(() => {
+          navigate('/new-order/check');
+        }, 2000);
+      }
+    } catch (err) {
+      setError(`Payment error: ${err.message}`);
+    }
+
+    setProcessing(false);
+  };
+
+  const cardElementOptions = {
+    style: {
+      base: {
+        fontSize: '16px',
+        color: '#424770',
+        '::placeholder': { color: '#aab7c4' },
+      },
+      invalid: {
+        color: '#9e2146',
+      },
+    },
+  };
 
   return (
-    <div className='bg-[#F2F2F2] w-full min-h-screen container mx-auto'>
-      {/* Navigation Header */}
-      <div className="flex justify-between px-3 py-2">
-        <button className="flex items-center text-[#00b4d8]">
-          <ArrowLeft className="w-6 h-6 text-primary" />
-          <span className="ml-1 text-lg font-medium underline">Back</span>
-        </button>
-        <Link to="/">
-          <div id='/' className={`hidden md:flex items-center justify-center`}>
-            <img src={Logo} className='w-15 h-15'/>
-            <h1 className={`md:text-2xl text-primary font-bold ${open}`}>InTruck</h1>
-          </div>
-        </Link>
-        <button className="text-primary text-lg font-medium underline">Cancel Payment</button>
+    <form onSubmit={handleSubmit} className="space-y-8">
+      {/* Cardholder Name */}
+      <div>
+        <label className="block text-blue-400 text-lg md:text-2xl mb-4 text-center">Cardholder Name</label>
+        <input
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="John Doe"
+          className="w-full px-2 py-2 text-gray-700 bg-transparent border-b border-primary focus:outline-none"
+          required
+        />
       </div>
 
-      <div className='w-full h-full flex flex-col items-center justify-center'>
-        {/* Main Content */}
+      {/* Payment Amount */}
+      <div>
+        <label className="block text-blue-400 text-lg md:text-2xl mb-4 text-center">Amount to Pay</label>
+        <div className="w-full px-2 py-2 text-gray-700 bg-transparent border-b border-primary text-center font-bold">
+          {formData.calculatedPrice || formData.amount || 0} DH
+        </div>
+      </div>
+
+      {/* Card Details */}
+      <div>
+        <label className="block text-blue-400 text-lg md:text-2xl mb-4 text-center">Card Details</label>
+        <div className="p-3 border-b border-primary">
+          <CardElement options={cardElementOptions} />
+        </div>
+        <p className="mt-2 text-sm text-gray-500 text-center">
+          Your card information is secured with Stripe.
+        </p>
+      </div>
+
+      {/* Error */}
+      {error && <div className="text-red-500 text-center">{error}</div>}
+
+      {/* Success */}
+      {succeeded && (
+        <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative text-center">
+          Payment successful! Proceeding to next step...
+        </div>
+      )}
+
+      {/* Submit button */}
+      <button
+        type="submit"
+        disabled={!stripe || processing || succeeded}
+        className="bg-primary text-white text-sm md:text-2xl px-4 py-2 rounded-sm hover:bg-blue-400 transition duration-300 ease-in-out w-full md:w-96 h-12 md:h-14 flex items-center justify-center my-12 mx-auto"
+      >
+        {processing ? 'Processing...' : succeeded ? 'Payment Complete' : 'Complete Payment'}
+      </button>
+    </form>
+  );
+};
+
+const SetupPayment = ({ formData, handleChange }) => {
+  return (
+    <div className="bg-gray-100 w-full min-h-screen">
+      <div className="w-full h-full flex flex-col items-center justify-center">
         <div className="px-6 py-8 w-full max-w-3xl">
-          <h1 className="text-[20px] md:text-3xl font-bold text-center mb-12">
+          <h1 className="text-xl md:text-3xl font-bold text-center mb-12">
             <span className="text-primary">Setup your </span>
-            <span className="text-[#00b4d8]">Payment Method</span>
+            <span className="text-blue-400">Payment Method</span>
           </h1>
 
-          {/* Form Fields */}
-          <div className="space-y-8">
-            {/* Cardholder Name Field */}
-            <div>
-              <label className="block text-[#00b4d8] text-lg md:text-2xl mb-4 text-center">Cardholder Name</label>
-              <input
-                type="text"
-                placeholder="John Doe"
-                className="w-full px-2 py-2 text-gray-400 bg-transparent border-b border-primary focus:outline-none"
-              />
-            </div>
-
-            {/* Payment Method Field */}
-            <div>
-              <label className="block text-[#00b4d8] text-lg md:text-2xl mb-4 text-center">Payment Method</label>
-              <div className="flex items-center mb-1">
-                <div className="relative w-full">
-                  <button
-                    className="flex items-center justify-between w-full px-4 py-2 text-left border-b border-primary focus:outline-none"
-                    onClick={() => {}}
-                  >
-                    <span>{paymentMethod}</span>
-                    <ChevronDown className="w-5 h-5" />
-                  </button>
-                </div>
-              </div>
-            </div>
-
-            {/* Card Number Field */}
-            <div>
-              <label className="block text-[#00b4d8] text-lg md:text-2xl mb-4 text-center">Card Number</label>
-              <input
-                type="text"
-                placeholder="1234 5678 9012 3456"
-                className="w-full px-2 py-2 text-gray-400 bg-transparent border-b border-primary focus:outline-none"
-              />
-            </div>
-
-            {/* Expiry and CVV Fields */}
-            <div className="flex gap-4">
-              <div className="flex-1">
-                <label className="block text-[#00b4d8] text-[16px] md:text-lg mb-4">Expiry Date</label>
-                <input
-                  type="text"
-                  placeholder="MM/YY"
-                  className="w-full px-2 py-2 bg-transparent border-b border-primary focus:outline-none"
-                />
-              </div>
-              <div className="flex-1">
-                <label className="block text-[#00b4d8] md:text-lg mb-4">CVV</label>
-                <input
-                  type="text"
-                  className="w-full px-2 py-2 bg-transparent border-b border-primary focus:outline-none"
-                  placeholder="123"
-                />
-              </div>
-            </div>
-          
-            <button className='bg-primary text-white text-[12px] md:text-[24px] px-4 py-2 rounded-sm hover:bg-[#00B4D8] transition duration-300 ease-in-out w-[124px] h-[28px] md:w-[367px] md:h-[53px] flex items-center justify-center my-20 mx-auto'>
-              Complete Payment
-            </button>
-          </div>
-        </div>
-
-        {/* Back to Top Button */}
-        <div className="fixed bottom-6 right-6">
-          <button className="w-14 h-14 rounded-full bg-primary text-white flex items-center justify-center shadow-lg">
-            <ArrowUpToLine className="w-6 h-6" />
-          </button>
+          <Elements stripe={stripePromise}>
+            <CheckoutForm formData={formData} handleChange={handleChange} />
+          </Elements>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default SetupPayment
+export default SetupPayment;

@@ -10,6 +10,7 @@ import DeliveriesMain from '../componants/sections/dashboardsMain/DeliveriesMain
 import NotificationMain from '../componants/sections/dashboardsMain/NotificationsMain';
 import Profile from './Profile';
 import CancelledMain from '../componants/sections/dashboardsMain/CancelledMain';
+import OrdersMain from '../componants/sections/dashboardsMain/OrdersMain'; // Import OrdersMain
 
 const Dashboard = () => {
   const [open, setOpen] = useState(true);
@@ -76,6 +77,7 @@ const Dashboard = () => {
               <Route path="deliveries" element={<DeliveriesMain />} /> {/* DeliveriesMain */}
               <Route path="cancelled" element={<CancelledMain />} /> {/* CancelledMain */}
               <Route path="notifications" element={<NotificationMain />} /> {/* NotificationsMain */}
+              <Route path='orders' element={<OrdersMain />} />
             </Routes>
           </div>
         </main>

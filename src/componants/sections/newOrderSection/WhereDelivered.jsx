@@ -1,45 +1,71 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { useNavigate } from 'react-router-dom';
+import cityData from '../../../ma.json';
 import { ArrowUpToLine, ArrowLeft } from "lucide-react";
 // import NewOrderHeader from '../componants/ui/NewOrderHead';
-import GooglePlacesAutocomplete from 'react-google-places-autocomplete';
 
-const WhereDelivered = () => {
-  const [formData, setFormData] = useState({
-    postcode: '',
-    address: '',
-    address2: '',
-    city: '',
-    receiverName: '',
-    receiverPhone: '',
-    coordinates: null
-  });
+const WhereDelivered = ({ formData, handleChange, handleCitySelect }) => {
+  const navigate = useNavigate();
+  const [filteredCities, setFilteredCities] = useState([]);
+  const [showCities, setShowCities] = useState(false);
+  const cityInputRef = useRef(null);
 
-  const handleChange = (e) => {
+  // Function to handle input change and filter cities
+  const handleInputChange = (e) => {
+    // Call the parent handleChange function
+    handleChange(e);
+
     const { name, value } = e.target;
-    setFormData(prevState => ({
-      ...prevState,
-      [name]: value
-    }));
-  };
-
-  const handleCitySelect = (place) => {
-    if (place) {
-      const geocoder = new window.google.maps.Geocoder();
-      geocoder.geocode({ placeId: place.value.place_id }, (results, status) => {
-        if (status === 'OK' && results[0]) {
-          const location = results[0].geometry.location;
-          setFormData(prevState => ({
-            ...prevState,
-            city: place.label,
-            coordinates: {
-              lat: location.lat(),
-              lng: location.lng()
-            }
-          }));
-        }
-      });
+    if (name === 'deliveryCity') {
+      const filtered = cityData.filter(city => 
+        city.city.toLowerCase().includes(value.toLowerCase())
+      ).slice(0, 5);
+      
+      setFilteredCities(filtered);
+      setShowCities(filtered.length > 0);
     }
   };
+
+  // Function to handle city selection
+  const onCitySelect = (city) => {
+    console.log('City selected in WhereDelivered:', city);
+    
+    // Create a synthetic event to pass to the parent handleChange
+    const syntheticEvent = {
+      target: {
+        name: 'deliveryCity',
+        value: city.city
+      }
+    };
+    handleChange(syntheticEvent);
+    setShowCities(false);
+    
+    // Call the parent handleCitySelect function to update coordinates
+    if (handleCitySelect) {
+      console.log('Calling handleCitySelect with coordinates:', { lat: parseFloat(city.lat), lng: parseFloat(city.lng) });
+      handleCitySelect(city);
+    }
+  };
+
+  // Function to navigate to the next page
+  const handleNext = () => {
+    navigate('/new-order/coverage');
+  };
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (cityInputRef.current && !cityInputRef.current.contains(event.target)) {
+        setShowCities(false);
+      }
+    }
+    
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className='bg-[#F2F2F2] w-full min-h-screen container  mx-auto'>
@@ -58,26 +84,26 @@ const WhereDelivered = () => {
           {/* Form Fields */}
           <div className="space-y-8 md:grid md:grid-cols-2 md:gap-4">
             {/* Postcode */}
-            <div className="">
+            <div className="md:col-span-2">
               <label className="block text-[#00b4d8] text-lg md:text-2xl mb-4 text-center">Enter Postcode</label>
               <input
                 type="text"
-                name="postcode"
-                value={formData.postcode}
+                name="deliveryPostcode"
+                value={formData.deliveryPostcode}
                 onChange={handleChange}
-                className="w-full px-2 py-2 text-gray-400 bg-transparent border-b border-primary focus:outline-none"
+                className="w-full px-4 py-3 text-gray-700 bg-white border-2 border-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
 
             {/* Address */}
-            <div className="">
+            <div className="md:col-span-2">
               <label className="block text-[#00b4d8] text-lg md:text-2xl mb-4 text-center">Address</label>
               <input
                 type="text"
-                name="address"
-                value={formData.address}
+                name="deliveryAddress"
+                value={formData.deliveryAddress}
                 onChange={handleChange}
-                className="w-full px-2 py-2 text-gray-400 bg-transparent border-b border-primary focus:outline-none"
+                className="w-full px-4 py-3 text-gray-700 bg-white border-2 border-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
 
@@ -86,40 +112,36 @@ const WhereDelivered = () => {
               <label className="block text-[#00b4d8] text-lg md:text-2xl mb-4 text-center">Address 2 (Optional)</label>
               <input
                 type="text"
-                name="address2"
-                value={formData.address2}
+                name="deliveryAddress2"
+                value={formData.deliveryAddress2}
                 onChange={handleChange}
-                className="w-full px-2 py-2 text-gray-400 bg-transparent border-b border-primary focus:outline-none"
+                className="w-full px-4 py-3 text-gray-700 bg-white border-2 border-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
 
-            <div>
+            <div className="relative" ref={cityInputRef}>
               <label className="block text-[#00b4d8] text-lg md:text-2xl mb-4 text-center">City / Town</label>
-              <GooglePlacesAutocomplete
-                apiKey={process.env.REACT_APP_GOOGLE_MAPS_API_KEY}
-                selectProps={{
-                  value: formData.city ? { label: formData.city, value: formData.city } : null,
-                  onChange: handleCitySelect,
-                  placeholder: 'Search for a city...',
-                  className: 'w-full',
-                  styles: {
-                    control: (base) => ({
-                      ...base,
-                      border: 'none',
-                      borderBottom: '1px solid #00b4d8',
-                      borderRadius: '0',
-                      boxShadow: 'none',
-                      '&:hover': {
-                        borderBottom: '1px solid #00b4d8',
-                      },
-                    }),
-                    input: (base) => ({
-                      ...base,
-                      color: '#9ca3af',
-                    }),
-                  },
-                }}
+              <input
+                type="text"
+                name="deliveryCity"
+                value={formData.deliveryCity}
+                onChange={handleInputChange}
+                onFocus={() => setShowCities(filteredCities.length > 0)}
+                className="w-full px-4 py-3 text-gray-700 bg-white border-2 border-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               />
+              {showCities && (
+                <div className="absolute z-10 w-full mt-1 bg-white border border-gray-300 rounded-lg shadow-lg max-h-60 overflow-auto">
+                  {filteredCities.map((city, index) => (
+                    <div 
+                      key={index} 
+                      className="p-2 hover:bg-gray-100 cursor-pointer"
+                      onClick={() => onCitySelect(city)}
+                    >
+                      {city.city}
+                    </div>
+                  ))}
+                </div>
+              )}
             </div>
 
             {/* Receiver Name and Phone */}
@@ -130,7 +152,7 @@ const WhereDelivered = () => {
                 name="receiverName"
                 value={formData.receiverName}
                 onChange={handleChange}
-                className="w-full px-2 py-2 text-gray-400 bg-transparent border-b border-primary focus:outline-none"
+                className="w-full px-4 py-3 text-gray-700 bg-white border-2 border-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
 
@@ -141,15 +163,21 @@ const WhereDelivered = () => {
                 name="receiverPhone"
                 value={formData.receiverPhone}
                 onChange={handleChange}
-                className="w-full px-2 py-2 text-gray-400 bg-transparent border-b border-primary focus:outline-none"
+                className="w-full px-4 py-3 text-gray-700 bg-white border-2 border-primary rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
               />
             </div>
-        </div>
+          </div>
 
-        <button className='bg-primary text-white text-[12px] md:text-[24px] px-4 py-2 rounded-sm hover:bg-[#00B4D8] transition duration-300 ease-in-out w-[124px] h-[28px] md:w-[367px] md:h-[53px] flex items-center justify-center my-20 mx-auto'>
+          {/* Next Button */}
+          <div className="mt-8">
+            <button
+              onClick={handleNext}
+              className="block w-full md:w-64 mx-auto py-3 font-medium rounded-md text-center bg-primary text-white hover:bg-blue-700 transition-colors"
+            >
               Next
             </button>
           </div>
+        </div>
 
         {/* Back to Top Button */}
         <div className="fixed bottom-6 right-6">
@@ -161,5 +189,11 @@ const WhereDelivered = () => {
     </div>
   )
 }
+
+WhereDelivered.propTypes = {
+  formData: PropTypes.object.isRequired,
+  handleChange: PropTypes.func.isRequired,
+  handleCitySelect: PropTypes.func
+};
 
 export default WhereDelivered

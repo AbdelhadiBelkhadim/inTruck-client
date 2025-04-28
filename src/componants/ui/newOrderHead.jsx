@@ -1,13 +1,13 @@
-import React from 'react';
+import React from 'react'
 import { Link, useNavigate } from 'react-router-dom';
+
 import { ArrowLeft } from "lucide-react";
-import Logo from '../../assets/IT.png';
+import Logo from './Logo.jsx'
 
-const NewOrderHeader = ({ onBack, onCancel, title = "InTruck" }) => { 
+const Header = ({ onBack, onCancel }) => { 
   const navigate = useNavigate();
-
-  return (
-    <div className="flex justify-between px-3 py-2">
+    return (
+      <div className="flex justify-between px-3 py-2">
       <button 
         onClick={onBack || (() => navigate(-1))} 
         className="flex items-center text-[#00b4d8]"
@@ -16,21 +16,16 @@ const NewOrderHeader = ({ onBack, onCancel, title = "InTruck" }) => {
         <span className="ml-1 text-lg font-medium underline">Back</span>
       </button>
       <Link to="/">
-        <div className="hidden md:flex items-center justify-center">
-          <img src={Logo} className="w-15 h-15" />
-          <h1 className="md:text-2xl text-primary font-bold">{title}</h1>
-        </div>
+        <Logo />
       </Link>
       <button 
-        onClick={onCancel || (() => navigate('/'))} 
+        onClick={onCancel || (() => navigate('/dashboard'))} 
         className="text-primary text-lg font-medium underline"
       >
         Cancel Order
       </button>
     </div>
-  );
-};
+    );
+}
 
-export default NewOrderHeader;
-
-
+export default Header;

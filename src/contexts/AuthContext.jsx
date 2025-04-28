@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       try {
-        const response = await apiClient.get('/auth/profile');
+        const response = await apiClient.get('/auth/checkAuthStatus');
         setUser(response.data?.user ?? null);
         setError(null);
       } catch (error) {
@@ -74,6 +74,7 @@ export const AuthProvider = ({ children }) => {
       localStorage.removeItem('token');
       localStorage.removeItem('user');
       setError("Session expired or not logged in");
+      console.error('Auth check error:', error);
     } finally {
       setLoading(false);
     }

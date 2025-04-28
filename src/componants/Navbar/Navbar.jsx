@@ -14,13 +14,12 @@ const NavLinks = [
     { id: 4, name: 'Contact us', link: 'contactus' },
 ];
 
-const Navbar = () => {
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
+const Navbar = ({isLoggedIn}) => {
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
     const toggleMenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
-
     return (
         <div className="shadow-2xs p-4 fixed top-0 left-0 right-0 z-50 bg-white">
             <div className="container flex justify-between items-center text-center">
@@ -44,8 +43,15 @@ const Navbar = () => {
                                 </Link>
                             </li>
                         ))}
-                        <NavLink to='/login' ><Button label="Login" type="enabled1" size="small"  /></NavLink>
-                        <NavLink to='/register/company'><Button label="Get Stared" type="enabled" size="small" /></NavLink>
+                        {isLoggedIn ? (
+                            <NavLink to='/dashboard' ><Button label="Dashboard" type="enabled" size="small" /></NavLink>
+                        ) : (
+                            <>
+                                <NavLink to='/login' ><Button label="Login" type="enabled1" size="small"  /></NavLink>
+                                <NavLink to='/register/company'><Button label="Get Stared" type="enabled" size="small" /></NavLink>
+                            </>
+                        )}
+                        
                     </ul>
                 </div>
 
@@ -74,57 +80,33 @@ const Navbar = () => {
                                 </button>
                             </div>
 
-                            {/* Navigation Items - Left Aligned */}
-                            <ul className="space-y-4 text-left">
-                                {NavLinks.map(({ id, name, link }) => (
-                                    <li key={id}>
-                                        <Link
-                                            to={link}
-                                            smooth={true}
-                                            duration={500}
-                                            offset={-80}
-                                            onClick={toggleMenu}
-                                            className="block p-3 rounded-lg hover:bg-gray-100 text-lg font-medium
-                                                       active:bg-primary active:text-white transition-colors"
-                                            activeClass="bg-primary text-white"
-                                        >
-                                            {name}
-                                        </Link>
-                                    </li>
-                                ))}
-                            </ul>
-
-                            {/* Buttons - Same Size */}
-                            <div className="mt-8 space-y-4 w-full">
-                                <NavLink 
-                                    to='/login' 
-                                    onClick={toggleMenu}
-                                    className="block w-full"
+            {isMenuOpen && (
+                <div className="lg:hidden mt-4">
+                    <ul className="flex flex-col items-center gap-4">
+                        {NavLinks.map(({ id, name, link }) => (
+                            <li key={id}>
+                                <Link
+                                    to={link} // Use react-scroll Link
+                                    smooth={true}
+                                    duration={500}
+                                    onClick={toggleMenu} // Close menu on click
+                                    className="cursor-pointer hover:text-primary text-xl font-semibold"
                                 >
-                                    <Button 
-                                        label="Login" 
-                                        type="enabled1" 
-                                        size="small" 
-                                        className="w-full justify-center"
-                                    />
-                                </NavLink>
-                                <NavLink 
-                                    to='/register/company' 
-                                    onClick={toggleMenu}
-                                    className="block w-full"
-                                >
-                                    <Button 
-                                        label="Get Started" 
-                                        type="enabled" 
-                                        size="small" 
-                                        className="w-full justify-center"
-                                    />
-                                </NavLink>
-                            </div>
-                        </div>
-                    </div>
-                )}
-            </div>
+                                    {name}
+                                </Link>
+                            </li>
+                        ))}
+                        {isLoggedIn ? (
+                            <NavLink to='/dashboard' ><Button label="Dashboard" type="enabled" size="small" /></NavLink>
+                        ) : (
+                            <>
+                                <NavLink to='/login' ><Button label="Login" type="enabled1" size="small"  /></NavLink>
+                                <NavLink to='/register/company'><Button label="Get Stared" type="enabled" size="small" /></NavLink>
+                            </>
+                        )}
+                    </ul>
+                </div>
+            )}
         </div>
     );
 };
