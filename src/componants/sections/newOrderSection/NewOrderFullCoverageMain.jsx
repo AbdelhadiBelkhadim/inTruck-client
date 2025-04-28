@@ -106,6 +106,10 @@ const NewOrderFullCoverageMain = ({ formData, handleChange }) => {
     if (paymentMethod === 'cash') {
       setTimeout(() => navigate('/new-order/check'), 300);
     }
+
+    if (paymentMethod === 'card') {
+      setTimeout(() => navigate('/new-order/payment'), 300);
+    }
   };
 
   // Format price to display

@@ -5,6 +5,7 @@ import { MdOutlineDashboard, MdLogout, MdOutlineCancel } from "react-icons/md";
 import { LuPanelLeftClose } from "react-icons/lu";
 import { IoIosArrowDown } from "react-icons/io";
 import { Truck, Clipboard, Bell } from "lucide-react";
+import { getUserProfile } from '../../api/api'
 
 const menuItem = [
   { to: "/dashboard", icon: <MdOutlineDashboard size={20} />, label: "Dashboard" },
@@ -19,25 +20,37 @@ const SideBar = ({ setOpen, open }) => {
 
   useEffect(() => {
     try {
-      // Get user data from localStorage
-      const userData = JSON.parse(localStorage.getItem('user'));
-      
-      if (userData) {
-        if (userData.userType === "COMPANY") {
+      // Get user data from getUserProfile Api
+      const fetchUserProfile = async () => {
+        try {
+          const userData = await getUserProfile();
+          if (userData) {
+            if (userData.userType === "COMPANY") {
+                setUserProfile({
+                name: userData.user.company.companyName || "Unknown Company",
+                initials: userData.user.company.companyName?.split(" ").map(n => n[0]).slice(0, 2).join("").toUpperCase() || "UC",
+                company: userData.user.company.companyName || "Unknown Company",
+                adress: userData.user.company.address || "Unknown Address"
+                });
+            } else {
+              setUserProfile({
+                name: userData.user.individual.fullName || "Unknown User",
+                initials: userData.user.individual.fullName?.split(" ").map(n => n[0]).slice(0, 2).join("").toUpperCase() || "UU",
+                adress: userData.user.individual.address || "Unknown Address"
+              });
+            }
+          }
+        } catch (error) {
+          console.error("Error fetching user data from API:", error);
           setUserProfile({
-            name: userData.company.companyName || "Unknown Company",
-            initials: userData.company.companyName?.split(" ").map(n => n[0]).join("") || "UC",
-            company: userData.company.companyName || "Unknown Company",
-            adress: userData.company.address || "Unknown Address"
-          });
-        } else {
-          setUserProfile({
-            name: userData.individual.fullName || "Unknown User",
-            initials: userData.individual.fullName?.split(" ").map(n => n[0]).join("") || "UU",
-            adress: userData.individual.address || "Unknown Address"
+        name: "Unknown User",
+        initials: "UU",
+        adress: "Unknown Address"
           });
         }
-      }
+      };
+
+      fetchUserProfile();
     } catch (error) {
       console.error("Error parsing user data from localStorage:", error);
       setUserProfile({

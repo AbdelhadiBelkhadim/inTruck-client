@@ -48,9 +48,10 @@ const DashboardMain = () => {
 
     fetchDashboardData();
   }, []);
+  const distance = Math.floor(dashboardData.lastOrders[0]?.shipment_range || 0);
   // Determine if we have a recent shipping to display
   const hasRecentShipping = dashboardData.recentShipped !== null;
-
+  console.log(dashboardData)
   return (
     <div className="space-y-2 md:space-y-3 w-full p-4 md:p-0">
       {/* Header */}
@@ -74,28 +75,28 @@ const DashboardMain = () => {
               <div className="flex justify-between items-center mb-2 space-x-1">
                 <h3 className="font-bold text-[10px]">Recent Shipping</h3>
                 <span className="bg-white text-primary rounded-full text-[6px] px-1 py-0.5">
-                  #{dashboardData.deliveryCity?.id || 'N/A'}
+                  #{dashboardData.lastOrders[0]?.id || 'N/A'}
                 </span>
               </div>
               <div className="flex justify-between">
                 <div>
                   <p className="flex items-center font-semibold text-sm">
-                    {new Date(dashboardData.recentShipped?.createdAt).getDate() || '--'}{' '}
+                    {new Date(dashboardData.lastOrders[0]?.createdAt).getDate() || '--'}{' '}
                     <span className="font-light text-xs ml-1">
-                      {dashboardData.recentShipped ? new Date(dashboardData.recentShipped.createdAt).toLocaleString('default', { month: 'short' }) : 'N/A'}
+                      {dashboardData.lastOrders[0] ? new Date(dashboardData.lastOrders[0].createdAt).toLocaleString('default', { month: 'short' }) : 'N/A'}
                     </span>
                   </p>
                   <p className="font-medium text-[6px]">
-                    {dashboardData.recentShipped ? new Date(dashboardData.recentShipped.createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}
+                    {dashboardData.lastOrders[0] ? new Date(dashboardData.lastOrders[0].createdAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : 'N/A'}
                   </p>
                 </div>
                 <div className="space-y-[2px]">
                   <div>
-                    <p className="font-light text-[6px]">{dashboardData.recentShipped?.destinationCountry || 'N/A'}</p>
+                    <p className="font-light text-[6px]">{dashboardData.lastOrders[0]?.destinationCountry || 'N/A'}</p>
                   </div>
                   <div>
                     <div className="flex items-end space-x-1">
-                      <p className="text-lg font-bold">{dashboardData.recentShipped?.distance || '0'}</p>
+                      <p className="text-lg font-bold">{distance || '0'}</p>
                       <p className="text-[6px] font-light">Km</p>
                     </div>
                     <p className="text-[6px] text-gray-300">Relative distance</p>
@@ -104,8 +105,8 @@ const DashboardMain = () => {
               </div>
             </div>
             {/* Create Delivery Button */}
-            <Link to='/new-order'>
-              <div className={`bg-white border border-dashed border-indigo-800 rounded-xl p-2 flex flex-col items-center justify-center text-center ${hasRecentShipping ? 'w-[40%]' : 'w-full'} h-full`}>
+            <Link className='w-full h-full' to='/new-order'>
+              <div className={`bg-white border border-dashed border-indigo-800 rounded-xl p-2 flex flex-col items-center justify-center text-center w-full h-full`}>
                 <button
                   className="bg-indigo-800 text-white p-1 rounded-full cursor-pointer font-bold"
                   onClick={() => setCount(count + 1)}
@@ -124,16 +125,16 @@ const DashboardMain = () => {
               <div className="flex justify-between items-center mb-1 lg:mb-2">
                 <h3 className="font-bold">Recent Shipping</h3>
                 <span className="bg-white text-primary rounded-full text-[10px] lg:text-xs px-2 py-1">
-                  #{dashboardData.recentShipped?.id || 'N/A'}
+                  #{dashboardData.lastOrders[0]?.id || 'N/A'}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <div className="mb-2 lg:mb-4">
                   <p className="text-[10px] lg:text-sm">Destination</p>
-                  <p className="font-bold text-sm lg:text-lg">{dashboardData.recentShipped?.destinationCountry || 'N/A'}</p>
+                  <p className="font-bold text-sm lg:text-lg">{dashboardData.lastOrders[0]?.delivery_loc || 'N/A'}</p>
                 </div>
                 <div>
-                  <p className="text-2xl lg:text-4xl font-bold">{dashboardData.recentShipped?.distance || '0'}</p>
+                  <p className="text-2xl lg:text-4xl font-bold">{distance || '0'}</p>
                   <p className="text-[10px] lg:text-sm text-gray-300">Relative distance / Km</p>
                 </div>
               </div>

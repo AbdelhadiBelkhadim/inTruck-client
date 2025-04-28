@@ -48,20 +48,6 @@ const HeaderAdminDashboard = () => {
         </div>
         
         <nav className="p-2">
-          {/* Profile Section */}
-          <NavLink 
-            to="/admin/profile" 
-            onClick={() => setMenuOpen(false)}
-            className="w-full mb-4 p-3 rounded-lg hover:bg-gray-100 flex items-center space-x-3"
-          >
-            <div className="w-[40px] h-[40px] bg-secondaire rounded-full flex items-center justify-center">
-              <div className="font-normal text-white text-[16px]">OU</div>
-            </div>
-            <div>
-              <div className="text-primary text-sm">Ouhna Oussama</div>
-              <div className="text-secondaire text-xs">STE Aftass , Morocco.</div>
-            </div>
-          </NavLink>
 
           {/* Menu Items */}
           {menuItems.map((item, idx) => {
@@ -138,19 +124,6 @@ const HeaderAdminDashboard = () => {
               <Truck className="w-4 h-4 mr-1" />
               <span>Add new (Driver/Truck)</span>
             </button>
-          </NavLink>
-
-          {/* Profile Section - Desktop */}
-          <NavLink to="/admin/profile" className="hidden lg:flex items-center h-[50px]">
-            <div className="flex items-center space-x-5 bg-white h-[50px] rounded-xl px-4">
-              <div className="w-[40px] h-[40px] bg-secondaire rounded-full flex items-center justify-center">
-                <div className="font-normal text-white text-[16px]">OU</div>
-              </div>
-              <div>
-                <div className="text-primary text-xs">Ouhna Oussama</div>
-                <div className="text-secondaire text-[11px]">STE Aftass , Morocco.</div>
-              </div>
-            </div>
           </NavLink>
 
           {/* Mobile Menu Button */}

@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }) => {
       }
 
       try {
-        const response = await apiClient.get('/auth/profile');
+        const response = await apiClient.get('/auth/checkAuthStatus');
         setUser(response.data?.user ?? null);
         setError(null);
       } catch (error) {
