@@ -128,7 +128,7 @@ const CancelledMain = () => {
   const CancelDetails = ({ order }) => (
     <div className="bg-white rounded-xl p-4 shadow-sm mb-4">
       <div className="flex justify-between items-center mb-4">
-        <h3 className="font-bold text-lg">Order #{order.id}</h3>
+        <h3 className="font-bold text-sm">Order #{order.id}</h3>
         <span className="px-3 py-1 rounded-full text-sm font-medium bg-red-100 text-red-800">
           {order.status}
         </span>
@@ -252,14 +252,14 @@ const CancelledMain = () => {
           ) : (
             <div className="space-y-4">
               {/* Mobile view: cards */}
-              <div className="md:hidden space-y-4">
+              <div className="lg:hidden space-y-4">
                 {paginatedData.map((order) => (
                   <CancelDetails key={order.id} order={order} />
                 ))}
               </div>
               
               {/* Desktop view: table */}
-              <div className="hidden md:block">
+              <div className="hidden lg:block">
                 <Table 
                   data={paginatedData}
                   totalItems={tableData.length}

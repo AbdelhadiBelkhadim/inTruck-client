@@ -3,15 +3,14 @@ import { Routes, Route } from 'react-router-dom';
 import HeaderAdminDashboard from '../componants/ui/HeaderAdminDashboard';
 // Import all your components
 import MainAdmin from '../componants/sections/DashboardMainAdmin/MainAdmin';
-import TrackingAdmin from '../componants/sections/DashboardMainAdmin/TrackingAdmin';
 import DeliveriesAdmin from '../componants/sections/DashboardMainAdmin/DeliveriesAdmin';
 import CancelledAdmin from '../componants/sections/DashboardMainAdmin/CancelledAdmin';
-import SendMessageAdmin from '../componants/sections/DashboardMainAdmin/SendMessageAdmin';
 import ConfirmationOrderAdmin from '../componants/sections/DashboardMainAdmin/ConfirmationOrderAdmin';
 import AvailableDrivers from '../componants/sections/DashboardMainAdmin/AvailableDrivers';
 import TrucksActive from '../componants/sections/DashboardMainAdmin/TrucksActive';
 import Revenue from '../componants/sections/DashboardMainAdmin/Revenue';
 import AddNewDT from '../componants/sections/DashboardMainAdmin/AddNewDT';
+import TrackingAdmin from '../componants/sections/DashboardMainAdmin/TrackingAdmin';
 
 const DashboardAdmin = () => {
   return (
@@ -24,7 +23,6 @@ const DashboardAdmin = () => {
           <Route path="tracking" element={<TrackingAdmin />} />
           <Route path="deliveries" element={<DeliveriesAdmin />} />
           <Route path="cancelled" element={<CancelledAdmin />} />
-          <Route path="send-message" element={<SendMessageAdmin />} />
           <Route path="confirmation-order" element={<ConfirmationOrderAdmin />} />
           <Route path="available-drivers" element={<AvailableDrivers />} />
           <Route path="trucks-active" element={<TrucksActive />} />

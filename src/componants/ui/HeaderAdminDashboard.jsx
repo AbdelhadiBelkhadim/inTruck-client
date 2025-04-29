@@ -8,7 +8,6 @@ const menuItems = [
   { icon: Truck, name: 'Trucking', path: '/admin/tracking' },
   { icon: ListTodo, name: 'Deliveries', path: '/admin/deliveries' },
   { icon: CircleDot, name: 'Cancelled', path: '/admin/cancelled' },
-  { icon: Bell, name: 'Notifications', path: '/admin/send-message' },
   { icon: Clock, name: 'Confirmation Order', path: '/admin/confirmation-order' },
 ];
 

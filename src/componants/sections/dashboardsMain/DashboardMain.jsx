@@ -71,7 +71,7 @@ const DashboardMain = () => {
             <div className={`bg-indigo-800 text-white p-2 rounded-xl w-[60%] h-full ${hasRecentShipping ? 'block' : 'hidden'}`}>
               <div className="flex justify-between items-center mb-2 space-x-1">
                 <h3 className="font-bold text-[10px]">Recent Shipping</h3>
-                <span className="bg-white text-primary rounded-full text-[6px] px-1 py-0.5">
+                <span className="bg-white text-primary rounded-full text-xs px-1 py-0.5">
                   #{dashboardData.lastOrders[0]?.id || 'N/A'}
                 </span>
               </div>
@@ -89,14 +89,14 @@ const DashboardMain = () => {
                 </div>
                 <div className="space-y-[2px]">
                   <div>
-                    <p className="font-light text-[6px]">{dashboardData.lastOrders[0]?.destinationCountry || 'N/A'}</p>
+                    <p className="font-light text-xs">{dashboardData.lastOrders[0]?.destinationCountry || 'N/A'}</p>
                   </div>
                   <div>
                     <div className="flex items-end space-x-1">
-                      <p className="text-lg font-bold">{distance || '0'}</p>
-                      <p className="text-[6px] font-light">Km</p>
+                      <p className="text-sm font-bold">{distance || '0'}</p>
+                      <p className="text-xs font-light">Km</p>
                     </div>
-                    <p className="text-[6px] text-gray-300">Relative distance</p>
+                    <p className="text-xs text-gray-300">Relative distance</p>
                   </div>
                 </div>
               </div>
@@ -122,19 +122,16 @@ const DashboardMain = () => {
             <div className={`bg-indigo-800 text-white p-2 lg:p-4 rounded-xl w-1/2 lg:w-1/3 h-[130px] ${hasRecentShipping ? 'block' : 'hidden'}`}>
               <div className="flex justify-between items-center mb-1 lg:mb-2">
                 <h3 className="font-bold">Recent Shipping</h3>
-                <span className="bg-white text-primary rounded-full text-[10px] lg:text-xs px-2 py-1">
+                <span className="bg-white text-primary rounded-full text-xs lg:text-xs px-2 py-1">
                   #{dashboardData.lastOrders[0]?.id || 'N/A'}
                 </span>
               </div>
               <div className="flex items-center justify-between">
                 <div className="mb-2 lg:mb-4">
-                  <p className="text-[10px] lg:text-sm">Destination</p>
-                  <p className="font-bold text-sm lg:text-lg">{dashboardData.lastOrders[0]?.delivery_loc || 'N/A'}</p>
+                  <p className="text-[10px] font-bold lg:text-sm">Destination</p>
+                  <p className="text-xs lg:text-xs">{dashboardData.lastOrders[0]?.delivery_loc || 'N/A'}</p>
                 </div>
-                <div>
-                  <p className="text-2xl lg:text-4xl font-bold">{distance || '0'}</p>
-                  <p className="text-[10px] lg:text-sm text-gray-300">Relative distance / Km</p>
-                </div>
+                
               </div>
             </div>
 
