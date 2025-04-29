@@ -14,10 +14,10 @@ import {
 import { AuthProvider } from './contexts/AuthContext.jsx';
 
 import CheckEmail from './components/Auth/CheckEmail.jsx';
-import ForgotPassword from './components/Auth/forgotPassword.jsx';
-import Login from './components/Auth/login.jsx';
-import Register from './components/Auth/register.jsx';
-import ResetPassword from './components/Auth/resetPassword.jsx';
+import ForgotPassword from './components/Auth/ForgotPassword.jsx';
+import Login from './components/Auth/Login.jsx';
+import Register from './components/Auth/Register.jsx';
+import ResetPassword from './components/Auth/ResetPassword.jsx';
 import ResetSuccess from './components/Auth/ResetSuccess.jsx';
 import ProtectedRoute from './components/ProtectedRoute.jsx';
 import AdminProtectedRoute from './components/AdminProtectedRoute.jsx';

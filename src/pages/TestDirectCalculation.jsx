@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Layout from '../layout/Layout';
-import { calculateDirectDistance } from '../services/directDistanceService';
-import { pricingConfig } from '../services/pricingConfig';
+import { calculateDirectDistance } from '../services/DirectDistanceService';
+import { pricingConfig } from '../services/PricingConfig';
 
 const TestDirectCalculation = () => {
   const [origin, setOrigin] = useState({ lat: 33.5731, lng: -7.5898 }); // Casablanca

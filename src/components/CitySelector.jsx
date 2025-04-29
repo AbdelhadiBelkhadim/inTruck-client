@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { calculatePrice } from '../api/api';
-import { calculateDirectDistance } from '../services/directDistanceService';
+import { calculateDirectDistance } from '../services/DirectDistanceService';
 import cities from '../ma.json';
 
 const CitySelector = ({ onCalculate, packageWeight }) => {

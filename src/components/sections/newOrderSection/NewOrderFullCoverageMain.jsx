@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { GiCash } from "react-icons/gi";
 import { BsCreditCard2BackFill } from "react-icons/bs";
 import PropTypes from 'prop-types';
-import { calculateDirectDistance } from '../../../services/directDistanceService';
+import { calculateDirectDistance } from '../../../services/DirectDistanceService';
 
 const LoadingSpinner = () => (
   <div className="flex items-center justify-center my-20">
