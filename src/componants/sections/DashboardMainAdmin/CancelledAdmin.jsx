@@ -2,85 +2,108 @@ import React, { useState, useEffect } from 'react';
 import SearchBar from '../../ui/SearchBar';
 import TableAdmin from '../../ui/TableAdmin';
 import Pagination from '../../ui/Pagination';
+import axios from 'axios';
+import LoadingSpinner from '../../LoadingSpinner';
+import { toast } from 'react-toastify';
+
+const API_BASE_URL = 'https://intruck-backend-production.up.railway.app';
 
 const CancelledAdmin = () => {
-  const [originalData] = useState([
-    {
-      company: "Ste GoodWay",
-      id: "#CNCLD525SAD9",
-      destination: "Tanger",
-      state: "Cancelled",
-      totalCoverage: 15000.00
-    },
-    {
-      company: "Med Logistics",
-      id: "#CNCLD341LMN7",
-      destination: "Barcelona",
-      state: "Cancelled",
-      totalCoverage: 22000.50
-    },
-    {
-      company: "Africa Trans",
-      id: "#CNCLD672GHJ4",
-      destination: "Casablanca",
-      state: "Cancelled",
-      totalCoverage: 18500.00
-    },
-    {
-      company: "Euro Cargo",
-      id: "#CNCLD789TZP6",
-      destination: "Marseille",
-      state: "Cancelled",
-      totalCoverage: 13200.75
-    },
-    {
-      company: "Ste GoodWay",
-      id: "#CNCLD341KLP9",
-      destination: "Valencia",
-      state: "Cancelled",
-      totalCoverage: 21000.00
-    },
-    {
-      company: "Sahara Shipments",
-      id: "#CNCLD852MNB3",
-      destination: "Algiers",
-      state: "Cancelled",
-      totalCoverage: 16500.50
-    },
-    {
-      company: "Coastal Logistics",
-      id: "#CNCLD456VFR7",
-      destination: "Malaga",
-      state: "Cancelled",
-      totalCoverage: 14200.00
-    },
-    {
-      company: "Ste GoodWay",
-      id: "#CNCLD526SAD2",
-      destination: "Genoa",
-      state: "Cancelled",
-      totalCoverage: 19500.00
-    }
-  ]);
-
-  const [filteredData, setFilteredData] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 6;
 
+  const fetchCancelledOrders = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setError('Authentication token is missing. Please log in again.');
+        setLoading(false);
+        return;
+      }
+
+      setLoading(true);
+      const response = await axios.get(`${API_BASE_URL}/admin/orders/cancelled`, {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      // Transform the data to match the table structure
+      const transformedOrders = response.data.map(order => ({
+        company: order.user?.company || order.user?.name || "Unknown",
+        id: `#${order.id}`,
+        destination: order.destination?.address || order.delivery_loc || "N/A",
+        state: 'Cancelled',
+        totalCoverage: order.price || 0,
+        // Add additional fields that might be needed
+        origin: order.origin?.address || order.pickup_loc || "N/A",
+        weight: order.weight || 0,
+        cancellationReason: order.cancellationReason || "N/A"
+      }));
+
+      setOrders(transformedOrders);
+      setLoading(false);
+    } catch (err) {
+      console.error('Error fetching cancelled orders:', err);
+      let errorMessage = 'Failed to load cancelled orders';
+      
+      if (err.response) {
+        errorMessage = `Server error: ${err.response.status} - ${err.response.data?.message || 'Unknown error'}`;
+        if (err.response.status === 401 || err.response.status === 403) {
+          errorMessage = 'Your session has expired. Please log in again.';
+        }
+      } else if (err.request) {
+        errorMessage = 'No response from server. Check your connection.';
+      } else {
+        errorMessage = `Request error: ${err.message}`;
+      }
+      
+      setError(errorMessage);
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
-    const filtered = originalData.filter(item =>
-      item.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      item.destination.toLowerCase().includes(searchTerm.toLowerCase())
-    );
-    setFilteredData(filtered);
-    setCurrentPage(1);
-  }, [searchTerm, originalData]);
+    fetchCancelledOrders();
+  }, []);
+
+  // Filter the data based on search term
+  const filteredData = orders.filter(item =>
+    item.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.destination.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    item.company.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   const paginatedData = filteredData.slice(
     (currentPage - 1) * itemsPerPage,
     currentPage * itemsPerPage
   );
+
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-64">
+        <LoadingSpinner size={50} color="#4A90E2" />
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center text-red-500 p-4">
+        <p>{error}</p>
+        <button 
+          onClick={() => fetchCancelledOrders()} 
+          className="mt-2 px-4 py-2 bg-blue-500 text-white rounded"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
 
   return (
     <div>
@@ -90,23 +113,31 @@ const CancelledAdmin = () => {
         <SearchBar onSearch={setSearchTerm} />
       </div>
 
-      <TableAdmin 
-        data={paginatedData}
-        totalItems={filteredData.length}
-        itemsPerPage={itemsPerPage}
-        currentPage={currentPage}
-        onPageChange={setCurrentPage}
-      />
-
-      {filteredData.length > itemsPerPage && (
-        <div className="mt-6">
-          <Pagination 
-            currentPage={currentPage}
+      {orders.length === 0 ? (
+        <div className="text-center p-8 bg-white rounded-lg shadow-sm">
+          <p className="text-gray-500">No cancelled orders found.</p>
+        </div>
+      ) : (
+        <>
+          <TableAdmin 
+            data={paginatedData}
             totalItems={filteredData.length}
             itemsPerPage={itemsPerPage}
+            currentPage={currentPage}
             onPageChange={setCurrentPage}
           />
-        </div>
+
+          {filteredData.length > itemsPerPage && (
+            <div className="mt-6">
+              <Pagination 
+                currentPage={currentPage}
+                totalItems={filteredData.length}
+                itemsPerPage={itemsPerPage}
+                onPageChange={setCurrentPage}
+              />
+            </div>
+          )}
+        </>
       )}
     </div>
   );

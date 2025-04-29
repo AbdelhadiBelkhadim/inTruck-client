@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react'
 import DashboardHeader from '../../ui/DashboardHeader'
 import Table from '../../ui/Table'
 import SearchBarWithFilter from '../../ui/SearchBarWithFilter'
-import { getDeliveredOrders } from '../../../api/api'
+import axios from 'axios'
 import { MapPin, Truck, Clock, Package, CheckCircle } from 'lucide-react'
+import { toast } from 'react-toastify'
+
+const API_BASE_URL = 'https://intruck-backend-production.up.railway.app'
 
 const DeliveriesMain = () => {
   const [deliveredOrders, setDeliveredOrders] = useState([])
@@ -19,21 +22,33 @@ const DeliveriesMain = () => {
     const fetchDeliveredOrders = async () => {
       try {
         setLoading(true)
-        const data = await getDeliveredOrders()
+        const token = localStorage.getItem('token')
         
-        if (data && data.deliveredOrders) {
+        if (!token) {
+          setError('Authentication token is missing. Please log in again.')
+          setLoading(false)
+          return
+        }
+
+        const response = await axios.get(`${API_BASE_URL}/dashboard/deleveries`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        })
+        
+        if (response.data && response.data.deliveredOrders) {
           // Transform the API data into the format needed for the table
-          const formattedOrders = data.deliveredOrders.map(order => {
+          const formattedOrders = response.data.deliveredOrders.map(order => {
             // Extract price with multiple fallbacks
-            let priceDisplay = 'N/A';
+            let priceDisplay = 'N/A'
             if (order.payment?.amount) {
-              priceDisplay = `${order.payment.amount} ${order.payment.currency || 'DHM'}`;
+              priceDisplay = `${order.payment.amount} ${order.payment.currency || 'DHM'}`
             } else if (order.price) {
               priceDisplay = typeof order.price === 'object' 
                 ? `${order.price.amount || order.price} ${order.price.currency || 'DHM'}`
-                : `${order.price} DHM`;
+                : `${order.price} DHM`
             } else if (order.totalPrice) {
-              priceDisplay = `${order.totalPrice} DHM`;
+              priceDisplay = `${order.totalPrice} DHM`
             }
             
             return {
@@ -52,10 +67,9 @@ const DeliveriesMain = () => {
                 receiverName: order.receiverName || 'Not specified',
                 price: priceDisplay
               }
-            };
+            }
           })
           
-          console.log('Formatted orders:', formattedOrders);
           setDeliveredOrders(formattedOrders)
           setTableData(formattedOrders)
         }
@@ -63,8 +77,9 @@ const DeliveriesMain = () => {
         console.error('Error fetching delivered orders:', err)
         if (err.response?.status === 404) {
           setDeliveredOrders([]) // Set empty array for 404 (no orders found)
+          setError('No delivered orders found')
         } else {
-          setError('Failed to load delivery data. Please try again later.')
+          setError(err.response?.data?.message || 'Failed to load delivery data. Please try again later.')
         }
       } finally {
         setLoading(false)
@@ -195,7 +210,7 @@ const DeliveriesMain = () => {
 
       {/* Error message */}
       {error && (
-        <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-4 rounded shadow-sm h-[calc(100vh-100px)] overflow-y-auto pr-2 scrollbar-hide">
+        <div className="bg-red-50 border-l-4 border-red-500 p-4 mb-4 rounded shadow-sm">
           <div className="flex">
             <div className="flex-shrink-0">
               <svg className="h-5 w-5 text-red-500" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
@@ -217,7 +232,7 @@ const DeliveriesMain = () => {
           ))}
         </div>
       ) : (
-        <>
+        <div className='h-[calc(100vh-100px)] overflow-y-auto pr-2 scrollbar-hide'>
           <SearchBarWithFilter 
             onSearch={handleSearch}
             placeholder="Search by order ID or destination"
@@ -255,7 +270,7 @@ const DeliveriesMain = () => {
               </div>
             </div>
           )}
-        </>
+        </div>
       )}
     </div>
   )

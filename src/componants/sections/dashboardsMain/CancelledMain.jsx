@@ -2,8 +2,11 @@ import React, { useState, useEffect } from 'react';
 import DashboardHeader from '../../ui/DashboardHeader';
 import SearchBarWithFilter from '../../ui/SearchBarWithFilter';
 import Table from '../../ui/Table';
-import { getCancelledOrders } from '../../../api/api';
+import axios from 'axios';
 import { MapPin, Truck, Clock, Package, XCircle } from 'lucide-react';
+import { toast } from 'react-toastify';
+
+const API_BASE_URL = 'https://intruck-backend-production.up.railway.app';
 
 const CancelledMain = () => {
   const [cancelledOrders, setCancelledOrders] = useState([]);
@@ -19,11 +22,23 @@ const CancelledMain = () => {
     const fetchCancelledOrders = async () => {
       try {
         setLoading(true);
-        const data = await getCancelledOrders();
+        const token = localStorage.getItem('token');
         
-        if (data && data.cancelledOrders) {
+        if (!token) {
+          setError('Authentication token is missing. Please log in again.');
+          setLoading(false);
+          return;
+        }
+
+        const response = await axios.get(`${API_BASE_URL}/dashboard/canceled`, {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        
+        if (response.data && response.data.canceledOrders) {
           // Transform the API data into the format needed for the table
-          const formattedOrders = data.cancelledOrders.map(order => {
+          const formattedOrders = response.data.canceledOrders.map(order => {
             // Extract price with multiple fallbacks
             let priceDisplay = 'N/A';
             if (order.payment?.amount) {
@@ -55,7 +70,6 @@ const CancelledMain = () => {
             };
           });
           
-          console.log('Formatted cancelled orders:', formattedOrders);
           setCancelledOrders(formattedOrders);
           setTableData(formattedOrders);
         }
@@ -63,8 +77,9 @@ const CancelledMain = () => {
         console.error('Error fetching cancelled orders:', err);
         if (err.response?.status === 404) {
           setCancelledOrders([]); // Set empty array for 404 (no orders found)
+          setError('No cancelled orders found');
         } else {
-          setError('Failed to load cancelled orders data. Please try again later.');
+          setError(err.response?.data?.message || 'Failed to load cancelled orders data. Please try again later.');
         }
       } finally {
         setLoading(false);
