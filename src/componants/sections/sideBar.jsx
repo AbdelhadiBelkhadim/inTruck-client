@@ -12,7 +12,6 @@ const menuItem = [
   { to: "/dashboard/tracking", icon: <Truck size={20} />, label: "Tracking" },
   { to: "/dashboard/deliveries", icon: <Clipboard size={20} />, label: "Deliveries" },
   { to: "/dashboard/cancelled", icon: <MdOutlineCancel size={20} />, label: "Cancelled" },
-  { to: "/dashboard/notifications", icon: <Bell size={20} />, label: "Notifications", badge: 3 },
 ];
 
 const SideBar = ({ setOpen, open }) => {

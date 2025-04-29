@@ -1,5 +1,4 @@
 import React from 'react';
-import { MoreVertical } from 'lucide-react';
 import TruckShipp from '../../assets/TruckShipp.png';
 
 const ShippingDetails = ({ count, data = {} }) => {
@@ -19,14 +18,11 @@ const ShippingDetails = ({ count, data = {} }) => {
         <img src={TruckShipp} alt="Truck" className="h-8 md:h-12 ml-auto" />
       </div>
       
-      <div className="flex items-start gap-3 mb-4">
-        <div className="w-8 h-8 rounded-full bg-cyan-500 flex items-center justify-center text-white font-medium text-xs">
-          SA
-        </div>
-        <div>
-          <p className="font-bold">Said Azmour</p>
-          <p className="text-xs text-gray-500">Transportes inTruck, Ma</p>
-        </div>
+      <div className="flex items-start gap-3 ">
+      <div className="block xl:flex justify-between md:text-[12px] lg:text-[16px]">
+              <p>Order ID:</p>
+              <span className="font-bold text-xs lg:ml-2 md:text-xs lg:text-sm">{orderId}</span>
+            </div>
       </div>
 
       <div className="block md:flex justify-between md:space-x-2 space-y-2 md:space-y-0 border border-gray-200 rounded-2xl">
@@ -47,10 +43,7 @@ const ShippingDetails = ({ count, data = {} }) => {
         {/* Middle Section */}
         <div className="md:w-[33.33%] p-1 lg:p-3 md:border-x md:border-gray-200 h-[100%]">
           <div className="mb-4">
-            <div className="block xl:flex justify-between mb-2 md:text-[12px] lg:text-[16px]">
-              <p>Order ID:</p>
-              <span className="font-bold text-[8px] md:text-[10px] lg:text-[14px]">{orderId}</span>
-            </div>
+            
             
             <div>
               <h3 className="font-medium mb-2">Status</h3>

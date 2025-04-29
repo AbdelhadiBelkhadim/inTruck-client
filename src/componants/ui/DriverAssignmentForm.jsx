@@ -114,7 +114,7 @@ const DriverAssignmentForm = ({ onSuccess }) => {
                 <option value="">Select a driver</option>
                 {availableDrivers.map((driver) => (
                   <option key={driver.id} value={driver.id}>
-                    {driver.name} - {driver.phoneNumber}
+                    {driver.fullName}
                   </option>
                 ))}
               </select>
