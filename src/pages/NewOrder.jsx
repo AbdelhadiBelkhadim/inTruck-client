@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import NewOrderHeader from '../componants/ui/newOrderHead.jsx';
-import NewOrderMain from '../componants/sections/newOrderSection/NewOrderMain.jsx';
-import NewOrderDetailsMain from '../componants/sections/newOrderSection/NewOrderDetailsMain.jsx';
-import NewOrderDetailsPackageMain from '../componants/sections/newOrderSection/NewOrderDetailsPackageMain.jsx';
-import NewOrderFullCoverageMain from '../componants/sections/newOrderSection/NewOrderFullCoverageMain.jsx';
-import PickUpLocationMain from '../componants/sections/newOrderSection/PickUpLocationMain.jsx';
-import WhereDelivery from '../componants/sections/newOrderSection/WhereDelivered.jsx';
-import SetUpPaymentMain from '../componants/sections/newOrderSection/SetupPayment.jsx';
-import CheckingDone from '../componants/sections/newOrderSection/CheckingDoneMain.jsx';
-import CheckingOrderMain from '../componants/sections/newOrderSection/CheckingOrderMain.jsx';
-import NextButton from '../componants/ui/NextButton.jsx';
+import NewOrderHeader from '../components/ui/newOrderHead.jsx';
+import NewOrderMain from '../components/sections/newOrderSection/NewOrderMain.jsx';
+import NewOrderDetailsMain from '../components/sections/newOrderSection/NewOrderDetailsMain.jsx';
+import NewOrderDetailsPackageMain from '../components/sections/newOrderSection/NewOrderDetailsPackageMain.jsx';
+import NewOrderFullCoverageMain from '../components/sections/newOrderSection/NewOrderFullCoverageMain.jsx';
+import PickUpLocationMain from '../components/sections/newOrderSection/PickUpLocationMain.jsx';
+import WhereDelivery from '../components/sections/newOrderSection/WhereDelivered.jsx';
+import SetUpPaymentMain from '../components/sections/newOrderSection/SetupPayment.jsx';
+import CheckingDone from '../components/sections/newOrderSection/CheckingDoneMain.jsx';
+import CheckingOrderMain from '../components/sections/newOrderSection/CheckingOrderMain.jsx';
+import NextButton from '../components/ui/NextButton.jsx';
 import { submitOrder } from '../services/orderService.js';
 import { calculateDirectDistance } from '../services/directDistanceService.js';
 

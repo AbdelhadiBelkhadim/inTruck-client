@@ -9,7 +9,7 @@ import { AlertCircle } from "lucide-react";
 import { resetPasswordSchema } from '../../../utils/FormValidation';
 
 import Input from '../ui/AuthInput';
-import Button from '../ui/SecondaryBtn';
+import Button from '../ui/secondaryButton';
 
 const ResetPassword = () => {
     const navigate = useNavigate();

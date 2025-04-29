@@ -1,6 +1,6 @@
 // src/pages/Profile.jsx
 import React, { useState, useEffect } from 'react';
-import DashboardHeader from '../componants/ui/DashboardHeader';
+import DashboardHeader from '../components/ui/DashboardHeader';
 import { getUserProfile, updateUserProfile } from '../api/api';
 
 const Profile = () => {

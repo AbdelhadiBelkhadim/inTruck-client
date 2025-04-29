@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Package, ChevronRight, ChevronDown, Truck, Calendar, MapPin, DollarSign, Info, Box } from "lucide-react";
 import { getOrders } from "../../../api/api.js";
-import DashboardHeader from "../../../componants/ui/DashboardHeader.jsx";
+import DashboardHeader from '../../../components/ui/DashboardHeader.jsx';
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 

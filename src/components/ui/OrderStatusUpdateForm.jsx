@@ -1,242 +1,270 @@
-import React, { useState } from 'react';
-import { updateOrderStatus, getAvailableTrucks, getAvailableDrivers } from '../../api/orderService';
+import React, { useState, useEffect } from 'react';
 import { toast } from 'react-toastify';
-import { Button } from './button';
-import { Select } from './select';
-import { Textarea } from './textarea';
-import { Card, CardContent, CardHeader, CardTitle } from './card';
-import { RadioGroup, RadioGroupItem } from './radio-group';
-import { Label } from './label';
-import { useEffect } from 'react';
+import { updateOrderStatus, getAvailableTrucks, getAvailableDrivers } from '../../api/orderService';
 
-const ORDER_STATUSES = {
-  ACCEPTED: 'CONFIRMED',  // Map ACCEPTED to CONFIRMED for the backend
-  CANCELLED: 'CANCELLED',
-  IN_TRANSIT: 'IN_TRANSIT',
-  DELIVERED: 'DELIVERED'
-};
-
-const OrderStatusUpdateForm = ({ orderId, currentStatus, onStatusUpdated }) => {
-  const [status, setStatus] = useState(currentStatus || '');
+const OrderStatusUpdateForm = ({ orderId, currentStatus, onSuccess }) => {
+  const [status, setStatus] = useState('');
   const [reason, setReason] = useState('');
   const [truckNumber, setTruckNumber] = useState('');
   const [driverId, setDriverId] = useState('');
   const [availableTrucks, setAvailableTrucks] = useState([]);
   const [availableDrivers, setAvailableDrivers] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [isLoadingDrivers, setIsLoadingDrivers] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [loadingTrucks, setLoadingTrucks] = useState(false);
+  const [loadingDrivers, setLoadingDrivers] = useState(false);
+
+  // Define status options with proper values and labels
+  const statusOptions = [
+    { value: 'PENDING', label: 'Pending' },
+    { value: 'CONFIRMED', label: 'Confirmed' },
+    { value: 'IN_TRANSIT', label: 'In Transit' },
+    { value: 'DELIVERED', label: 'Delivered' },
+    { value: 'CANCELLED', label: 'Cancelled' }
+  ];
+
+  // Get valid next statuses based on current status
+  const getValidNextStatuses = () => {
+    switch (currentStatus) {
+      case 'PENDING':
+        return ['CONFIRMED', 'CANCELLED'];
+      case 'CONFIRMED':
+        return ['IN_TRANSIT', 'CANCELLED'];
+      case 'IN_TRANSIT':
+        return ['DELIVERED', 'CANCELLED'];
+      case 'DELIVERED':
+        return [];
+      case 'CANCELLED':
+        return [];
+      default:
+        return ['PENDING', 'CONFIRMED', 'IN_TRANSIT', 'DELIVERED', 'CANCELLED'];
+    }
+  };
+
+  // Filter status options based on valid next statuses
+  const validStatusOptions = statusOptions.filter(
+    option => getValidNextStatuses().includes(option.value)
+  );
+
+  // Set initial status based on valid options
+  useEffect(() => {
+    if (validStatusOptions.length > 0 && !status) {
+      setStatus(validStatusOptions[0].value);
+    }
+  }, [validStatusOptions, status]);
 
   useEffect(() => {
-    // When status changes to IN_TRANSIT, fetch both trucks and drivers
-    if (status === ORDER_STATUSES.IN_TRANSIT || status === ORDER_STATUSES.ACCEPTED) {
+    // If status is IN_TRANSIT, fetch available trucks and drivers
+    if (status === 'IN_TRANSIT') {
       fetchAvailableTrucks();
       fetchAvailableDrivers();
     }
   }, [status]);
 
   const fetchAvailableTrucks = async () => {
-    setIsLoading(true);
     try {
-      const trucksData = await getAvailableTrucks();
-      setAvailableTrucks(trucksData);
+      setLoadingTrucks(true);
+      const trucks = await getAvailableTrucks();
+      setAvailableTrucks(trucks);
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || 
-        'Failed to fetch available trucks. Please try again.'
-      );
+      toast.error(error.message || 'Failed to fetch available trucks');
     } finally {
-      setIsLoading(false);
+      setLoadingTrucks(false);
     }
   };
 
   const fetchAvailableDrivers = async () => {
-    setIsLoadingDrivers(true);
     try {
-      const driversData = await getAvailableDrivers();
-      setAvailableDrivers(driversData);
+      setLoadingDrivers(true);
+      const drivers = await getAvailableDrivers();
+      setAvailableDrivers(drivers);
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || 
-        'Failed to fetch available drivers. Please try again.'
-      );
+      toast.error(error.message || 'Failed to fetch available drivers');
     } finally {
-      setIsLoadingDrivers(false);
+      setLoadingDrivers(false);
     }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     
-    if (!status) {
-      toast.error('Please select a status');
-      return;
-    }
-
-    if (status === ORDER_STATUSES.CANCELLED && !reason) {
-      toast.error('Please provide a reason for cancellation');
-      return;
-    }
-
-    if ((status === ORDER_STATUSES.ACCEPTED || status === ORDER_STATUSES.IN_TRANSIT) && !truckNumber) {
-      toast.error('Please select a truck for this order');
-      return;
-    }
-
-    // Map our UI status values to the backend expected values
-    const data = { 
-      status: status === ORDER_STATUSES.ACCEPTED ? 'CONFIRMED' : status 
-    };
-    
-    if (status === ORDER_STATUSES.CANCELLED) {
-      data.reason = reason;
-    }
-    
-    if (status === ORDER_STATUSES.ACCEPTED || status === ORDER_STATUSES.IN_TRANSIT) {
-      data.truckNumber = truckNumber;
-      
-      // Add driverId if selected
-      if (driverId) {
-        data.driverId = driverId;
-      }
-    }
-
-    setIsSubmitting(true);
     try {
-      await updateOrderStatus(orderId, data);
+      setLoading(true);
+      
+      // Prepare update data with required status
+      const updateData = { status };
+      
+      // Add reason if status is CANCELLED
+      if (status === 'CANCELLED') {
+        if (!reason.trim()) {
+          toast.error('Please provide a reason for cancellation');
+          setLoading(false);
+          return;
+        }
+        updateData.reason = reason.trim();
+      }
+      
+      // Add truck and driver info if status is IN_TRANSIT
+      if (status === 'IN_TRANSIT') {
+        if (!truckNumber) {
+          toast.error('Please select a truck');
+          setLoading(false);
+          return;
+        }
+        updateData.truckNumber = truckNumber;
+        
+        if (driverId) {
+          updateData.driverId = driverId;
+        }
+      }
+      
+      await updateOrderStatus(orderId, updateData);
       toast.success(`Order status updated to ${status}`);
       
-      // Reset form
-      setReason('');
-      setTruckNumber('');
-      setDriverId('');
+      // Reset form fields
+      if (status === 'CANCELLED') {
+        setReason('');
+      } else if (status === 'IN_TRANSIT') {
+        setTruckNumber('');
+        setDriverId('');
+      }
       
-      // Notify parent component
-      if (onStatusUpdated) {
-        onStatusUpdated(status);
+      // Call onSuccess callback if provided
+      if (onSuccess) {
+        onSuccess(status);
       }
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || 
-        'Failed to update order status. Please try again.'
-      );
+      toast.error(error.message || 'Failed to update order status');
     } finally {
-      setIsSubmitting(false);
+      setLoading(false);
     }
   };
 
+  // Check if we have no valid status options
+  if (validStatusOptions.length === 0) {
+    return (
+      <div className="p-4 bg-white rounded-lg shadow-md">
+        <p className="text-center text-gray-600">
+          This order status cannot be updated further.
+        </p>
+      </div>
+    );
+  }
+
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle>Update Order Status</CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          <div className="space-y-3">
-            <Label>Select Status</Label>
-            <RadioGroup 
-              value={status} 
-              onValueChange={setStatus}
-              className="flex flex-col space-y-2"
-            >
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem id="accepted" value={ORDER_STATUSES.ACCEPTED} />
-                <Label htmlFor="accepted">Accept Order</Label>
-              </div>
-              <div className="flex items-center space-x-2">
-                <RadioGroupItem id="cancelled" value={ORDER_STATUSES.CANCELLED} />
-                <Label htmlFor="cancelled">Cancel Order</Label>
-              </div>
-              {currentStatus === ORDER_STATUSES.ACCEPTED && (
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem id="in-transit" value={ORDER_STATUSES.IN_TRANSIT} />
-                  <Label htmlFor="in-transit">Mark as In Transit</Label>
-                </div>
-              )}
-              {currentStatus === ORDER_STATUSES.IN_TRANSIT && (
-                <div className="flex items-center space-x-2">
-                  <RadioGroupItem id="delivered" value={ORDER_STATUSES.DELIVERED} />
-                  <Label htmlFor="delivered">Mark as Delivered</Label>
-                </div>
-              )}
-            </RadioGroup>
+    <div className="p-4 bg-white rounded-lg shadow-md">
+      <h2 className="text-xl font-bold text-primary mb-4">Update Order Status</h2>
+      
+      <form onSubmit={handleSubmit}>
+        <div className="mb-4">
+          <label className="block text-sm font-bold text-primary mb-2">
+            Status
+          </label>
+          <select
+            value={status}
+            onChange={(e) => setStatus(e.target.value)}
+            className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+            disabled={loading || validStatusOptions.length === 0}
+          >
+            {validStatusOptions.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+        </div>
+        
+        {/* Conditional field for CANCELLED status */}
+        {status === 'CANCELLED' && (
+          <div className="mb-4">
+            <label className="block text-sm font-bold text-primary mb-2">
+              Reason for Cancellation <span className="text-red-500">*</span>
+            </label>
+            <textarea
+              value={reason}
+              onChange={(e) => setReason(e.target.value)}
+              className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+              rows="3"
+              placeholder="Enter reason for cancellation"
+              required
+              disabled={loading}
+            />
           </div>
-          
-          {(status === ORDER_STATUSES.ACCEPTED || status === ORDER_STATUSES.IN_TRANSIT) && (
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="truck">Select Truck</Label>
-                <Select
-                  id="truck"
+        )}
+        
+        {/* Conditional fields for IN_TRANSIT status */}
+        {status === 'IN_TRANSIT' && (
+          <>
+            {/* Truck selection */}
+            <div className="mb-4">
+              <label className="block text-sm font-bold text-primary mb-2">
+                Select Truck <span className="text-red-500">*</span>
+              </label>
+              {loadingTrucks ? (
+                <p className="text-gray-500">Loading available trucks...</p>
+              ) : availableTrucks.length > 0 ? (
+                <select
                   value={truckNumber}
                   onChange={(e) => setTruckNumber(e.target.value)}
-                  disabled={isLoading || isSubmitting || availableTrucks.length === 0}
+                  className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
                   required
+                  disabled={loading}
                 >
                   <option value="">Select a truck</option>
                   {availableTrucks.map((truck) => (
-                    <option key={truck._id || truck.id} value={truck.truckNumber}>
-                      {truck.truckNumber} - {truck.model}
+                    <option key={truck.id} value={truck.truckNumber}>
+                      {truck.truckNumber} - {truck.model} ({truck.truckType})
                     </option>
                   ))}
-                </Select>
-                {availableTrucks.length === 0 && !isLoading && (
-                  <p className="text-sm text-yellow-600">No available trucks found.</p>
-                )}
-              </div>
-              
-              <div className="space-y-2">
-                <Label htmlFor="driver">Assign Driver (Optional)</Label>
-                <Select
-                  id="driver"
+                </select>
+              ) : (
+                <p className="text-red-500">No available trucks found</p>
+              )}
+            </div>
+            
+            {/* Driver selection */}
+            <div className="mb-4">
+              <label className="block text-sm font-bold text-primary mb-2">
+                Assign Driver <span className="text-gray-500">(Optional)</span>
+              </label>
+              {loadingDrivers ? (
+                <p className="text-gray-500">Loading available drivers...</p>
+              ) : availableDrivers.length > 0 ? (
+                <select
                   value={driverId}
                   onChange={(e) => setDriverId(e.target.value)}
-                  disabled={isLoadingDrivers || isSubmitting || availableDrivers.length === 0}
+                  className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                  disabled={loading}
                 >
                   <option value="">Select a driver (optional)</option>
                   {availableDrivers.map((driver) => (
-                    <option key={driver._id || driver.id} value={driver._id || driver.id}>
-                      {driver.firstName || driver.name} {driver.lastName || ''} 
-                      {driver.phoneNumber ? ` - ${driver.phoneNumber}` : ''}
+                    <option key={driver.id} value={driver.id}>
+                      {driver.name} {driver.lastName || ''} - {driver.phoneNumber || 'No phone'}
                     </option>
                   ))}
-                </Select>
-                {availableDrivers.length === 0 && !isLoadingDrivers && (
-                  <p className="text-sm text-yellow-600">No available drivers found.</p>
-                )}
-              </div>
+                </select>
+              ) : (
+                <p className="text-yellow-500">No available drivers found</p>
+              )}
             </div>
-          )}
-          
-          {status === ORDER_STATUSES.CANCELLED && (
-            <div className="space-y-2">
-              <Label htmlFor="reason">Cancellation Reason</Label>
-              <Textarea
-                id="reason"
-                placeholder="Enter reason for cancellation"
-                value={reason}
-                onChange={(e) => setReason(e.target.value)}
-                required
-                className="min-h-[100px]"
-              />
-            </div>
-          )}
-          
-          <Button 
-            type="submit" 
-            className="w-full" 
-            disabled={
-              isSubmitting || 
-              !status || 
-              (status === ORDER_STATUSES.CANCELLED && !reason) || 
-              ((status === ORDER_STATUSES.ACCEPTED || status === ORDER_STATUSES.IN_TRANSIT) && !truckNumber)
+          </>
+        )}
+        
+        <div className="flex justify-center mt-6">
+          <button
+            type="submit"
+            className={`bg-primary text-white px-6 py-2 rounded-full hover:bg-primary-dark transition ${
+              loading ? 'opacity-70 cursor-not-allowed' : ''
+            }`}
+            disabled={loading || 
+              (status === 'CANCELLED' && !reason.trim()) ||
+              (status === 'IN_TRANSIT' && !truckNumber)
             }
           >
-            {isSubmitting ? 'Updating...' : 'Update Order Status'}
-          </Button>
-        </form>
-      </CardContent>
-    </Card>
+            {loading ? 'Updating...' : 'Update Status'}
+          </button>
+        </div>
+      </form>
+    </div>
   );
 };
 

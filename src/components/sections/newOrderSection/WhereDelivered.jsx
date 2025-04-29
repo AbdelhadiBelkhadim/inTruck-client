@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 import cityData from '../../../ma.json';
 import { ArrowUpToLine, ArrowLeft } from "lucide-react";
-// import NewOrderHeader from '../componants/ui/NewOrderHead';
+// import NewOrderHeader from '../components/ui/NewOrderHead';
 
 const WhereDelivered = ({ formData, handleChange, handleCitySelect }) => {
   const navigate = useNavigate();

@@ -5,7 +5,7 @@ import { FaBars, FaTimes } from 'react-icons/fa';
 import { X } from 'lucide-react';
 
 import logo from '../../assets/logo.png';
-import Button from '../ui/PrimaryBtn';
+import Button from '../ui/primaryButton';
 
 const NavLinks = [
     { id: 1, name: 'Home', link: 'home' },

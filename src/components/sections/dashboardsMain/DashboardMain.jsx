@@ -5,8 +5,8 @@ import { getDashboardData } from '../../../api/api.js'
 import Summary from '../Summary';
 import LastOrders from '../LastOrders';
 import ShippingDetails from '../ShipipingDetails'; // Fixed typo
-import DashboardHeader from '../../../componants/ui/DashboardHeader';
-import LoadingSpinner from '../../../componants/LoadingSpinner.jsx'
+import DashboardHeader from '../../../components/ui/DashboardHeader';
+import LoadingSpinner from '../../../components/LoadingSpinner.jsx'
 import Count from '../count.jsx';
 
 import { Plus } from 'lucide-react';

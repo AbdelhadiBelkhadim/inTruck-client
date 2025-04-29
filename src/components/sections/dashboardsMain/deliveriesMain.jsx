@@ -42,13 +42,13 @@ const DeliveriesMain = () => {
             // Extract price with multiple fallbacks
             let priceDisplay = 'N/A'
             if (order.payment?.amount) {
-              priceDisplay = `${order.payment.amount} ${order.payment.currency || 'DHM'}`
+              priceDisplay = `${order.payment.amount} ${order.payment.currency || 'DH'}`
             } else if (order.price) {
               priceDisplay = typeof order.price === 'object' 
-                ? `${order.price.amount || order.price} ${order.price.currency || 'DHM'}`
-                : `${order.price} DHM`
+                ? `${order.price.amount || order.price} ${order.price.currency || 'DH'}`
+                : `${order.price} DH`
             } else if (order.totalPrice) {
-              priceDisplay = `${order.totalPrice} DHM`
+              priceDisplay = `${order.totalPrice} DH`
             }
             
             return {
