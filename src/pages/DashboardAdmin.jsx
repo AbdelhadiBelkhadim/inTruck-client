@@ -1,16 +1,16 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import HeaderAdminDashboard from '../componants/ui/HeaderAdminDashboard';
+import HeaderAdminDashboard from '../components/ui/HeaderAdminDashboard';
 // Import all your components
-import MainAdmin from '../componants/sections/DashboardMainAdmin/MainAdmin';
-import DeliveriesAdmin from '../componants/sections/DashboardMainAdmin/DeliveriesAdmin';
-import CancelledAdmin from '../componants/sections/DashboardMainAdmin/CancelledAdmin';
-import ConfirmationOrderAdmin from '../componants/sections/DashboardMainAdmin/ConfirmationOrderAdmin';
-import AvailableDrivers from '../componants/sections/DashboardMainAdmin/AvailableDrivers';
-import TrucksActive from '../componants/sections/DashboardMainAdmin/TrucksActive';
-import Revenue from '../componants/sections/DashboardMainAdmin/Revenue';
-import AddNewDT from '../componants/sections/DashboardMainAdmin/AddNewDT';
-import TrackingAdmin from '../componants/sections/DashboardMainAdmin/TrackingAdmin';
+import MainAdmin from '../components/sections/DashboardMainAdmin/MainAdmin';
+import DeliveriesAdmin from '../components/sections/DashboardMainAdmin/DeliveriesAdmin';
+import CancelledAdmin from '../components/sections/DashboardMainAdmin/CancelledAdmin';
+import ConfirmationOrderAdmin from '../components/sections/DashboardMainAdmin/ConfirmationOrderAdmin';
+import AvailableDrivers from '../components/sections/DashboardMainAdmin/AvailableDrivers';
+import TrucksActive from '../components/sections/DashboardMainAdmin/TrucksActive';
+import Revenue from '../components/sections/DashboardMainAdmin/Revenue';
+import AddNewDT from '../components/sections/DashboardMainAdmin/AddNewDT';
+import TrackingAdmin from '../components/sections/DashboardMainAdmin/TrackingAdmin';
 
 const DashboardAdmin = () => {
   return (

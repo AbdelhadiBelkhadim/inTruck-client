@@ -1,15 +1,15 @@
 import React from 'react'
 
-import Navbar from '../componants/Navbar/Navbar'
-import Hero from '../componants/Hero/Hero'
-import HowItWork from '../componants/HowItWork/HowItWork'
-import Features from '../componants/Features/Features'
-import Quotes from '../componants/Quotes/Quotes'
-import Testimonials from '../componants/Testimonials/Testimonials'
-import ContactUs from '../componants/ContactUs/ContactUs'
+import Navbar from '../components/Navbar/Navbar'
+import Hero from '../components/Hero/Hero'
+import HowItWork from '../components/HowItWork/HowItWork'
+import Features from '../components/Features/Features'
+import Quotes from '../components/Quotes/Quotes'
+import Testimonials from '../components/Testimonials/Testimonials'
+import ContactUs from '../components/ContactUs/ContactUs'
 import BgQuotes1 from '../assets/Group5.png'
 import BgQuotes2 from '../assets/Group12.png'
-import Footer from '../componants/Footer/Footer'
+import Footer from '../components/Footer/Footer'
 import { useState } from 'react';
 
 const Home = () => {

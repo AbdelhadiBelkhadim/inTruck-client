@@ -13,14 +13,14 @@ import {
 
 import { AuthProvider } from './contexts/AuthContext.jsx';
 
-import CheckEmail from './componants/Auth/CheckEmail.jsx';
-import ForgotPassword from './componants/Auth/forgotPassword.jsx';
-import Login from './componants/Auth/login.jsx';
-import Register from './componants/Auth/Register.jsx';
-import ResetPassword from './componants/Auth/ResetPassword.jsx';
-import ResetSuccess from './componants/Auth/ResetSuccess.jsx';
-import ProtectedRoute from './componants/ProtectedRoute.jsx';
-import AdminProtectedRoute from './componants/AdminProtectedRoute.jsx';
+import CheckEmail from './components/Auth/CheckEmail.jsx';
+import ForgotPassword from './components/Auth/forgotPassword.jsx';
+import Login from './components/Auth/login.jsx';
+import Register from './components/Auth/Register.jsx';
+import ResetPassword from './components/Auth/ResetPassword.jsx';
+import ResetSuccess from './components/Auth/ResetSuccess.jsx';
+import ProtectedRoute from './components/ProtectedRoute.jsx';
+import AdminProtectedRoute from './components/AdminProtectedRoute.jsx';
 import Layout from './layout/Layout.jsx';
 import Dashboard from './pages/Dashboard.jsx';
 import Home from './pages/Home.jsx';

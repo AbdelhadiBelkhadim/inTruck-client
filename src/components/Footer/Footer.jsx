@@ -1,7 +1,7 @@
 import React from 'react'
 
 import logo from '../../assets/logo.png';
-import Button from '../ui/PrimaryBtn'
+import Button from '../ui/primaryButton'
 
 import { FaLocationDot } from "react-icons/fa6";
 import { MdOutlineEmail } from "react-icons/md";

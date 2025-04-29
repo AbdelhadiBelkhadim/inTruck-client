@@ -56,7 +56,7 @@ const Table = ({
                 </span>
               </td>
               <td className="py-3 text-center text-dark truncate">
-                ${item.totalCoverage}<span className="text-gray-400 text-xs"></span>
+                ${item.price}<span className="text-gray-400 text-xs"></span>
               </td>
               <td className="py-3 text-center">
                 <button className="mx-auto" onClick={() => handleMoreClick(index)}>

@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { MdLogout, MdMenu } from "react-icons/md";
 import Layout from '../layout/Layout'; // Import Layout component
-import { SideBar, SideNavMenu } from '../componants/sections/SideBar';
-import Logo from '../componants/ui/Logo';
-import TrackingMain from '../componants/sections/dashboardsMain/TrackingMain';
-import DashboardMain from '../componants/sections/dashboardsMain/DashboardMain'; // Import DashboardMain
-import DeliveriesMain from '../componants/sections/dashboardsMain/DeliveriesMain';
-import NotificationMain from '../componants/sections/dashboardsMain/NotificationsMain';
+import { SideBar, SideNavMenu } from '../components/sections/SideBar';
+import Logo from '../components/ui/Logo';
+import TrackingMain from '../components/sections/dashboardsMain/TrackingMain';
+import DashboardMain from '../components/sections/dashboardsMain/DashboardMain'; // Import DashboardMain
+import DeliveriesMain from '../components/sections/dashboardsMain/DeliveriesMain';
+import NotificationMain from '../components/sections/dashboardsMain/NotificationsMain';
 import Profile from './Profile';
-import CancelledMain from '../componants/sections/dashboardsMain/CancelledMain';
-import OrdersMain from '../componants/sections/dashboardsMain/OrdersMain'; // Import OrdersMain
+import CancelledMain from '../components/sections/dashboardsMain/CancelledMain';
+import OrdersMain from '../components/sections/dashboardsMain/OrdersMain'; // Import OrdersMain
 
 const Dashboard = () => {
   const [open, setOpen] = useState(true);

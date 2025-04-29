@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Layout from '../layout/Layout';
-import DashboardHeader from '../componants/ui/DashboardHeader';
-import CitySelector from '../componants/CitySelector';
+import DashboardHeader from '../components/ui/DashboardHeader';
+import CitySelector from '../components/CitySelector';
 
 const DistanceCalculator = () => {
   const [calculationResult, setCalculationResult] = useState(null);

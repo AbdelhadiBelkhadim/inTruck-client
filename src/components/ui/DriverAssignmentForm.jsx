@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { getAvailableTrucks, getAvailableDrivers, assignDriverToTruck } from '../../api/orderService';
 import { toast } from 'react-toastify';
-import { Button } from './button';
-import { Select } from './select';
-import { Card, CardContent, CardHeader, CardTitle } from './card';
-import { RefreshCw } from 'lucide-react';
+import { getAvailableTrucks, getAvailableDrivers, assignDriverToTruck } from '../../api/orderService';
 
-const DriverAssignmentForm = ({ onAssignmentComplete }) => {
+const DriverAssignmentForm = ({ onSuccess }) => {
   const [truckId, setTruckId] = useState('');
   const [driverId, setDriverId] = useState('');
   const [availableTrucks, setAvailableTrucks] = useState([]);
   const [availableDrivers, setAvailableDrivers] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
@@ -19,20 +15,21 @@ const DriverAssignmentForm = ({ onAssignmentComplete }) => {
   }, []);
 
   const fetchData = async () => {
-    setIsLoading(true);
     try {
-      const trucksData = await getAvailableTrucks();
-      const driversData = await getAvailableDrivers();
+      setLoading(true);
+      const [trucks, drivers] = await Promise.all([
+        getAvailableTrucks(),
+        getAvailableDrivers()
+      ]);
       
-      setAvailableTrucks(trucksData);
-      setAvailableDrivers(driversData);
+      console.log('Available Drivers:', drivers);
+      setAvailableTrucks(trucks);
+      setAvailableDrivers(drivers);
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || 
-        'Failed to fetch data. Please try again.'
-      );
+      toast.error('Failed to fetch data');
+      console.error('Error fetching data:', error);
     } finally {
-      setIsLoading(false);
+      setLoading(false);
     }
   };
 
@@ -43,10 +40,11 @@ const DriverAssignmentForm = ({ onAssignmentComplete }) => {
       toast.error('Please select both a truck and a driver');
       return;
     }
-
-    setIsSubmitting(true);
+    
     try {
+      setIsSubmitting(true);
       await assignDriverToTruck(truckId, { driverId });
+      
       toast.success('Driver assigned to truck successfully');
       
       // Reset form
@@ -56,95 +54,101 @@ const DriverAssignmentForm = ({ onAssignmentComplete }) => {
       // Refresh data
       await fetchData();
       
-      // Notify parent component if callback exists
-      if (onAssignmentComplete) {
-        onAssignmentComplete();
+      // Call onSuccess callback if provided
+      if (onSuccess) {
+        onSuccess();
       }
     } catch (error) {
-      toast.error(
-        error.response?.data?.message || 
-        'Failed to assign driver. Please try again.'
-      );
+      toast.error(error.response?.data?.message || 'Failed to assign driver to truck');
+      console.error('Error assigning driver:', error);
     } finally {
       setIsSubmitting(false);
     }
   };
 
   return (
-    <Card className="w-full">
-      <CardHeader>
-        <CardTitle className="flex justify-between items-center">
-          <span>Assign Driver to Truck</span>
-          <Button 
-            variant="outline" 
-            size="icon" 
-            onClick={fetchData} 
-            disabled={isLoading}
-          >
-            <RefreshCw className={`h-4 w-4 ${isLoading ? 'animate-spin' : ''}`} />
-          </Button>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <div className="space-y-2">
-            <label htmlFor="truck" className="block text-sm font-medium">
-              Select Truck
+    <div className="p-4 bg-white rounded-lg shadow-md">
+      <h2 className="text-xl font-bold text-primary mb-4">Assign Driver to Truck</h2>
+      
+      {loading ? (
+        <div className="text-center py-4">
+          <p>Loading data...</p>
+        </div>
+      ) : (
+        <form onSubmit={handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-sm font-bold text-primary mb-2">
+              Select Truck <span className="text-red-500">*</span>
             </label>
-            <Select
-              id="truck"
-              value={truckId}
-              onChange={(e) => setTruckId(e.target.value)}
-              disabled={isLoading || isSubmitting || availableTrucks.length === 0}
-              required
-            >
-              <option value="">Select a truck</option>
-              {availableTrucks.map((truck) => (
-                <option key={truck._id} value={truck._id}>
-                  {truck.registrationNumber} - {truck.model}
-                </option>
-              ))}
-            </Select>
+            {availableTrucks.length > 0 ? (
+              <select
+                value={truckId}
+                onChange={(e) => setTruckId(e.target.value)}
+                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+                disabled={isSubmitting}
+              >
+                <option value="">Select a truck</option>
+                {availableTrucks.map((truck) => (
+                  <option key={truck.id} value={truck.id}>
+                    {truck.truckNumber} - {truck.model} ({truck.truckType})
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <p className="text-red-500">No available trucks found</p>
+            )}
           </div>
           
-          <div className="space-y-2">
-            <label htmlFor="driver" className="block text-sm font-medium">
-              Select Driver
+          <div className="mb-4">
+            <label className="block text-sm font-bold text-primary mb-2">
+              Select Driver <span className="text-red-500">*</span>
             </label>
-            <Select
-              id="driver"
-              value={driverId}
-              onChange={(e) => setDriverId(e.target.value)}
-              disabled={isLoading || isSubmitting || availableDrivers.length === 0}
-              required
-            >
-              <option value="">Select a driver</option>
-              {availableDrivers.map((driver) => (
-                <option key={driver._id} value={driver._id}>
-                  {driver.firstName} {driver.lastName}
-                </option>
-              ))}
-            </Select>
+            {availableDrivers.length > 0 ? (
+              <select
+                value={driverId}
+                onChange={(e) => setDriverId(e.target.value)}
+                className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary"
+                required
+                disabled={isSubmitting}
+              >
+                <option value="">Select a driver</option>
+                {availableDrivers.map((driver) => (
+                  <option key={driver.id} value={driver.id}>
+                    {driver.fullName}
+                  </option>
+                ))}
+              </select>
+            ) : (
+              <p className="text-red-500">No available drivers found</p>
+            )}
           </div>
           
-          <Button 
-            type="submit" 
-            className="w-full" 
-            disabled={isLoading || isSubmitting || !truckId || !driverId}
-          >
-            {isSubmitting ? 'Assigning...' : 'Assign Driver to Truck'}
-          </Button>
+          <div className="flex justify-center mt-6">
+            <button
+              type="submit"
+              className={`bg-primary text-white px-6 py-2 rounded-full hover:bg-primary-dark transition ${
+                isSubmitting ? 'opacity-70 cursor-not-allowed' : ''
+              }`}
+              disabled={isSubmitting || !availableTrucks.length || !availableDrivers.length}
+            >
+              {isSubmitting ? 'Assigning...' : 'Assign Driver'}
+            </button>
+          </div>
           
-          {availableTrucks.length === 0 && !isLoading && (
-            <p className="text-sm text-yellow-600">No available trucks found.</p>
-          )}
-          
-          {availableDrivers.length === 0 && !isLoading && (
-            <p className="text-sm text-yellow-600">No available drivers found.</p>
-          )}
+          <div className="mt-4">
+            <button
+              type="button"
+              onClick={fetchData}
+              className="text-primary underline hover:text-primary-dark text-sm"
+              disabled={loading || isSubmitting}
+            >
+              Refresh data
+            </button>
+          </div>
         </form>
-      </CardContent>
-    </Card>
+      )}
+    </div>
   );
 };
 

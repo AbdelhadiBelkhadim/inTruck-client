@@ -8,7 +8,7 @@ import { forgotPassword } from '../../api/api'; // Adjust the import path as nee
 import { forgotPasswordSchema } from '../../../utils/FormValidation';
 
 import Input from '../ui/AuthInput';
-import Button from '../ui/SecondaryBtn';
+import Button from '../ui/secondaryButton';
 
 const ForgotPassword = () => {
     const navigate = useNavigate();
