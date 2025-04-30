@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { GiCash } from "react-icons/gi";
 import { BsCreditCard2BackFill } from "react-icons/bs";
 import PropTypes from 'prop-types';
-import { calculateDirectDistance } from '../../../services/DirectDistanceService';
+import { CalculateDirectDistance } from '../../../services/DirectDistanceService';
 
 const LoadingSpinner = () => (
   <div className="flex items-center justify-center my-20">
@@ -40,7 +40,7 @@ const NewOrderFullCoverageMain = ({ formData, handleChange }) => {
           };
 
           // Calculate price with direct calculation
-          const result = await calculateDirectDistance(
+          const result = await CalculateDirectDistance(
             formData.pickupCoordinates,
             formData.deliveryCoordinates,
             packageDetails

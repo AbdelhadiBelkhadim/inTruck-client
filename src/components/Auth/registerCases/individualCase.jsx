@@ -3,7 +3,7 @@ import { Formik, Form } from 'formik';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 
-import { registerIndividual } from '../../../api/api'; // Adjust the import path as needed
+import { registerIndividual } from '../../../api/Api'; // Adjust the import path as needed
 import { individualSchema } from '../../../../utils/FormValidation';
 import Input from '../../ui/AuthInput';
 import Button from '../../ui/SecondaryBtn';

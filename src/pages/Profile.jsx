@@ -1,7 +1,7 @@
 // src/pages/Profile.jsx
 import React, { useState, useEffect } from 'react';
 import DashboardHeader from '../components/ui/DashboardHeader';
-import { getUserProfile, updateUserProfile } from '../api/api';
+import { getUserProfile, updateUserProfile } from '../api/Api';
 
 const Profile = () => {
   const [profileData, setProfileData] = useState({

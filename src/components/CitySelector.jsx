@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { calculatePrice } from '../api/api';
-import { calculateDirectDistance } from '../services/DirectDistanceService';
+import { calculatePrice } from '../api/Api';
+import { CalculateDirectDistance } from '../services/DirectDistanceService';
 import cities from '../ma.json';
 
 const CitySelector = ({ onCalculate, packageWeight }) => {
@@ -55,7 +55,7 @@ const CitySelector = ({ onCalculate, packageWeight }) => {
       
       if (useDirectCalculation) {
         // Use direct Google Maps API calculation (without backend)
-        result = await calculateDirectDistance(pickupCoordinates, deliveryCoordinates, packageDetails);
+        result = await CalculateDirectDistance(pickupCoordinates, deliveryCoordinates, packageDetails);
       } else {
         // Use the backend API (original method)
         result = await calculatePrice(pickupCoordinates, deliveryCoordinates, packageDetails);

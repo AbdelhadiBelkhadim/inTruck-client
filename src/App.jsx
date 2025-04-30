@@ -22,7 +22,7 @@ import ResetSuccess from '@/components/Auth/ResetSuccess.jsx';
 import ProtectedRoute from '@/components/ProtectedRoute.jsx';
 import AdminProtectedRoute from '@/components/AdminProtectedRoute.jsx';
 import Layout from '@/layout/Layout.jsx';
-import Dashboard from '@/pages/Dashboard.jsx';
+import Dashboard from './pages/Dashboard.jsx';
 import Home from '@/pages/Home.jsx';
 import NewOrder from '@/pages/NewOrder.jsx';
 import NotFound from '@/pages/NotFound.jsx';

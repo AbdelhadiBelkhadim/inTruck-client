@@ -1,6 +1,6 @@
 import { AuthContext } from '../../contexts/AuthContext';
 import InputAuth from '../ui/AuthInput'
-import Button from '../ui/secondaryButton'
+import Button from '../ui/SecondaryButton'
 import SideLeftAuth from '../ui/SideLeftAuth'
 import LoadingSpinner from '../LoadingSpinner'
 import {loginSchema} from '../../../utils/FormValidation'

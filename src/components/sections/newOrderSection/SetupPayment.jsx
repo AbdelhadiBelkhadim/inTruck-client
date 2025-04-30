@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Elements, CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import { createPayment } from '../../../api/api';
+import { createPayment } from '../../../api/Api';
 import { useNavigate } from 'react-router-dom';
 
 // Use your own publishable key (test or live)

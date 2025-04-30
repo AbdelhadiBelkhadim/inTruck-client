@@ -5,7 +5,7 @@ import { MdOutlineDashboard, MdLogout, MdOutlineCancel } from "react-icons/md";
 import { LuPanelLeftClose } from "react-icons/lu";
 import { IoIosArrowDown } from "react-icons/io";
 import { Truck, Clipboard, Bell } from "lucide-react";
-import { getUserProfile } from '../../api/api'
+import { getUserProfile } from '../../api/Api'
 
 const menuItem = [
   { to: "/dashboard", icon: <MdOutlineDashboard size={20} />, label: "Dashboard" },

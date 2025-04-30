@@ -4,11 +4,11 @@ import { useMutation } from '@tanstack/react-query';
 import { useNavigate, NavLink } from 'react-router-dom';
 import { IoMailOutline } from "react-icons/io5";
 
-import { forgotPassword } from '../../api/api'; // Adjust the import path as needed
+import { forgotPassword } from '../../api/Api'; // Adjust the import path as needed
 import { forgotPasswordSchema } from '../../../utils/FormValidation';
 
 import Input from '../ui/AuthInput';
-import Button from '../ui/secondaryButton';
+import Button from '../ui/SecondaryButton';
 
 const ForgotPassword = () => {
     const navigate = useNavigate();

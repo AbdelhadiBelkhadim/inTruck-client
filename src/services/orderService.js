@@ -1,7 +1,7 @@
 import { createOrder, getOrders, getOrderById, updateOrder, cancelOrder } from '../api/api';
 
 // Function to create a new order
-export const submitOrder = async (orderData) => {
+export const SubmitOrder = async (orderData) => {
   try {
     // Validate required fields
     const requiredFields = [

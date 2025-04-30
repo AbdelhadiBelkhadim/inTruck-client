@@ -1,13 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { getDashboardData } from '../../../api/api.js'
+import { getDashboardData } from '../../../api/Api.js'
 
-import Summary from '../Summary';
-import LastOrders from '../LastOrders';
-import ShippingDetails from '../ShipipingDetails'; // Fixed typo
+import Summary from '../Summary.jsx';
+import LastOrders from '../LastOrders.jsx';
+import ShippingDetails from '../ShipipingDetails.jsx'; // Fixed typo
 import DashboardHeader from '../../../components/ui/DashboardHeader';
 import LoadingSpinner from '../../../components/LoadingSpinner.jsx'
-import Count from '../count.jsx';
+import Count from '../Count.jsx';
 
 import { Plus } from 'lucide-react';
 

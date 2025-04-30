@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Layout from '../layout/Layout';
-import { calculateDirectDistance } from '../services/DirectDistanceService';
-import { pricingConfig } from '../services/PricingConfig';
+import { CalculateDirectDistance } from '../services/DirectDistanceService';
+import { pricingConfig } from '../services/OricingConfig';
 
 const TestDirectCalculation = () => {
   const [origin, setOrigin] = useState({ lat: 33.5731, lng: -7.5898 }); // Casablanca
@@ -33,7 +33,7 @@ const TestDirectCalculation = () => {
         express: isExpress
       };
       
-      const calculationResult = await calculateDirectDistance(
+      const calculationResult = await CalculateDirectDistance(
         origin, 
         destination, 
         packageDetails,

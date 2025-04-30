@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Table from '../../ui/Table';
 import SearchBarWithFilter from '../../ui/SearchBarWithFilter';
 import DashboardHeader from '../../ui/DashboardHeader';
-import { getTrackingOrders } from '../../../api/api';
+import { getTrackingOrders } from '../../../api/Api';
 import { MapPin, Truck, Clock, Package } from 'lucide-react';
 
 const TrackingMain = () => {

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Routes, Route, useNavigate, useLocation, Navigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import NewOrderHeader from '../components/ui/newOrderHead.jsx';
+import NewOrderHeader from '../components/ui/NewOrderHead.jsx';
 import NewOrderMain from '../components/sections/newOrderSection/NewOrderMain.jsx';
 import NewOrderDetailsMain from '../components/sections/newOrderSection/NewOrderDetailsMain.jsx';
 import NewOrderDetailsPackageMain from '../components/sections/newOrderSection/NewOrderDetailsPackageMain.jsx';
@@ -11,9 +11,7 @@ import WhereDelivery from '../components/sections/newOrderSection/WhereDelivered
 import SetUpPaymentMain from '../components/sections/newOrderSection/SetupPayment.jsx';
 import CheckingDone from '../components/sections/newOrderSection/CheckingDoneMain.jsx';
 import CheckingOrderMain from '../components/sections/newOrderSection/CheckingOrderMain.jsx';
-import NextButton from '../components/ui/NextButton.jsx';
-import { submitOrder } from '../services/OrderService.js';
-import { calculateDirectDistance } from '../services/DirectDistanceService.js';
+import { CalculateDirectDistance } from '../services/DirectDistanceService.js';
 
 const NewOrder = () => {
   const navigate = useNavigate();
@@ -247,7 +245,7 @@ const NewOrder = () => {
       });
 
       // Use direct distance calculation instead of the backend API
-      const result = await calculateDirectDistance(
+      const result = await CalculateDirectDistance(
         formData.pickupCoordinates,
         formData.deliveryCoordinates,
         packageDetails

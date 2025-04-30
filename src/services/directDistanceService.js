@@ -1,7 +1,6 @@
 // Direct distance calculation service with price calculation
-import axios from 'axios';
-import { fetchWithCorsProxy, fetchWithJsonp } from './corsProxyService';
-import { pricingConfig } from './pricingConfig';
+import { fetchWithCorsProxy, fetchWithJsonp } from './CorsProxyService';
+import { pricingConfig } from './OricingConfig';
 
 // You'll need to replace this with your own API key
 // Note: Exposing API keys in frontend code has security implications
@@ -16,7 +15,7 @@ const GOOGLE_API_KEY = 'AIzaSyB-MOWdko_-tiDvHk5VqdOxrdMnv1a2Eis';
  * @param {Object} options - Additional options for pricing
  * @returns {Promise<Object>} - Distance, duration and price information
  */
-export const calculateDirectDistance = async (origin, destination, packageDetails, options = {}) => {
+export const CalculateDirectDistance = async (origin, destination, packageDetails, options = {}) => {
   try {
     console.log('Calculating direct distance with:', { origin, destination, packageDetails, options });
     
