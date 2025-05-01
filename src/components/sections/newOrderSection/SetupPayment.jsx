@@ -5,7 +5,7 @@ import { createPayment } from '../../../api/Api';
 import { useNavigate } from 'react-router-dom';
 
 // Use your own publishable key (test or live)
-const stripePromise = loadStripe('pk_test_51RC0RMISU9u71vhkc4cTnipAgUYqehOtoR9NuywHRNSdlK0xUiL4Bw2nSOZde39VcT6xYqUr44xIpQBQ0LS5kBoX00kNQcvqBp');
+const stripePromise = loadStripe('99');
 
 const CheckoutForm = ({ formData, handleChange }) => {
   const [name, setName] = useState('');

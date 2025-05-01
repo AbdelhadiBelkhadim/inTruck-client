@@ -12,14 +12,14 @@ const Countdev = () => {
               { id: 1, value: 15, label: 'series B' },
               { id: 2, value: 20, label: 'series C' },
             ],
-            innerRadius: 55,
-            outerRadius: 91,
-            paddingAngle: 2,
+            innerRadius: 40,
+            outerRadius: 65,
+            paddingAngle: 1,
             cornerRadius: 5,
             startAngle: 0,
             endAngle: 383,
-            cx: 150,
-            cy: 150,
+            cx: 80,
+            cy: 80,
           }
         ]}
       />
